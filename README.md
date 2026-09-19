@@ -44,7 +44,7 @@ GoodPang은 회원이 상품을 장바구니에 담고 주문·결제한 뒤, �
 | 구분 | Method | URL | 설명 |
 |---|---|---|---|
 | 주문서 | GET | `/order/payment?checkoutNo={번호}` | 결제할 상품과 배송지, 금액 확인 |
-| 결제 처리 | POST | `/order/checkout` | 주문·주문상세 생성 및 재고 차감 |
+| 결제 처리 | POST | `/order/checkout` | 주문·주문상세 생성 |
 | 주문 완료 | GET | `/order/complete?orderNo={번호}` | 완료된 주문 정보 표시 |
 | 주문 목록 | GET | `/order/order_list` | 로그인 회원의 주문 내역 조회 |
 | 주문 상세 | GET | `/order/order_detail?orderNo={번호}` | 주문·배송·결제 상세 조회 |

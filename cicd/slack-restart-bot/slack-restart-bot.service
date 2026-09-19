@@ -1,0 +1,15 @@
+[Unit]
+Description=Slack Restart Bot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/slack-restart-bot
+EnvironmentFile=/root/slack-restart-bot/.env
+ExecStart=/root/slack-restart-bot/venv/bin/python /root/slack-restart-bot/slack_restart_bot.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

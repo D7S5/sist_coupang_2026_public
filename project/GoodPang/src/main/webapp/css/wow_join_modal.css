@@ -1,0 +1,150 @@
+@charset "UTF-8";
+
+.wow-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    align-items: center;
+    justify-content: center;
+}
+
+.wow-modal-overlay.active {
+    display: flex;
+}
+
+.wow-modal {
+    position: relative;
+
+    width: 440px;
+    padding: 38px 36px 30px;
+
+    background: #fff;
+    border-radius: 12px;
+
+    box-sizing: border-box;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.wow-modal-close {
+    position: absolute;
+
+    top: 14px;
+    right: 18px;
+
+    border: 0;
+    background: transparent;
+
+    font-size: 30px;
+    color: #777;
+
+    cursor: pointer;
+}
+
+.wow-modal-header {
+    text-align: center;
+
+    margin-bottom: 28px;
+}
+
+.wow-logo {
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 38px;
+    font-weight: 800;
+
+    color: #00a8e1;
+}
+
+.wow-modal-header h2 {
+    margin: 0;
+
+    font-size: 21px;
+    line-height: 1.5;
+
+    color: #222;
+}
+
+.wow-modal-content {
+    padding: 20px 0;
+
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.wow-benefit {
+    margin-bottom: 18px;
+}
+
+.wow-benefit:last-child {
+    margin-bottom: 0;
+}
+
+.wow-benefit strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 16px;
+    color: #111;
+}
+
+.wow-benefit span {
+    font-size: 14px;
+    color: #777;
+}
+
+.wow-modal-price {
+    margin: 22px 0;
+
+    text-align: center;
+
+    font-size: 16px;
+    color: #555;
+}
+
+.wow-modal-price strong {
+    font-size: 22px;
+
+    color: #111;
+}
+
+.wow-join-submit {
+    width: 100%;
+    height: 52px;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: #0074e9;
+
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.wow-join-submit:hover {
+    background: #005fc0;
+}
+
+.wow-no-thanks {
+    width: 100%;
+
+    margin-top: 14px;
+
+    border: 0;
+    background: transparent;
+
+    color: #777;
+    font-size: 14px;
+
+    cursor: pointer;
+}

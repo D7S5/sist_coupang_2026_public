@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GoodPang</string>
+    <string name="delivery_status_title">배송현황</string>
+    <string name="delivery_status_shipping">배송중</string>
+    <string name="delivery_start_date">배송시작일 %1$s</string>
+    <string name="delivery_item_count">수량 %1$d개</string>
+    <string name="delivery_label_delivery_no">배송번호</string>
+    <string name="delivery_label_order_no">주문번호</string>
+    <string name="delivery_label_service_code">택배사</string>
+    <string name="delivery_label_invoice_no">송장번호</string>
+    <string name="delivery_label_buyer_name">받는분</string>
+    <string name="delivery_label_buyer_phone">연락처</string>
+    <string name="delivery_label_address">주소</string>
+    <string name="delivery_label_status">배송상태</string>
+    <string name="delivery_complete_button">배송완료</string>
+    <string name="delivery_complete_confirm_title">배송완료 처리</string>
+    <string name="delivery_complete_confirm_message">%1$s 상품을 배송완료 처리하시겠습니까?</string>
+    <string name="delivery_confirm_ok">확인</string>
+    <string name="delivery_confirm_cancel">취소</string>
+    <string name="delivery_empty">배송중인 상품이 없습니다.</string>
+    <string name="delivery_retry">다시 시도</string>
+    <string name="delivery_refresh">새로고침</string>
+
+    <string name="splash_app_name">goodpang</string>
+    <string name="splash_tagline">빠르고 안전한 배송, 굿팡</string>
+    <string name="splash_copyright">© goodpang. All rights reserved.</string>
+</resources>

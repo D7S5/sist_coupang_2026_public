@@ -1,0 +1,235 @@
+@charset "UTF-8";@charset "UTF-8";
+
+/* 상단 회색 도착 완료 안내 박스 */
+.tracking-status-banner {
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.tracking-status-banner h1 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 8px;
+}
+
+.tracking-status-banner p {
+    font-size: 14px;
+    color: #555555;
+}
+
+/* 배송 정보 상단 카드 */
+.tracking-info-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    margin-bottom: 25px;
+}
+
+.info-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.rocket-icon {
+    font-size: 40px;
+}
+
+.rocket-details strong {
+    font-size: 15px;
+    color: #0073e9;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.invoice-num {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.delivery-notice {
+    font-size: 11px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.info-right {
+    flex: 1;
+    max-width: 380px;
+}
+
+.receiver-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.receiver-table th {
+    text-align: left;
+    color: #777;
+    padding: 4px 0;
+    width: 90px;
+    font-weight: normal;
+}
+
+.receiver-table td {
+    color: #222;
+    padding: 4px 0;
+}
+
+.receive-badge {
+    color: #00891a !important;
+    font-weight: bold;
+}
+
+/* 배송 추적 이력 테이블 */
+.tracking-log-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.tracking-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+.tracking-table thead {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tracking-table th {
+    padding: 12px 20px;
+    color: #555;
+    font-weight: bold;
+}
+
+.tracking-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+}
+
+.tracking-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-cell {
+    font-weight: bold;
+    color: #111;
+}
+
+/* 자주 묻는 질문 FAQ */
+.faq-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.faq-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background: #fff;
+}
+
+.faq-q {
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #0073e9;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.faq-a {
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #555;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    line-height: 1.6;
+}
+
+
+
+/* FAQ 아코디언 기본 스타일 */
+.faq-section {
+    margin-top: 35px;
+    margin-bottom: 50px;
+}
+
+.faq-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.faq-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background: #ffffff;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+/* ★ 커서 올려놓았을 때 (Hover) 안내문구 및 박스 피드백 효과 */
+.faq-q {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #333333;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.faq-q:hover {
+    background-color: #f2f7ff; /* 마우스 올렸을 때연한 파란색 배경 */
+    color: #0073e9;            /* 쿠팡 대표 파란색 글씨로 변경 */
+}
+
+.faq-arrow {
+    font-size: 11px;
+    color: #888888;
+    transition: transform 0.3s ease;
+}
+
+/* 펼쳐졌을 때 (Active) 화살표 회전 및 헤더 처리 */
+.faq-item.active .faq-q {
+    color: #0073e9;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.faq-item.active .faq-arrow {
+    transform: rotate(180deg); /* ▼ 화살표 반전 */
+    color: #0073e9;
+}
+
+/* 슬라이드 답변 내용 영역 */
+.faq-a {
+    display: none; /* 기본적으로 숨김 처리 */
+    padding: 18px 20px;
+    font-size: 13px;
+    color: #555555;
+    background-color: #fafafa;
+    line-height: 1.6;
+}

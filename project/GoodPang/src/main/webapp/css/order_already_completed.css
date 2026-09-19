@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+   * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, "Noto Sans KR", sans-serif;
+        background: #fff;
+        color: #111;
+    }
+
+    .complete-container {
+        width: 600px;
+        margin: 150px auto;
+        text-align: center;
+    }
+
+    .complete-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 25px;
+        border-radius: 50%;
+        background: #346aff;
+        color: white;
+        font-size: 42px;
+        line-height: 70px;
+    }
+
+    .complete-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .complete-message {
+        color: #777;
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+
+    .button-area {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 180px;
+        height: 50px;
+        border: 0;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-home {
+        background: white;
+        border: 1px solid #ccc;
+        color: #333;
+    }
+
+    .btn-orders {
+        background: #346aff;
+        color: white;
+    }

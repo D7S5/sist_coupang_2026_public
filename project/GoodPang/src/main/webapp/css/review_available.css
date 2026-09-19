@@ -1,0 +1,165 @@
+/* =========================
+   작성 가능한 리뷰
+========================= */
+
+.available-review-list {
+	padding-top: 4px;
+}
+
+.available-review-item {
+	min-height: 145px;
+	margin-top: 14px;
+	padding: 20px 22px;
+	display: flex;
+	align-items: center;
+	border: 1px solid #e3e6eb;
+	border-radius: 7px;
+	background: #fafbff;
+	box-sizing: border-box;
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.available-review-item:hover {
+	border-color: #b8c9ff;
+	box-shadow: 0 3px 12px rgba(52, 106, 255, .08);
+}
+
+/* 상품 이미지 */
+.available-product-image {
+	width: 96px;
+	height: 96px;
+	margin-right: 20px;
+	flex: 0 0 96px;
+	overflow: hidden;
+	border: 1px solid #eee;
+	border-radius: 6px;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+.available-product-image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* 상품정보 */
+.available-product-info {
+	min-width: 0;
+	flex: 1;
+}
+
+.available-product-name {
+	display: block;
+	max-width: 520px;
+	margin-bottom: 7px;
+	overflow: hidden;
+	color: #222;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.45;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.available-product-name:hover {
+	color: #346aff;
+}
+
+.available-product-option {
+	margin-bottom: 8px;
+	color: #777;
+	font-size: 13px;
+}
+
+.available-product-status {
+	display: inline-block;
+	margin-bottom: 9px;
+	padding: 4px 7px;
+	border-radius: 3px;
+	background: #edf8ef;
+	color: #16883e;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.available-product-guide {
+	margin: 0;
+	color: #777;
+	font-size: 12px;
+}
+
+/* 오른쪽 작성 버튼 */
+.available-review-action {
+	width: 155px;
+	margin-left: 25px;
+	flex: 0 0 155px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.available-write-btn {
+	width: 145px;
+	height: 42px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #346aff;
+	border-radius: 4px;
+	background: #346aff;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 700;
+	text-decoration: none;
+	box-sizing: border-box;
+}
+
+.available-write-btn:hover {
+	background: #2759d7;
+	border-color: #2759d7;
+}
+
+/* 작성가능 리뷰 없음 */
+.available-empty {
+	padding: 110px 20px;
+	text-align: center;
+}
+
+.available-empty-icon {
+	margin-bottom: 13px;
+	color: #bbb;
+	font-size: 34px;
+}
+
+.available-empty strong {
+	display: block;
+	margin-bottom: 8px;
+	color: #555;
+	font-size: 15px;
+}
+
+.available-empty p {
+	margin: 0 0 20px;
+	color: #999;
+	font-size: 13px;
+}
+
+.available-order-btn {
+	height: 40px;
+	padding: 0 20px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	background: #346aff;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.available-order-btn:hover {
+	background: #2759d7;
+}

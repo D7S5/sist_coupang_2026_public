@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+
+		<!-- 정적 리소스(css/js/images) 캐시 크기 상향.
+		     기본값(10MB)은 webapp/images 폴더(약 19MB)보다 작아서 계속 캐시가 꽉 차고
+		     "Unable to add the resource ... to the cache" 경고가 반복 발생함(2026-09-04).
+		     에러는 아니고 그 파일만 캐시를 못 타서 매번 디스크에서 읽는 정도라 기능엔 문제없지만,
+		     캐시를 넉넉히(50MB) 잡아서 경고도 없애고 정적 파일 서빙도 조금 더 빠르게 함 -->
+		<Resources cachingAllowed="true" cacheMaxSize="51200" />
+
+		<!-- 로컬 DB 사용시
+ 		url= "jdbc:oracle:thin:@localhost:1521/XEPDB1" 
+ 		-->
+
+ 		<!-- 공용 DB 
+ 		url ="jdbc:oracle:thin:@scym3.cafe24.com/XEPDB1"
+         -->
+    <Resource
+        name="jdbc/myoracle"
+        auth="Container"
+        type="javax.sql.DataSource"
+
+        driverClassName="oracle.jdbc.OracleDriver"
+
+		url="jdbc:oracle:thin:@scym3.cafe24.com/XEPDB1"
+       
+        username="scott"
+        password="tiger"
+
+        maxTotal="20"
+        maxIdle="10"
+        maxWaitMillis="10000"
+    />
+
+</Context>

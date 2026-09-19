@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%-- =========================================================
+     sidebar.jspf — 판매자센터 공통 좌측 사이드바
+
+     쓰는 쪽(포함하는 JSP)이 include 하기 전에 아래 변수를 선언해둬야 함
+       String menu = "dashboard";     // 대시보드
+       String menu = "products";        // 상품관리 > 상품 목록
+       String menu = "productWrite";    // 상품관리 > 상품 등록
+       String menu = "productOptions";  // 상품관리 > 상품 옵션 관리
+       String menu = "orders";          // 주문/배송관리 > 주문 목록
+       String menu = "delivery";        // 주문/배송관리 > 배송 관리
+       String menu = "return";          // 주문/배송관리 > 취소/반품/교환 관리
+       String menu = "shipping";        // 주문/배송관리 > 출고/운송장 관리
+       String menu = "settlement";      // 정산관리 > 정산내역 리스트
+       String menu = "businessInfo";    // 하단 > 판매자 정보관리
+       String menu = "notice";          // 공지사항
+
+     ⚠ 이 파일에 <%@ page %> 지시어를 넣지 않음.
+     정적 include(<%@ include %>)로만 쓰이는 조각이라, 인코딩은 이 파일을
+     불러오는 쪽 JSP의 <%@ page pageEncoding="UTF-8" %> 하나로 정해짐.
+     여기 따로 넣어도 효과가 없고, 편집기가 저장할 때 인코딩을 잘못 잡으면
+     오히려 한글이 깨질 수 있음 (실제로 한 번 그렇게 깨졌었음)
+
+     ⚠ 이 파일은 <div class="layout">과 <aside class="sidebar">를
+       열기만 하고 안 닫음. 포함하는 쪽에서
+         (이 include) → <main class="main">...내용...</main> → </div>
+       순서로 이어서 써야 함 (예전에 각 페이지에 통째로 있던 구조 그대로)
+========================================================= --%>
+<div class="layout">
+
+  <!-- 사이드바 -->
+  <aside class="sidebar" id="sidebar">
+
+    <nav class="side-nav">
+
+      <a href="/vendor/dashboard" class="side-item <%= "dashboard".equals(menu) ? "active" : "" %>">
+        <svg class="icon"><use href="#ic-home" /></svg>
+        <span>대시보드</span>
+      </a>
+
+      <button class="side-item side-group-toggle <%= ("products".equals(menu) || "productWrite".equals(menu) || "productOptions".equals(menu)) ? "active open" : "" %>" type="button">
+        <svg class="icon"><use href="#ic-box" /></svg>
+        <span>상품관리</span>
+        <svg class="icon chevron"><use href="#ic-chevron-down" /></svg>
+      </button>
+      <div class="side-submenu <%= ("products".equals(menu) || "productWrite".equals(menu) || "productOptions".equals(menu)) ? "open" : "" %>">
+        <a href="/vendor/product" class="<%= "products".equals(menu) ? "active" : "" %>">상품 목록</a>
+        <a href="/vendor/product/write" class="<%= "productWrite".equals(menu) ? "active" : "" %>">상품 등록</a>
+        <a href="/vendor/product/options" class="<%= "productOptions".equals(menu) ? "active" : "" %>">상품 옵션 관리</a>
+      </div>
+
+      <button class="side-item side-group-toggle <%= ("orders".equals(menu) || "delivery".equals(menu) || "return".equals(menu) || "shipping".equals(menu)) ? "active open" : "" %>" type="button">
+        <svg class="icon"><use href="#ic-truck" /></svg>
+        <span>주문/배송관리</span>
+        <svg class="icon chevron"><use href="#ic-chevron-down" /></svg>
+      </button>
+      <div class="side-submenu <%= ("orders".equals(menu) || "delivery".equals(menu) || "return".equals(menu) || "shipping".equals(menu)) ? "open" : "" %>">
+        <a href="/vendor/order" class="<%= "orders".equals(menu) ? "active" : "" %>">주문 목록</a>
+        <a href="/vendor/delivery" class="<%= "delivery".equals(menu) ? "active" : "" %>">배송 관리</a>
+        <a href="/vendor/return" class="<%= "return".equals(menu) ? "active" : "" %>">취소/반품/교환 관리</a>
+        <a href="/vendor/shipping" class="<%= "shipping".equals(menu) ? "active" : "" %>">출고/운송장 관리</a>
+      </div>
+
+      <button class="side-item side-group-toggle <%= "settlement".equals(menu) ? "active open" : "" %>" type="button">
+        <svg class="icon"><use href="#ic-calculator" /></svg>
+        <span>정산관리</span>
+        <svg class="icon chevron"><use href="#ic-chevron-down" /></svg>
+      </button>
+      <div class="side-submenu <%= "settlement".equals(menu) ? "open" : "" %>">
+        <a href="/vendor/settlement" class="<%= "settlement".equals(menu) ? "active" : "" %>">정산내역 리스트</a>
+      </div>
+
+      <a href="/vendor/notice" class="side-item <%= "notice".equals(menu) ? "active" : "" %>">
+        <svg class="icon"><use href="#ic-bell" /></svg>
+        <span>공지사항</span>
+      </a>
+
+    </nav>
+
+    <div class="side-foot">
+      <a href="/vendor/business-info" class="side-item <%= "businessInfo".equals(menu) ? "active" : "" %>">
+        <svg class="icon"><use href="#ic-gear" /></svg>
+        <span>판매자 정보관리</span>
+      </a>
+      <button class="collapse-btn" id="collapseBtn" type="button">
+        <svg class="icon"><use href="#ic-chevron-left" /></svg>
+        메뉴 접기
+      </button>
+    </div>
+
+  </aside>

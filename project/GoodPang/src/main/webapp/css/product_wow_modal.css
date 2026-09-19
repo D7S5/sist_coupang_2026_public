@@ -1,0 +1,670 @@
+@charset "UTF-8";
+
+.product-wow-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    background: rgba(17, 24, 39, 0.55);
+}
+
+.product-wow-modal {
+    position: relative;
+    width: 430px;
+    max-height: 90vh;
+    padding: 34px 32px 28px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.product-wow-close {
+    position: absolute;
+    top: 14px;
+    right: 17px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #888;
+    font-size: 30px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.product-wow-close:hover {
+    color: #222;
+}
+
+.product-wow-header {
+    padding-top: 4px;
+    text-align: center;
+}
+
+.product-wow-logo {
+    margin-bottom: 14px;
+    color: #00a8e1;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -2px;
+}
+
+.product-wow-header h2 {
+    margin: 0;
+    color: #111;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: -0.7px;
+}
+
+.product-wow-header p {
+    margin: 12px 0 0;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.product-wow-benefits {
+    margin-top: 27px;
+    padding: 21px 18px;
+    background: #f7fbff;
+    border-radius: 10px;
+}
+
+.product-wow-benefit {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 19px;
+}
+
+.product-wow-benefit:last-child {
+    margin-bottom: 0;
+}
+
+.product-wow-benefit-icon {
+    display: flex;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 21px;
+}
+
+.product-wow-benefit strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #222;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.product-wow-benefit p {
+    margin: 0;
+    color: #777;
+    font-size: 13px;
+}
+
+.product-wow-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 22px;
+    padding: 18px 2px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.product-wow-price span {
+    color: #555;
+    font-size: 15px;
+}
+
+.product-wow-price strong {
+    color: #111;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.product-wow-price em {
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.product-wow-actions {
+    display: flex;
+    gap: 9px;
+    margin-top: 22px;
+}
+
+.product-wow-btn-secondary,
+.product-wow-btn-primary {
+    height: 52px;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.product-wow-btn-secondary {
+    width: 125px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+}
+
+.product-wow-btn-primary {
+    flex: 1;
+    border: 1px solid #0074e9;
+    background: #0074e9;
+    color: #fff;
+}
+
+.product-wow-btn-primary:hover {
+    background: #0065cc;
+}
+
+.product-wow-btn-secondary:hover {
+    background: #f8f8f8;
+}
+
+.product-wow-step2 {
+    min-height: 340px;
+}
+
+.product-wow-payment-header {
+    margin-bottom: 23px;
+}
+
+.product-wow-payment-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 17px 18px;
+    margin-bottom: 18px;
+    background: #f7f8fa;
+    border-radius: 8px;
+}
+
+.product-wow-payment-price span {
+    color: #555;
+    font-size: 14px;
+}
+
+.product-wow-payment-price strong {
+    color: #111;
+    font-size: 20px;
+}
+
+.product-wow-payment-list {
+    min-height: 70px;
+    color: #666;
+    font-size: 14px;
+}
+
+.product-wow-payment-list label {
+    display: flex;
+    align-items: center;
+    min-height: 54px;
+    margin-bottom: 8px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.product-wow-payment-list label:hover {
+    border-color: #0074e9;
+}
+
+.product-wow-payment-list input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin: 0 10px 0 0;
+    accent-color: #0074e9;
+}
+
+.product-wow-agree {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 18px;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.product-wow-agree input {
+    margin-top: 3px;
+}
+
+.product-wow-payment-add-btn {
+    display: flex;
+    width: 100%;
+    height: 52px;
+    margin-top: 10px;
+    padding: 0 16px;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    border: 1px dashed #bbb;
+    border-radius: 7px;
+    background: #fff;
+    color: #444;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.product-wow-payment-add-btn:hover {
+    border-color: #0074e9;
+    color: #0074e9;
+}
+
+.product-wow-payment-add-btn strong {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.product-wow-add-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    align-items: center;
+    justify-content: center;
+    background: rgba(17, 24, 39, 0.6);
+}
+
+.product-wow-add-modal {
+    position: relative;
+    width: 430px;
+    padding: 32px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.product-wow-add-close {
+    position: absolute;
+    top: 14px;
+    right: 17px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #888;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.product-wow-add-title {
+    margin: 0;
+    color: #111;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.product-wow-add-description {
+    margin: 8px 0 22px;
+    color: #777;
+    font-size: 13px;
+}
+
+.product-wow-payment-tabs {
+    display: flex;
+    margin-bottom: 23px;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-wow-payment-tab {
+    flex: 1;
+    height: 45px;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: #fff;
+    color: #777;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.product-wow-payment-tab.active {
+    border-bottom-color: #0074e9;
+    color: #0074e9;
+}
+
+.product-wow-form-row {
+    margin-bottom: 17px;
+}
+
+.product-wow-form-row label {
+    display: block;
+    margin-bottom: 7px;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.product-wow-form-row input,
+.product-wow-form-row select {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
+}
+
+.product-wow-form-row input:focus,
+.product-wow-form-row select:focus {
+    border-color: #0074e9;
+    outline: none;
+}
+
+.product-wow-card-number {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.product-wow-card-number input {
+    min-width: 0;
+    text-align: center;
+}
+
+.product-wow-card-number span {
+    color: #aaa;
+}
+
+.product-wow-default-payment {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    margin-top: 5px;
+    color: #555;
+    font-size: 13px;
+}
+
+.product-wow-add-actions {
+    display: flex;
+    gap: 9px;
+    margin-top: 25px;
+}
+
+.product-wow-add-cancel,
+.product-wow-add-submit {
+    height: 50px;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.product-wow-add-cancel {
+    width: 120px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+}
+
+.product-wow-add-submit {
+    flex: 1;
+    border: 1px solid #0074e9;
+    background: #0074e9;
+    color: #fff;
+}
+
+.product-wow-add-submit:hover {
+    background: #0065cc;
+}
+/* =========================
+   WOW STEP 2 - 결제수단 선택
+   ========================= */
+
+.product-wow-step2 {
+    width: 100%;
+}
+
+.product-wow-step2 .product-wow-payment-header {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.product-wow-step2 .product-wow-payment-header .product-wow-logo {
+    margin-bottom: 10px;
+    color: #00a8e1;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.product-wow-step2 .product-wow-payment-header h2 {
+    margin: 0;
+    color: #111;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+}
+
+.product-wow-step2 .product-wow-payment-header p {
+    margin: 7px 0 0;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* 오늘 결제금액 */
+.product-wow-payment-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding: 16px 18px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background: #f8f9fb;
+}
+
+.product-wow-payment-price span {
+    color: #555;
+    font-size: 14px;
+}
+
+.product-wow-payment-price strong {
+    color: #111;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+
+/* 결제수단 목록 전체 */
+.product-wow-payment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+
+/* AJAX에서 내려오는 결제수단 */
+.product-wow-payment-list label {
+    display: flex;
+    min-height: 62px;
+    padding: 12px 15px;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.product-wow-payment-list label:hover {
+    border-color: #8dbceb;
+    background: #fafcff;
+}
+
+
+/* 선택된 결제수단 */
+.product-wow-payment-list label:has(input[type="radio"]:checked) {
+    padding: 11px 14px;
+    border: 2px solid #0074e9;
+    background: #f4f9ff;
+}
+
+
+/* 라디오 버튼 */
+.product-wow-payment-list input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin: 0 12px 0 0;
+    flex-shrink: 0;
+    accent-color: #0074e9;
+}
+
+
+/* 결제수단 이름 */
+.product-wow-payment-list strong {
+    color: #222;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* 보조 정보 */
+.product-wow-payment-list span {
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* 새 결제수단 버튼 */
+.product-wow-payment-add-btn {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    padding: 0 16px;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.product-wow-payment-add-btn:hover {
+    border-color: #0074e9;
+    background: #f7fbff;
+    color: #0074e9;
+}
+
+.product-wow-payment-add-btn strong {
+    color: #0074e9;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+
+/* 정기결제 동의 */
+.product-wow-agree {
+    display: flex;
+    margin-top: 18px;
+    padding: 13px 14px;
+    align-items: flex-start;
+    gap: 9px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    background: #f7f7f7;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.product-wow-agree input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    margin: 1px 0 0;
+    flex-shrink: 0;
+    accent-color: #0074e9;
+}
+
+
+/* 이전 / 결제 버튼 */
+.product-wow-step2 .product-wow-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.product-wow-step2 .product-wow-btn-secondary {
+    width: 100px;
+    height: 52px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    background: #fff;
+    color: #555;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.product-wow-step2 .product-wow-btn-secondary:hover {
+    background: #f7f7f7;
+}
+
+.product-wow-step2 .product-wow-btn-primary {
+    flex: 1;
+    height: 52px;
+    border: 1px solid #0074e9;
+    border-radius: 7px;
+    background: #0074e9;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.product-wow-step2 .product-wow-btn-primary:hover {
+    border-color: #0065cc;
+    background: #0065cc;
+}
+
+
+/* 결제수단 목록 스크롤 */
+.product-wow-payment-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.product-wow-payment-list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ccc;
+}
+
+.product-wow-payment-list::-webkit-scrollbar-track {
+    background: transparent;
+}

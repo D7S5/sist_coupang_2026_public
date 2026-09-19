@@ -1,0 +1,502 @@
+/* =========================================================
+   userModify.jsp 전용 스타일
+   - common.css / reset.css의 영향을 최소화하도록 전용 wrapper 사용
+========================================================= */
+
+.user-modify-page,
+.user-modify-page * {
+    box-sizing: border-box;
+}
+
+.user-modify-page {
+    width: 100%;
+    min-height: 820px;
+    padding: 20px 0 60px;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #f7f7f7,
+            #f7f7f7 1px,
+            #f4f4f4 1px,
+            #f4f4f4 3px
+        );
+    color: #333;
+    font-family: Arial, "Noto Sans KR", "Malgun Gothic", sans-serif;
+    font-size: 13px;
+}
+
+.user-modify-page button,
+.user-modify-page input {
+    font: inherit;
+}
+
+.user-modify-page button {
+    cursor: pointer;
+}
+
+.user-modify-page a {
+    text-decoration: none;
+}
+
+/* =========================================================
+   전체 레이아웃
+========================================================= */
+
+.user-modify-layout {
+    width: 1025px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+}
+
+.member-container {
+    width: 890px;
+    flex: 0 0 890px;
+    min-height: 760px;
+    padding: 50px 50px 42px;
+    background: #fff;
+    border: 1px solid #cfcfcf;
+}
+
+.right-banner {
+    width: 102px;
+    flex: 0 0 102px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.member-title {
+    margin: 0 0 16px;
+    color: #222;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.title-line {
+    width: 100%;
+    height: 2px;
+    background: #888;
+}
+
+/* =========================================================
+   회원정보 행
+========================================================= */
+
+.info-row {
+    width: 100%;
+    min-height: 55px;
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+
+.info-title {
+    width: 135px;
+    flex: 0 0 135px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 8px;
+    background: #eef1f7;
+    border-right: 1px solid #d4d7de;
+    color: #4a5668;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.info-content {
+    min-width: 0;
+    flex: 1;
+    padding: 13px 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #555;
+}
+
+.member-value {
+    min-width: 145px;
+    color: #555;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   공통 버튼 / 입력
+========================================================= */
+
+.small-btn,
+.withdraw-btn {
+    height: 28px;
+    padding: 0 11px;
+    border: 1px solid #c4c8ce;
+    background: #fff;
+    color: #666;
+}
+
+.small-btn:hover,
+.withdraw-btn:hover {
+    border-color: #929292;
+    background: #fafafa;
+}
+
+.hidden-form {
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+
+.hidden-form.show {
+    display: flex;
+}
+
+.hidden-form input,
+.password-input-row input {
+    border: 1px solid #c9c9c9;
+    background: #fff;
+    outline: none;
+}
+
+.hidden-form input {
+    width: 180px;
+    height: 30px;
+    padding: 0 8px;
+}
+
+.hidden-form input:focus,
+.password-input-row input:focus {
+    border-color: #0073e9;
+}
+
+/* =========================================================
+   비밀번호 변경
+========================================================= */
+
+.password-row {
+    min-height: 235px;
+}
+
+.password-content {
+    display: block;
+    padding: 16px 30px 18px;
+}
+
+.password-notice {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 14px;
+    border-radius: 4px;
+    background: #f1f3f5;
+    color: #34495e;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.password-form {
+    width: 100%;
+    max-width: 600px;
+}
+
+.password-input-row {
+    min-height: 36px;
+    display: grid;
+    grid-template-columns: 102px 160px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 10px;
+}
+
+.password-input-row label {
+    width: auto;
+    color: #777;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.password-input-row input {
+    width: 160px;
+    height: 28px;
+    padding: 3px 7px;
+    border: 1px solid #c9c9c9;
+    background: #fff;
+    outline: none;
+}
+
+.password-input-row input:focus {
+    border-color: #0073e9;
+}
+
+.password-guide {
+    margin: 0;
+    color: #8a8f98;
+    font-size: 11px;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.password-button-row {
+    margin: 12px 0 0 112px;
+}
+
+/* =========================================================
+   배송지
+========================================================= */
+
+.blue-link {
+    color: #0073e9;
+    font-weight: 700;
+}
+
+.blue-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   수신 설정
+========================================================= */
+
+.receive-row {
+    min-height: 190px;
+}
+
+.receive-content {
+    display: block;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.setting-section {
+    padding: 7px 0 13px;
+    border-bottom: 1px solid #eee;
+}
+
+.setting-section:last-child {
+    border-bottom: 0;
+}
+
+.checkbox-label {
+    color: #777;
+    cursor: pointer;
+}
+
+.checkbox-label input,
+.sub-options input {
+    vertical-align: -2px;
+    accent-color: #1f74e7;
+}
+
+.checkbox-label input {
+    margin-right: 7px;
+}
+
+.date {
+    margin-left: 4px;
+    color: #8491a1;
+}
+
+.detail-view {
+    display: block;
+    margin: 7px 0 0 21px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #555;
+    font-size: 11px;
+}
+
+.advertising {
+    padding-top: 14px;
+}
+
+.advertising-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.sub-options {
+    color: #666;
+    font-size: 11px;
+}
+
+.sub-options label {
+    margin-right: 7px;
+}
+
+.setting-guide {
+    margin: 4px 0 0 21px;
+    color: #a1a7af;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+/* =========================================================
+   하단
+========================================================= */
+
+.member-bottom {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 22px;
+}
+
+.withdraw-btn {
+    padding: 0 17px;
+}
+
+/* =========================================================
+   오른쪽 배너
+========================================================= */
+
+.right-banner {
+    width: 102px;
+    flex: 0 0 102px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ad-box {
+    width: 102px;
+    min-height: 145px;
+    padding: 13px 8px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    text-align: center;
+    font-size: 15px;
+}
+
+.ad-box strong {
+    display: block;
+    line-height: 1.3;
+}
+
+.ad-box em {
+    display: block;
+    margin-top: 2px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.ad-icon {
+    margin-top: 15px;
+    font-size: 43px;
+    line-height: 1;
+}
+
+.ad-only {
+    color: #1466e8;
+}
+
+.ad-blue {
+    background: #bcecf9;
+    color: #223;
+}
+
+.ad-sky {
+    background: #caf4ff;
+    color: #222;
+}
+
+.ad-purple {
+    background: #3430ff;
+    color: #fff;
+}
+
+.ad-red {
+    background: #f13a32;
+    color: #fff;
+}
+
+/* =========================================================
+   반응형
+========================================================= */
+
+@media (max-width: 1180px) {
+    .user-modify-layout {
+        width: calc(100% - 30px);
+    }
+
+    .member-container {
+        width: calc(100% - 130px);
+    }
+}
+
+@media (max-width: 900px) {
+    .user-modify-page {
+        padding-top: 10px;
+    }
+
+    .user-modify-layout {
+        width: calc(100% - 20px);
+    }
+
+    .right-banner {
+        display: none;
+    }
+
+    .member-container {
+        width: 100%;
+        padding: 30px 20px;
+    }
+
+    .info-title {
+        width: 120px;
+        flex-basis: 120px;
+    }
+
+    .info-content {
+        padding-left: 18px;
+        padding-right: 18px;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 640px) {
+    .member-title {
+        font-size: 25px;
+    }
+
+    .info-row {
+        display: block;
+    }
+
+    .info-title {
+        width: 100%;
+        min-height: 42px;
+        border-right: 0;
+        border-bottom: 1px solid #d4d7de;
+        justify-content: flex-start;
+        padding-left: 14px;
+    }
+
+    .member-value {
+        min-width: auto;
+    }
+
+    .password-form {
+        width: 100%;
+    }
+
+    .password-input-row {
+        height: auto;
+        margin-bottom: 8px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .password-input-row label,
+    .password-input-row input {
+        width: 100%;
+    }
+
+    .password-button-row {
+        margin-left: 0;
+    }
+}

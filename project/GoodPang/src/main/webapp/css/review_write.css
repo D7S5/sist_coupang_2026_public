@@ -1,0 +1,957 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, "Noto Sans KR", sans-serif;
+    color: #111;
+    background: #fff;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+
+/* 전체 */
+.review-page {
+    width: 900px;
+    margin: 20px auto 50px;
+}
+
+.review-title {
+    margin: 0 0 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+
+/* 공통 제목 */
+.section-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.section-desc {
+    margin: 3px 0 15px 32px;
+    font-size: 13px;
+    color: #555;
+}
+
+.section-icon,
+.product-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 14px;
+}
+
+.section-icon {
+    background: #6c5ce7;
+}
+
+.product-heading-icon {
+    background: #ffc83d;
+    color: #fff;
+}
+
+
+/* 서비스 리뷰 */
+.service-review {
+    padding: 18px 15px 20px;
+    border-bottom: 1px solid #888;
+}
+
+.service-score-row {
+    display: flex;
+    align-items: center;
+    min-height: 45px;
+}
+
+.row-label {
+    width: 90px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.service-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.service-btn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.service-btn:hover,
+.service-btn.active {
+    border-color: #346aff;
+    color: #346aff;
+}
+
+.service-btn.active {
+    background: #f3f6ff;
+}
+
+
+/* 상품 리뷰 */
+.product-review {
+    padding: 20px 15px 0;
+}
+
+.product-box {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    padding: 0 5px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+    border: 1px solid #eee;
+    object-fit: contain;
+    background: #fff;
+}
+
+.product-image-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 11px;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-name {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.product-option {
+    margin-bottom: 6px;
+    color: #777;
+    font-size: 12px;
+}
+
+
+/* 별점 */
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.star {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #ddd;
+    font-size: 29px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.star.active {
+    color: #ffb400;
+}
+
+.star-guide {
+    margin-left: 8px;
+    font-size: 12px;
+    color: #777;
+}
+
+
+/* 리뷰 입력 행 */
+.review-row {
+    display: flex;
+    padding: 15px 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.review-label {
+    width: 90px;
+    padding-top: 4px;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.review-content {
+    flex: 1;
+}
+
+
+/* 상세 리뷰 */
+.textarea-wrap {
+    position: relative;
+}
+
+.review-textarea {
+    width: 100%;
+    height: 125px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.review-textarea:focus {
+    border-color: #346aff;
+}
+
+.text-count {
+    position: absolute;
+    right: 8px;
+    bottom: 7px;
+    color: #555;
+    font-size: 11px;
+}
+
+.review-help {
+    margin-top: 6px;
+    color: #777;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+
+/* 사진 */
+.photo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.photo-btn {
+    padding: 7px 13px;
+    border: 1px solid #346aff;
+    background: #fff;
+    color: #346aff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.photo-count {
+    font-size: 12px;
+}
+
+.photo-guide {
+    color: #888;
+    font-size: 11px;
+}
+
+#photoInput {
+    display: none;
+}
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 8px;
+}
+
+.preview-item {
+    width: 65px;
+    height: 65px;
+    border: 1px solid #ddd;
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* 한줄요약 */
+.summary-wrap {
+    position: relative;
+}
+
+.summary-input {
+    width: 100%;
+    height: 36px;
+    padding: 8px 55px 8px 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 12px;
+}
+
+.summary-input:focus {
+    border-color: #346aff;
+}
+
+.summary-count {
+    position: absolute;
+    right: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 10px;
+}
+
+
+/* 하단 버튼 */
+.button-area {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 18px;
+}
+
+.cancel-btn,
+.submit-btn {
+    min-width: 100px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    border: 1px solid #aaa;
+    background: #fff;
+    color: #222;
+}
+
+.submit-btn {
+    border: 1px solid #346aff;
+    background: #346aff;
+    color: #fff;
+}
+
+.submit-btn:hover {
+    background: #2458dd;
+}
+
+/* 회원 정보 */
+.review-member-box {
+    display: flex;
+    align-items: center;
+    height: 95px;
+    margin-bottom: 18px;
+    padding: 15px 25px;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+}
+
+.member-profile {
+    display: flex;
+    align-items: center;
+    width: 230px;
+}
+
+.member-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-right: 16px;
+    border-radius: 50%;
+    background: #d8e1ee;
+    color: #fff;
+    font-size: 30px;
+}
+
+.member-name {
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.member-divider {
+    width: 1px;
+    height: 55px;
+    margin: 0 22px;
+    background: #ddd;
+}
+
+.member-stat {
+    min-width: 110px;
+}
+
+.member-stat-title {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.member-stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+}
+
+.member-stat-value strong {
+    font-size: 29px;
+    font-weight: 300;
+    color: #555;
+}
+
+.member-stat-value span {
+    font-size: 12px;
+}
+
+.member-stat-value small {
+    margin-left: 3px;
+    color: #777;
+    font-size: 11px;
+}
+
+.member-stat.ranking {
+    flex: 1;
+}
+
+/* ===============================
+   리뷰 페이지 전체 3단 레이아웃
+================================ */
+.mypang-layout {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr) 100px;
+    gap: 16px;
+
+    width: 1100px;
+    margin: 20px auto 60px;
+
+    align-items: start;
+}
+
+
+/* ===============================
+   왼쪽 MY쿠팡
+================================ */
+.mypang-sidebar {
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+.mypang-logo {
+    padding: 25px 14px;
+    background: #2d72b8;
+    color: #fff;
+
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.mypang-menu-group {
+    padding: 14px 13px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.mypang-menu-group h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.mypang-menu-group a {
+    display: block;
+
+    margin: 5px 0;
+
+    color: #333;
+    font-size: 11px;
+    line-height: 1.4;
+
+    text-decoration: none;
+}
+
+.mypang-menu-group a:hover {
+    color: #346aff;
+    text-decoration: underline;
+}
+
+.mypang-menu-group a.active {
+    color: #346aff;
+    font-weight: 700;
+}
+
+
+/* 하단 고객센터 */
+.mypang-help {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+.mypang-help div {
+    padding: 11px 9px;
+    border-bottom: 1px solid #eee;
+
+    color: #2871c7;
+    font-size: 11px;
+}
+
+.mypang-help div:last-child {
+    border-bottom: 0;
+}
+
+
+/* ===============================
+   중앙 리뷰
+================================ */
+.review-page {
+    width: auto;
+    margin: 0;
+    min-width: 0;
+}
+
+.review-title {
+    margin: 0 0 12px;
+    padding-bottom: 10px;
+
+    border-bottom: 2px solid #333;
+
+    font-size: 23px;
+    font-weight: 500;
+}
+
+
+/* ===============================
+   회원 정보
+================================ */
+.review-member-box {
+    display: flex;
+    align-items: center;
+
+    height: 90px;
+
+    margin-bottom: 18px;
+    padding: 12px 20px;
+
+    border: 1px solid #e3e3e3;
+}
+
+.member-profile {
+    display: flex;
+    align-items: center;
+    width: 200px;
+}
+
+.member-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 58px;
+    height: 58px;
+
+    margin-right: 14px;
+
+    border-radius: 50%;
+
+    background: #d8e1ee;
+    color: #fff;
+
+    font-size: 27px;
+}
+
+.member-name {
+    font-size: 19px;
+}
+
+.member-divider {
+    width: 1px;
+    height: 50px;
+
+    margin: 0 20px;
+
+    background: #ddd;
+}
+
+.member-stat-title {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.member-stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+}
+
+.member-stat-value strong {
+    font-size: 25px;
+    font-weight: 300;
+    color: #555;
+}
+
+.member-stat-value span {
+    font-size: 11px;
+}
+
+
+/* ===============================
+   오른쪽 광고
+================================ */
+.review-ads {
+    width: 100px;
+}
+
+.ad-box {
+    width: 100px;
+    margin-bottom: 7px;
+
+    overflow: hidden;
+
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+.ad-box img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: cover;
+}
+
+.ad-only {
+    padding-top: 7px;
+    text-align: center;
+}
+
+.ad-only strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #1769e0;
+    font-size: 16px;
+}
+
+.ad-only strong span {
+    font-weight: 400;
+}
+
+/* ===============================
+   오른쪽 광고 배너
+================================ */
+.right-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100px;
+}
+
+.right-banner .ad-box {
+    position: relative;
+    width: 100px;
+    height: 105px;
+    padding: 10px 8px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+}
+
+.right-banner .ad-box strong {
+    position: relative;
+    z-index: 2;
+    display: block;
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 700;
+}
+
+.right-banner .ad-icon {
+    position: absolute;
+    right: 5px;
+    bottom: 3px;
+    font-size: 38px;
+    line-height: 1;
+}
+
+
+/* GoodPang only */
+.right-banner .ad-only {
+    background: #fff;
+    color: #222;
+}
+
+.right-banner .ad-only .ad-title {
+    position: relative;
+    z-index: 2;
+}
+
+.right-banner .ad-only strong {
+    display: inline;
+    color: #1769e0;
+    font-size: 15px;
+}
+
+.right-banner .ad-only em {
+    display: block;
+    margin-top: 1px;
+    color: #333;
+    font-size: 13px;
+    font-style: normal;
+}
+
+
+/* 쿠폰 */
+.right-banner .ad-blue {
+    background: #eaf3ff;
+    color: #1769e0;
+}
+
+
+/* 직접 수입 */
+.right-banner .ad-sky {
+    background: #e5f7fb;
+    color: #147c9c;
+}
+
+
+/* 금주의 특가 */
+.right-banner .ad-purple {
+    background: #f2eaff;
+    color: #6b42b5;
+}
+
+
+/* 판매 시작 */
+.right-banner .ad-red {
+    background: #fff0f0;
+    color: #db3b3b;
+}
+
+
+/* 마우스 효과 */
+.right-banner .ad-box {
+    transition: transform 0.15s ease,
+                box-shadow 0.15s ease;
+}
+
+.right-banner .ad-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.star {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #ddd;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.star.active {
+    color: #ff9800;
+}
+
+.service-rating-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.service-btn {
+    min-width: 100px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+}
+
+.service-btn.active {
+    border-color: #346aff;
+    color: #346aff;
+    font-weight: 700;
+    background: #f5f8ff;
+}
+
+.review-summary-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+}
+
+.text-count {
+    margin-top: 5px;
+    color: #999;
+    font-size: 12px;
+    text-align: right;
+}
+
+.review-submit-area {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.btn-cancel,
+.btn-submit {
+    width: 130px;
+    height: 42px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+}
+
+.btn-submit {
+    border: 1px solid #346aff;
+    background: #346aff;
+    color: #fff;
+    font-weight: 700;
+}
+
+.service-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.service-btn {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    font-size: 26px;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+}
+
+.service-btn:hover {
+    opacity: 0.8;
+}
+
+.service-btn.active {
+    border: none;
+    background: transparent;
+    transform: scale(1.1);
+}
+
+/* ===============================
+   서비스 리뷰 만족도
+================================ */
+.service-score-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 18px 10px 16px 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.row-label {
+    min-width: 56px;
+    color: #111;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.service-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.service-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid #d9d9d9;
+    border-radius: 50%;
+    background: #fff;
+
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+
+    padding: 0;
+    outline: none;
+    appearance: none;
+}
+
+.service-btn:hover {
+    border-color: #346aff;
+    background: #f8fbff;
+}
+
+.service-btn.active {
+    border-color: #346aff;
+    background: #f5f8ff;
+    box-shadow: 0 0 0 1px #346aff inset;
+}
+.mypang-layout {
+    width: 1025px;
+    margin: 30px auto 60px;
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr) 130px;
+    gap: 0px;
+    align-items: start;
+    box-sizing: border-box;
+}
+
+.mypang-sidebar {
+    width: 160px;
+}
+
+.mypang-layout > .review-page {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+.review-right-banner {
+    width: 130px;
+    margin-left: 30px;
+}

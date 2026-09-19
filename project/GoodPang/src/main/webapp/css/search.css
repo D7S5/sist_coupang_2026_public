@@ -1,0 +1,667 @@
+/* =========================================================
+   search.css — 검색결과 페이지(index_search.html) 전용 스타일
+
+   헤더/푸터는 common.css를 그대로 재사용하고,
+   여기는 검색결과 본문(브레드크럼 ~ 페이지네이션)만 담당함.
+   ========================================================= */
+
+.search-page {
+  max-width: var(--content-width);   /* 1020px, common.css 변수 재사용 */
+  margin: 0 auto;
+  padding: 20px 0 60px;
+}
+
+
+/* =========================================================
+   1. 브레드크럼 + 검색 결과 헤딩
+   ========================================================= */
+
+.search-breadcrumb {
+  margin-bottom: 10px;
+
+  color: #999;
+  font-size: 12px;
+}
+
+.search-breadcrumb a {
+  color: #999;
+}
+
+.search-breadcrumb a:hover {
+  color: #555;
+  text-decoration: underline;
+}
+
+.search-breadcrumb .sep {
+  margin: 0 6px;
+  color: #ccc;
+}
+
+.search-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-bottom: 14px;
+}
+
+.search-heading .keyword {
+  color: #111;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.search-heading .keyword strong {
+  color: var(--coupang-blue);
+}
+
+.search-heading .count {
+  color: #777;
+  font-size: 13px;
+}
+
+
+/* --- 연관 검색어 칩 --- */
+
+.related-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-bottom: 16px;
+}
+
+.related-keywords a {
+  padding: 6px 12px;
+
+  border: 1px solid #e1e1e1;
+  border-radius: 16px;
+
+  color: #555;
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+.related-keywords a:hover {
+  border-color: var(--coupang-blue);
+  color: var(--coupang-blue);
+}
+
+
+/* --- 빠른 필터 칩 (로켓배송 / 무료배송 등) --- */
+
+.quick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  padding: 14px 0;
+  margin-bottom: 20px;
+
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.quick-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  height: 34px;
+  padding: 0 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 17px;
+
+  background: #fff;
+  color: #333;
+
+  font-size: 13px;
+}
+
+.quick-filter:hover {
+  border-color: #aaa;
+}
+
+.quick-filter.is-active {
+  border-color: var(--coupang-blue);
+  background: #eef4ff;
+  color: var(--coupang-blue);
+  font-weight: 700;
+}
+
+.quick-filter .ic-rocket {
+  color: var(--coupang-blue);
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   2. 본문 레이아웃 — 왼쪽 필터 + 오른쪽 상품목록
+   ========================================================= */
+
+.search-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+
+/* --- 왼쪽 필터 사이드바 --- */
+
+.search-filter {
+  flex: 0 0 220px;
+
+  border-top: 2px solid #333;
+}
+
+.filter-group {
+  border-bottom: 1px solid #eee;
+}
+
+/* <details>/<summary> 를 써서 접고 펴는 동작을 JS 없이 브라우저 기본 기능으로 처리 */
+.filter-group summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 4px;
+
+  color: #111;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  list-style: none;   /* 기본 삼각형 마커 제거 */
+}
+
+.filter-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.filter-group summary::after {
+  content: "";
+
+  width: 8px;
+  height: 8px;
+
+  border-right: 1.5px solid #999;
+  border-bottom: 1.5px solid #999;
+
+  transform: rotate(45deg);
+  transition: transform .15s ease;
+}
+
+.filter-group[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.filter-group-body {
+  padding: 0 4px 16px;
+}
+
+.filter-check {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 10px;
+
+  color: #555;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.filter-check:last-child {
+  margin-bottom: 0;
+}
+
+.filter-check input {
+  width: 15px;
+  height: 15px;
+
+  margin-right: 8px;
+}
+
+.filter-check .cnt {
+  margin-left: 4px;
+  color: #aaa;
+}
+
+.filter-price-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 12px;
+}
+
+.filter-price-row input {
+  width: 0;
+  flex: 1;
+
+  height: 32px;
+  padding: 0 8px;
+
+  border: 1px solid #ddd;
+  border-radius: 2px;
+
+  font-size: 12px;
+  text-align: right;
+}
+
+.filter-price-apply {
+  display: block;
+
+  width: 100%;
+  height: 32px;
+
+  border: 1px solid #ccc;
+  border-radius: 2px;
+
+  background: #fafafa;
+  color: #333;
+
+  font-size: 12px;
+}
+
+.filter-price-apply:hover {
+  background: #f0f0f0;
+}
+
+.filter-reset {
+  display: block;
+
+  margin: 16px 4px 0;
+  padding: 10px 0;
+
+  border: 1px solid #ddd;
+  border-radius: 2px;
+
+  color: #555;
+  font-size: 12px;
+  text-align: center;
+}
+
+.filter-reset:hover {
+  border-color: #aaa;
+}
+
+
+/* --- 오른쪽 본문 --- */
+
+.search-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 14px;
+}
+
+.sort-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.sort-tab {
+  height: 32px;
+  padding: 0 12px;
+
+  border: 1px solid transparent;
+  border-radius: 3px;
+
+  color: #777;
+  font-size: 13px;
+}
+
+.sort-tab:hover {
+  color: #333;
+}
+
+.sort-tab.is-active {
+  border-color: #ddd;
+  background: #f7f7f7;
+  color: #111;
+  font-weight: 700;
+}
+
+.search-result-count {
+  color: #999;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   3. 상품 그리드
+   ========================================================= */
+
+.search-product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 16px;
+
+  margin-bottom: 30px;
+}
+
+.search-product-card a {
+  display: block;
+}
+
+.search-thumb-wrap {
+  position: relative;
+
+  margin-bottom: 10px;
+
+  aspect-ratio: 1 / 1;
+
+  border-radius: 4px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(135deg, #f2f3f5 0%, #e6e8eb 100%);
+}
+
+/* 실제 상품 이미지가 없어서 색 + 패턴으로만 구분되는 자리표시자.
+   카드마다 다른 색이 오도록 --hue 값을 인라인 style로 넘겨받음 (아래 li style 참고).
+   패턴은 3종류를 순서대로 돌려써서 (nth-child) 같은 색이어도 카드마다 다르게 보이게 함 */
+.search-thumb-wrap::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background-color: hsl(var(--hue, 210), 55%, 88%);
+  opacity: .9;
+}
+
+/* 1) 기본 — 대각선 그라데이션 */
+.search-product-card:nth-child(3n+1) .search-thumb-wrap::before {
+  background-image:
+    linear-gradient(135deg,
+      hsl(var(--hue, 210), 55%, 92%) 0%,
+      hsl(var(--hue, 210), 55%, 80%) 100%);
+}
+
+/* 2) 대각선 줄무늬 */
+.search-product-card:nth-child(3n+2) .search-thumb-wrap::before {
+  background-image:
+    repeating-linear-gradient(45deg,
+      hsl(var(--hue, 210), 55%, 90%) 0 10px,
+      hsl(var(--hue, 210), 55%, 82%) 10px 20px);
+}
+
+/* 3) 물방울 도트 */
+.search-product-card:nth-child(3n) .search-thumb-wrap::before {
+  background-image:
+    radial-gradient(hsl(var(--hue, 210), 45%, 75%) 2px, transparent 2.5px);
+  background-size: 16px 16px;
+}
+
+/* 실제 상품 이미지(pds/short_1.jpg).
+   ::before 그라데이션 위에 꽉 채워 덮어서, 이미지가 늦게 뜨는 동안엔
+   패턴이 로딩 배경처럼 잠깐 보이다가 자연스럽게 사진으로 바뀜 */
+.search-thumb-wrap .thumb-img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.search-thumb-wrap .badge-rocket {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  z-index: 1;
+
+  padding: 3px 6px;
+
+  border-radius: 2px;
+
+  background: var(--coupang-blue);
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.search-thumb-wrap .badge-ad {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 1;
+
+  padding: 2px 5px;
+
+  border-radius: 2px;
+
+  background: rgba(0, 0, 0, .45);
+  color: #fff;
+
+  font-size: 10px;
+}
+
+.search-product-card .brand {
+  margin-bottom: 2px;
+
+  color: #999;
+  font-size: 11px;
+}
+
+.search-product-card .name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  min-height: 34px;
+  margin-bottom: 6px;
+
+  color: #222;
+  font-size: 13px;
+  line-height: 17px;
+}
+
+.search-product-card .rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  margin-bottom: 6px;
+
+  color: #ccc;
+  font-size: 11px;
+}
+
+.search-product-card .rating .stars {
+  color: #ffb700;
+  letter-spacing: -1px;
+}
+
+.search-product-card .rating .count {
+  color: #999;
+}
+
+.search-product-card .price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
+  margin-bottom: 4px;
+}
+
+.search-product-card .discount {
+  color: var(--coupang-red);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.search-product-card .price {
+  color: #111;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.search-product-card .price-original {
+  color: #bbb;
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+.search-product-card .unit-price {
+  margin-bottom: 6px;
+
+  color: #999;
+  font-size: 11px;
+}
+
+.search-product-card .tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.search-product-card .tag {
+  padding: 2px 5px;
+
+  border-radius: 2px;
+
+  font-size: 10px;
+}
+
+.search-product-card .tag--free {
+  background: #eef2f5;
+  color: #6b7684;
+}
+
+.search-product-card .tag--coupon {
+  background: #fff1f0;
+  color: var(--coupang-red);
+}
+
+.search-product-card .tag--rocket-fresh {
+  background: #eaf6ff;
+  color: #0073e9;
+}
+
+/* 필터/정렬로 숨겨지는 카드 (search.js 가 붙였다 뗌) */
+.search-product-card.is-hidden {
+  display: none;
+}
+
+
+/* 결과가 하나도 없을 때 */
+
+.search-empty {
+  display: none;
+
+  padding: 80px 0;
+
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+}
+
+.search-empty.show {
+  display: block;
+}
+
+
+/* =========================================================
+   4. 페이지네이션
+   ========================================================= */
+
+.search-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.search-pagination a,
+.search-pagination span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 3px;
+
+  color: #555;
+  font-size: 13px;
+}
+
+.search-pagination a:hover {
+  background: #f2f2f2;
+}
+
+.search-pagination .current {
+  background: var(--coupang-blue);
+  color: #fff;
+  font-weight: 700;
+}
+
+.search-pagination .arrow {
+  color: #999;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   6. 날개배너 실제 이미지 (pds/banner_1.png)
+   common.css의 .wing-placeholder(회색 자리표시자, 102x150)를
+   실제 사진으로 대체. 크기는 원본 자리표시자와 동일하게 맞춤
+   ========================================================= */
+
+.side-banner .wing-image {
+  width: 102px;
+  height: 150px;
+
+  border: 1px solid #d0d0d4;
+  border-radius: 2px;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   5. 반응형
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .search-body {
+    flex-direction: column;
+  }
+
+  .search-filter {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .search-product-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+
+  .search-product-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 10px;
+  }
+}

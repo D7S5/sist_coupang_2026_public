@@ -1,0 +1,387 @@
+@charset "UTF-8";
+
+/* ==========================================
+   1. 기본 초기화 및 변수 설정
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --coupang-blue: #346aff;
+    --coupang-red: #f43142;
+    --link-blue: #0073e9;
+    --text-black: #111;
+    --text-gray: #888;
+    --line-gray: #ccc;
+    --bg-gray: #f2f2f2;
+}
+
+body {
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    color: var(--text-black);
+    background-color: var(--bg-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 전체 로그인 감싸는 레이아웃 */
+.login-wrapper {
+    width: 460px;
+    background: #fff;
+    padding: 40px 30px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   2. 상단 로고 스타일 (크기 적정 조절)
+   ========================================== */
+/* ==========================================
+   GoodPang 여름 트로피컬 오렌지 그라데이션 로고
+   ========================================== */
+.login-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-header .logo {
+    display: inline-block;
+}
+
+.login-header .logo a {
+    text-decoration: none !important;
+    font-size: 42px; /* 로고를 살짝 더 키워 청량감 강조 */
+    font-weight: 900;
+    font-family: 'Montserrat', 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    letter-spacing: -2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.login-header .logo a .brand-goodpang {
+    /* 여름 느낌의 상큼한 오렌지 -> 옐로우 그라데이션 */
+    background: linear-gradient(135deg, #ff9f43 0%, #ff6b6b 30%, #ff9f43 60%, #ffca5e 100%);
+    background-size: 200% auto;
+    
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    
+    /* 텍스트가 밝아서 가독성을 위해 아주 연한 그림자만 추가 */
+    filter: drop-shadow(0px 2px 2px rgba(255, 159, 67, 0.2));
+    
+    /* 빛이 스르륵 지나가는 애니메이션 */
+    animation: summerShine 3s linear infinite;
+}
+
+/* 여름 햇살처럼 빛이 퍼지는 애니메이션 */
+@keyframes summerShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* ==========================================
+   3. 탭 메뉴 스타일
+   ========================================== */
+.login-tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 0;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text-gray);
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+
+.tab-btn.active {
+    color: var(--coupang-blue);
+    border-bottom: 2px solid var(--coupang-blue);
+    margin-bottom: -2px;
+}
+
+.badge-n {
+    display: inline-block;
+    background-color: var(--coupang-red);
+    color: #fff;
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-left: 2px;
+}
+
+/* ==========================================
+   4. 폼 및 입력창 스타일 (아이콘 크기 정상화)
+   ========================================== */
+.auth-form {
+    display: none; /* 기본 숨김 */
+}
+
+.auth-form.active-form {
+    display: block; /* 활성화된 폼만 표시 */
+}
+
+.form-desc {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+/* 입력 필드 */
+.input-group input {
+    width: 100%;
+    height: 46px;
+    padding: 0 40px 0 40px; /* 좌측 아이콘, 우측 버튼 자리 여백 */
+    font-size: 14px;
+    border: 1px solid var(--line-gray);
+    border-radius: 2px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: var(--coupang-blue);
+}
+
+/* 좌측 아이콘 (18px 고정) */
+.input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+}
+
+/* 우측 X (삭제) 및 비밀번호 토글 버튼 */
+.btn-clear, .btn-toggle-pw {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* 자동 로그인 & 링크 옵션 */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0 20px 0;
+    font-size: 13px;
+}
+
+.auto-login-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #555;
+}
+
+.auto-login-label input {
+    margin-right: 6px;
+}
+
+.find-link {
+    color: var(--link-blue);
+    text-decoration: none;
+}
+
+.find-link:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================
+   5. 버튼 및 구분선
+   ========================================== */
+.btn-submit {
+    width: 100%;
+    height: 48px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.btn-blue {
+    background-color: var(--coupang-blue);
+    color: #fff;
+    border: none;
+}
+
+.btn-blue:hover {
+    background-color: #0052cc;
+}
+
+.btn-outline {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-passkey {
+    background-color: #f7f7f7;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.divider {
+    text-align: center;
+    position: relative;
+    margin: 20px 0;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #e5e5e5;
+    z-index: 1;
+}
+
+.divider span {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #888;
+}
+
+/* ==========================================
+   6. QR 로그인 영역
+   ========================================== */
+.qr-container {
+    text-align: center;
+    padding: 10px 0 20px;
+}
+
+.qr-info h3 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.qr-steps {
+    text-align: left;
+    font-size: 12px;
+    color: #666;
+    margin: 0 auto 15px auto;
+    display: inline-block;
+    padding-left: 20px;
+}
+
+.qr-steps li {
+    margin-bottom: 4px;
+}
+
+.qr-number-box {
+    display: inline-block;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--coupang-blue);
+    background: #f0f5ff;
+    border: 1px dashed var(--coupang-blue);
+    padding: 6px 24px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.qr-notice {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.qr-code-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.qr-img {
+    width: 140px;
+    height: 140px;
+    border: 1px solid #eee;
+    padding: 5px;
+    margin-bottom: 8px;
+}
+
+.qr-timer {
+    font-size: 13px;
+    color: #666;
+}
+
+.qr-timer strong {
+    color: var(--coupang-red);
+}
+
+/* 푸터 */
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 11px;
+    color: #999;
+}
+
+
+
+.login-error {
+    margin-bottom: 14px;
+    padding: 12px 14px;
+
+    border: 1px solid #e7223d;
+    border-radius: 4px;
+
+    background-color: #fff5f6;
+
+    color: #e7223d;
+    font-size: 13px;
+    line-height: 1.4;
+}

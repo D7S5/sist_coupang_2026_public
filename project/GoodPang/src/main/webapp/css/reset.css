@@ -1,0 +1,115 @@
+/* =========================================================
+   reset.css — 브라우저 기본 스타일 지우기
+
+   왜 필요하냐면:
+   브라우저는 h1을 크게, ul에 점(•)을, body에 여백 8px를 자동으로 넣어줌.
+   근데 브라우저마다 그 값이 조금씩 달라서 화면이 다르게 보임.
+   그래서 시작할 때 전부 0으로 밀어놓고 직접 정하기 
+   ========================================================= */
+
+/* 모든 요소의 여백 제거 + box-sizing 통일 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;   /* ★ 중요! width에 padding/border를 포함시킴 */
+}
+/* box-sizing 설명:
+   기본값(content-box)은 width:100px + padding:10px = 실제 120px 이 됨 (헷갈림!)
+   border-box로 바꾸면 padding을 넣어도 실제 너비가 100px 그대로 유지됨 */
+
+/* =========================================================
+   ★ 폰트는 쿠팡 원본과 "글자 하나까지" 똑같이 맞춰야 함 (2026-08-03 수정)
+
+   왜 중요하냐면:
+   폰트가 다르면 글자 폭이 달라짐 → 줄바꿈 위치가 달라짐
+   → 줄 수가 달라짐 → 세로 간격이 전부 어긋남.
+   "간격이 조금 다른데?" 의 진짜 원인이 폰트였음.
+
+   font-family는 "이 폰트 없으면 다음 거" 순서로 찾아가는 목록이야.
+   이 컴퓨터(Windows)에서 실제로 뭐가 걸리는지 확인해보면:
+
+     Apple SD Gothic Neo  → 없음 (맥 전용 폰트)
+     Noto Sans TC         → 없음 (대만 중국어용)
+     Noto Sans JP         → 없음 (일본어용)
+     Noto Sans KR         → ★있음! 여기서 멈춤
+
+   전에 쓰던 목록은 2번째가 Malgun Gothic이라 "맑은 고딕"으로 렌더링됐음.
+   원본과 아예 다른 폰트였던 거야.
+
+   ※ 맥에서 열면 Apple SD Gothic Neo가 걸려서 또 살짝 달라 보임 —
+     이건 쿠팡 원본도 똑같으니 정상이야.
+   ========================================================= */
+body {
+  font-family: "Apple SD Gothic Neo", "Noto Sans TC", "Noto Sans JP",
+               "Noto Sans KR", "Noto Sans", Roboto, "Helvetica Neue",
+               Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;   /* 원본 html { line-height: 1.5 } 와 동일. 전엔 1.4였음 */
+  color: #111;
+  background: #fff;
+}
+
+/* 목록의 점(•) / 번호 제거 */
+ul, ol, menu {
+  list-style: none;
+}
+
+/* 링크의 파란색 + 밑줄 제거 */
+a {
+  color: inherit;          /* 부모 글자색 물려받기 */
+  text-decoration: none;
+}
+
+/* 제목 크기/굵기 초기화 (h1이 자동으로 커지는 것 막기) */
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: normal;
+}
+
+/* 이미지 아래 생기는 이상한 4px 틈 제거
+   (2026-08-05 수정) 전엔 vertical-align:top(inline 유지)만 썼는데,
+   img가 inline이면 글자 취급을 받아서 기준선(baseline) 아래 여백이 계속 생김.
+   히어로 썸네일 / 아이콘메뉴 / GNB 아이콘에서 매번 같은 문제가 터져서
+   섹션마다 `.어쩌구 img { display: block }` 을 땜빵으로 추가해왔음.
+   원본(Tailwind Preflight)도 img를 아예 block으로 깔아두길래 여기서 한 번에 맞춤.
+   → 이제 새 섹션 만들 때 img 여백 문제가 안 나옴. 기존 땜빵들은 지워도 됨(중복이라 안 지워도 무해) */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* 입력창/버튼도 우리 폰트 쓰게 */
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* 표의 칸 사이 간격 제거 */
+table {
+  border-collapse: collapse;
+}
+
+/* address 태그의 기울임(italic) 제거 */
+address {
+  font-style: normal;
+}
+
+/* =========================================================
+   화면에는 안 보이지만 화면낭독기는 읽어주는 클래스
+   시맨틱 태그(h2 등)를 넣어야 하는데 디자인상 안 보여야 할 때 씀
+   사용법: <h2 class="blind">오늘의 추천</h2>
+   ========================================================= */
+.blind {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}

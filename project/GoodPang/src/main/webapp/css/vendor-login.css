@@ -1,0 +1,421 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  color: #111;
+  font-family:
+    Arial,
+    "Noto Sans KR",
+    "Malgun Gothic",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* 배경 — coupang wing 그라데이션 + 아이콘 패턴 */
+
+.wing-bg {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 60px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(circle at 20% 15%, #3f7dff 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, #1b4fd6 0%, transparent 50%),
+    linear-gradient(160deg, #2e6bff 0%, #1a4fe0 60%, #123fc0 100%);
+
+  overflow: hidden;
+}
+
+/* 배경 위 흰색 아이콘 원 장식 — 실제 아이콘 이미지 대신 원형 점으로 단순화 */
+
+.wing-deco {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, .16) 0 22px, transparent 23px);
+  background-repeat: repeat;
+  background-size: 130px 130px;
+  background-position:
+    0 0,
+    65px 65px;
+
+  opacity: .5;
+}
+
+/* 뒤로가기 버튼 */
+
+.back-button {
+  position: absolute;
+
+  top: 24px;
+  left: 24px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+
+  z-index: 2;
+
+  transition: background-color .15s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, .28);
+}
+
+.back-arrow {
+  width: 9px;
+  height: 9px;
+
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+
+  transform: rotate(45deg);
+  margin-left: 3px;
+}
+
+/* 로그인 카드 */
+
+.vendor-login {
+  position: relative;
+
+  width: 400px;
+  max-width: 100%;
+
+  padding: 44px 40px 36px;
+
+  background: #fff;
+  border-radius: 6px;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+
+  z-index: 1;
+}
+
+/* 로고 */
+
+.logo-area {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.brand-wing {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+
+  text-decoration: none;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+}
+
+.brand-coupang {
+  color: #111;
+}
+
+.brand-wing-text {
+  color: #ff6a3d;
+}
+
+/* 제목 */
+
+.title {
+  margin: 0 0 24px;
+
+  color: #111;
+
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+/* 입력창 */
+
+.field {
+  width: 100%;
+  margin: 0 0 10px;
+}
+
+.input {
+  display: block;
+
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #ccc;
+  border-radius: 2px;
+
+  outline: none;
+
+  background: #fff;
+  color: #111;
+
+  font-size: 14px;
+  line-height: 48px;
+
+  transition: border-color .15s ease;
+}
+
+.input::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.input:hover {
+  border-color: #aaa;
+}
+
+.input:focus {
+  border-color: #888;
+}
+
+.input.invalid {
+  border-color: #e52528;
+}
+
+/* 에러 메시지 */
+
+.message {
+  display: none;
+
+  margin: 2px 0 12px;
+
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.message.show {
+  display: block;
+}
+
+.message.error {
+  color: #e52528;
+}
+
+/* 로그인 버튼 */
+
+.submit {
+  display: block;
+
+  width: 100%;
+  height: 50px;
+
+  margin-bottom: 16px;
+
+  border: 0;
+  border-radius: 2px;
+
+  background: #346aff;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  text-align: center;
+
+  transition: background-color .15s ease;
+}
+
+.submit:hover {
+  background: #2557db;
+}
+
+.submit:active {
+  background: #1e49c2;
+}
+
+/* 아이디/비밀번호 찾기 */
+
+.find-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin-bottom: 4px;
+}
+
+.find-link {
+  color: #555;
+
+  font-size: 13px;
+
+  text-decoration: none;
+}
+
+.find-link:hover {
+  text-decoration: underline;
+}
+
+.find-divider {
+  color: #ccc;
+  font-size: 12px;
+}
+
+/* 구분선 */
+
+.divider {
+  position: relative;
+
+  margin: 24px 0 16px;
+
+  text-align: center;
+}
+
+.divider::before {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+  left: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background: #eee;
+}
+
+.divider span {
+  position: relative;
+
+  padding: 0 12px;
+
+  background: #fff;
+
+  color: #999;
+  font-size: 12px;
+}
+
+/* 판매자 회원가입 버튼 */
+
+.signup-button {
+  display: block;
+
+  width: 100%;
+  height: 50px;
+
+  border: 1px solid #346aff;
+  border-radius: 2px;
+
+  background: #fff;
+  color: #346aff;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 48px;
+
+  text-align: center;
+  text-decoration: none;
+
+  transition: background-color .15s ease;
+}
+
+.signup-button:hover {
+  background: #f2f6ff;
+}
+
+/* 하단 */
+
+.footer {
+  margin-top: 26px;
+
+  text-align: center;
+}
+
+.cs-line {
+  margin: 0 0 8px;
+
+  color: #555;
+
+  font-size: 12px;
+}
+
+.cs-line strong {
+  color: #111;
+}
+
+.privacy-link {
+  display: block;
+
+  margin-bottom: 14px;
+
+  color: #999;
+
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lang-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #777;
+  font-size: 12px;
+}
+
+.lang-caret {
+  width: 0;
+  height: 0;
+
+  margin-left: 2px;
+
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #aaa;
+}
+
+/* 모바일 */
+
+@media (max-width: 480px) {
+
+  .wing-bg {
+    padding: 40px 16px;
+  }
+
+  .vendor-login {
+    padding: 36px 24px 28px;
+  }
+}

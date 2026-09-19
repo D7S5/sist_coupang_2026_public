@@ -1,0 +1,1969 @@
+/* =========================================================
+   main.css — 메인페이지(index.html) 에서만 쓰는 스타일
+
+   헤더/푸터는 common.css 에 있음. 여기는 본문만!
+   ========================================================= */
+
+
+/* 본문 전체를 감싸는 상자
+
+   ★ 2026-08-04 수정: 여기에 max-width 를 걸면 안 됨.
+     히어로 배너가 화면 끝에서 끝까지 깔려야 하는데 1020px 로 묶어버리면 못 함.
+
+     원본을 확인해보니 .home-page 는 CSS 규칙이 아예 없고
+     margin:auto + 아래 여백 40px 뿐이었음.
+     1020px 폭은 각 섹션이 스스로 잡음:
+       .main-today__selected-product { width: 1020px }
+       .today-discovery             { max-width: 1020px }  */
+.home-page {
+  margin: 0 auto 40px;
+}
+
+
+/* --- 본문 컬럼 + 날개배너 자리 (2026-08-06 추가) ---
+   원본: div.fw-flex.fw-justify-center > [본문컬럼, .right-bar-placeholder]
+
+   원본 실측(1011px 화면): 부모 996 / 본문 849 @20 / 자리표시 107 @889 */
+.content-row {
+  display: flex;
+  justify-content: center;
+}
+
+.content-col {
+  /* flex:1 이면 남는 공간을 다 먹되 max-width 로 1020 에서 멈춤.
+     min-width:0 이 없으면 flex 아이템이 내용물보다 안 줄어들어서 자리표시가 밀려남 */
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: var(--content-width);   /* 1020px */
+
+  /* 원본 class: `ml-[16px]` / `s600:ml-[20px] s600:mr-[20px]` / `s1024:mr-[24px]`
+     → 1024px 이상만 오른쪽이 24px. 아래 5장에서 좁은 화면 값을 덮어씀 */
+  margin: 0 24px 0 20px;
+}
+
+/* 폭만 차지하는 빈 상자. 높이 1px 라 세로로는 아무 영향 없음.
+   min-width 가 화면 폭에 따라 달라짐 — 아래 5장 반응형 참고 (원본 값 그대로) */
+.right-bar-placeholder {
+  flex: none;
+  height: 1px;
+  min-width: 0;   /* 1308px 이상에서는 본문 옆 여백이 충분해서 자리를 안 비워도 됨 */
+}
+
+
+/* =========================================================
+   1. 히어로 배너 (.main-today) — 높이 450px
+
+   배경 이미지 6장을 position:absolute 로 같은 자리에 겹쳐 쌓아두고
+   그중 1장만 보이게 하는 구조. JS가 .is-on 을 옮기면 슬라이드가 됨.
+
+   상자가 두 겹인 이유:
+     .main-today                    화면 전체 폭  ← 배경이 여기 깔림
+     .main-today__selected-product  가운데 1020px ← 썸네일이 여기 오른쪽에 붙음
+   ========================================================= */
+.main-today {
+  position: relative;
+  width: 100%;
+
+  /* ★ 2026-09-03 추가 — 안쪽 .main-today__selected-product 가 1020px 고정이라
+     창을 1020px 아래로 줄이면 문서는 1020 인데 이 상자만 뷰포트 폭(예: 985)이 됐음.
+     그래서 배경(.main-today__bg 는 width:100%)이 35px 모자라 오른쪽 끝에 맨바닥이 드러남.
+     배너 폭 1020 고정은 원본과 같으므로 그대로 두고, 배경이 깔릴 바닥만 안 줄어들게 함 */
+  min-width: 1020px;
+
+  height: 450px;
+  background: #fafafa;   /* 이미지가 뜨기 전까지 보일 바탕색 */
+}
+
+.main-today__bg {
+  position: absolute;   /* 6장이 서로 자리를 차지하지 않고 포개짐 */
+  width: 100%;
+  height: 450px;
+  display: none;        /* 기본은 전부 숨김 */
+
+  /* object-fit: cover = 비율을 유지한 채 상자를 꽉 채우고, 넘치는 부분은 잘라냄.
+     이게 없으면 가로세로가 억지로 늘어나서 사람 얼굴이 찌그러짐 */
+  object-fit: cover;
+}
+
+/* 지금 보여줄 1장 */
+.main-today__bg.is-on {
+  display: block;
+}
+
+.main-today__selected-product {
+  position: relative;
+  width: 1020px;
+  height: 450px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* 배너 클릭용 투명 링크 (배경과 똑같이 6장을 겹쳐둠) */
+.main-today__img-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.main-today__img-container a {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.main-today__img-container a.is-on {
+  display: block;
+}
+
+
+/* --- 오른쪽 위 썸네일 목록 (180 x 60 짜리 6장) --- */
+.main-today--thumb-nails {
+  position: absolute;
+  top: 45px;
+  right: 10px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, .3);
+}
+
+.main-today--thumb-nails a {
+  display: block;
+}
+
+/* (2026-08-05) img { display:block } 이 reset.css 전역으로 올라가서
+   여기 있던 땜빵은 이제 필요 없음. 기록만 남겨둠 — 지웠던 이유가 궁금하면 reset.css 참고 */
+
+.todayshot-right-thumbnail {
+  position: relative;
+}
+
+/* 썸네일 위에 덮어씌우는 테두리.
+   border-color 에 값을 2개 쓰면 "위아래 / 좌우" 순서로 적용됨 → 위아래 회색, 좌우 흰색 */
+.todayshot-right-thumbnail .mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eee #fff;
+}
+
+/* 맨 위/맨 아래는 바깥쪽 회색선을 지움 (목록 테두리가 두꺼워 보이지 않게) */
+.todayshot-right-thumbnail.first-item .mask { border-top-color: #fff; }
+.todayshot-right-thumbnail:last-child .mask { border-bottom-color: #fff; }
+
+/* 지금 보고 있는 배너의 썸네일 */
+.todayshot-right-thumbnail.today-selected .mask {
+  border: 2px solid #4285f4;
+}
+
+
+/* ★ 임시 ★ images/banners/ 에 이미지를 넣기 전까지만 쓰는 규칙.
+   이미지가 없으면 배너 영역이 뭐가 뭔지 안 보여서 색으로 자리를 표시해둔 것.
+   → 이미지 12장을 다 넣으면 이 블록만 통째로 지우면 됨
+
+   ★ 6장에 서로 다른 색을 준 이유:
+     전부 같은 색이면 슬라이드가 넘어가도 화면이 안 변해서
+     JS가 제대로 도는지 눈으로 확인할 수가 없음.
+     썸네일도 같은 색으로 맞춰놔서 "몇 번이 선택됐는지" 대응이 보임 */
+.main-today__bg:nth-of-type(1).is-on { background: linear-gradient(120deg, #cfe0ff, #eef3ff); }
+.main-today__bg:nth-of-type(2).is-on { background: linear-gradient(120deg, #ffd6e7, #fff0f6); }
+.main-today__bg:nth-of-type(3).is-on { background: linear-gradient(120deg, #d6f5d6, #f0fff0); }
+.main-today__bg:nth-of-type(4).is-on { background: linear-gradient(120deg, #ffe4c4, #fff6ea); }
+.main-today__bg:nth-of-type(5).is-on { background: linear-gradient(120deg, #e4d6ff, #f5f0ff); }
+.main-today__bg:nth-of-type(6).is-on { background: linear-gradient(120deg, #ccf2f2, #eafafa); }
+
+.main-today--thumb-nails img {
+  outline: 1px solid #d0d0d4;
+}
+.todayshot-right-thumbnail:nth-child(1) img { background: #cfe0ff; }
+.todayshot-right-thumbnail:nth-child(2) img { background: #ffd6e7; }
+.todayshot-right-thumbnail:nth-child(3) img { background: #d6f5d6; }
+.todayshot-right-thumbnail:nth-child(4) img { background: #ffe4c4; }
+.todayshot-right-thumbnail:nth-child(5) img { background: #e4d6ff; }
+.todayshot-right-thumbnail:nth-child(6) img { background: #ccf2f2; }
+
+
+/* =========================================================
+   2. 오늘의 발견 (.today-discovery)
+   원본: ba9b45ac60ee2e99.css 387~515줄
+
+   흰 박스(.discovery-list) 안에 4칸 그리드.
+   큰 배너(half-width) 2개가 1행을 채우고,
+   작은 배너(quarter-width) 4개가 2행을 채움.
+   ========================================================= */
+.today-discovery {
+  position: relative;
+  max-width: 1020px;
+  min-width: 453px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.today-discovery .title {
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 15px;
+}
+
+.today-discovery h2 {
+  height: 33px;
+  color: #000;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 33px;
+}
+
+/* 부제목. 앞에 세로 막대(|)가 ::before 로 붙음 */
+.today-discovery h3 {
+  color: #212b36;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 33px;
+  opacity: .5;
+}
+
+.today-discovery h3::before {
+  content: "";
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  width: 1px;
+  height: 18px;
+  margin: 0 10px;
+  background-color: #212b36;
+  opacity: .5;
+}
+
+.today-discovery .discovery-list {
+  position: relative;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #d6d6d6;
+  overflow: hidden;
+}
+
+.today-discovery .banner-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.today-discovery .banner-list .half-width { grid-column: span 2; }
+.today-discovery .banner-list .quarter-width { grid-column: span 1; }
+
+.today-discovery .banner-list li {
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+}
+
+.today-discovery .banner-list li a {
+  display: block;
+  cursor: pointer;
+}
+
+/* ★ 임시 ★ 진짜 배너 이미지가 없어서 회색 박스로 자리만 잡음.
+   비율은 원본 이미지 크기 그대로 (half 468x298 / quarter 228x298).
+   padding-top 트릭: 가로폭 대비 세로 비율(%)만큼 padding 을 주면
+   내용이 없어도 상자가 그 비율로 늘어남. → 이미지 생기면 이 규칙 지우고
+   <span class="tti-placeholder"> 를 <img class="tti-image"> 로 바꾸면 됨 */
+.today-discovery .tti-placeholder {
+  display: block;
+  width: 100%;
+  padding-top: 63.7%;   /* 298 / 468 */
+  background: #e8e8ea;
+}
+
+.today-discovery .half-width .tti-placeholder { padding-top: 63.7%; }   /* 468x298 */
+.today-discovery .quarter-width .tti-placeholder { padding-top: 130.7%; } /* 228x298 */
+
+/* 왼쪽 아래 "구매하기" 버튼. 평소엔 반투명 검정, hover 하면 파랗게 변하며 글자가 보임 */
+.today-discovery .banner-list li .go-btn {
+  position: absolute;
+  left: 16px;
+  bottom: 17px;
+  min-width: 40px;
+  height: 40px;
+  background-color: rgba(17, 17, 18, .2);
+}
+
+/* ★ `>` 화살표 (2026-08-06 추가) — ref/coupang_main_full.jpeg 를 실제로 보고서야 있는 걸 앎.
+   원본은 SVG(12x13, 흰색 선, right:13px top:14px)를 쓰는데 우리는 이미지가 없어서
+   테두리 2개만 남기고 45도 돌리는 방식으로 그림 (장바구니 › 화살표와 같은 기법).
+   ⚠ hover 에만 나오는 게 아니라 **항상 보임** — "구매하기" 글자만 hover 로 나타남 */
+.today-discovery .banner-list li .go-btn::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 8px;
+  height: 8px;
+  border-color: #fff;
+  border-width: 1px 1px 0 0;
+  border-style: solid;
+  transform: rotate(45deg);
+}
+
+.today-discovery .banner-list li .go-btn p {
+  display: none;
+  height: 40px;
+  margin-left: 16px;
+  margin-right: 33px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 42px;
+  white-space: nowrap;
+}
+
+.today-discovery .banner-list li a:hover .go-btn {
+  background-color: #4285f4;
+}
+
+.today-discovery .banner-list li a:hover .go-btn p {
+  display: inline-block;
+}
+
+/* 카드 전체를 감싸는 테두리. hover 하면 파란 테두리로 바뀜 */
+.today-discovery .banner-list li .mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 1px;
+  left: 0;
+  border: 1px solid #d6d6d6;
+}
+
+.today-discovery .banner-list li a:hover .mask {
+  border: 1px solid #0096e4;
+}
+
+
+/* =========================================================
+   2.5. 개인화 광고 캐러셀 4개 (#personalizedGW) + 띠배너 (2026-08-07 추가)
+
+   ref/coupang_main_full.jpeg 를 실제로 보고서야 있는 걸 알았던 섹션들.
+   원본은 이 4개를 전부 Tailwind 유틸리티 클래스로만 짜놔서(`.carousel-widget-container`
+   같은 껍데기 클래스뿐, 안쪽은 fw-* 뿐) 그대로 옮길 CSS가 없었음.
+   → 화면 구조만 스크린샷에서 실측하고, 우리 클래스 이름으로 새로 만듦.
+
+   4개 다 "제목 줄 + 화살표 캐러셀(한 번에 5개) + 카드" 로 뼈대가 같아서
+   공통 클래스(.ad-carousel / .ad-card)로 묶고 카드 안쪽 배지만 절만 다르게 함:
+     이 상품 놓치지 마세요        → 무료배송/할인 배지
+     지금 이 상품이 필요하신가요?  → 원가 취소선 + 할인율 + 단가
+     오늘의 판매자 특가            → "특가진행중" 빨간 테두리 배지 + 페이지 "1/3"
+     전세계 핫딜 로켓직구 글로벌특가 → "지금 N% 할인 중" 빨간 글자 + 페이지 "1/3"
+
+   ⚠ 상품명·가격·리뷰수는 전부 더미 데이터 (사용자 확인·승인함, 나중에 JSP로 교체 예정)
+   ========================================================= */
+   
+   
+   
+.personalized-gw {
+  margin: 40px auto 0;
+  max-width: var(--content-width);   /* 1020px, 본문 컬럼과 같음 */
+}
+
+/* 캐러셀 하나 = 제목줄 74 + 상품줄 315 + 아래여백 36 = 425 (원본 실측)
+   캐러셀 사이 간격은 45px */
+.ad-carousel {
+  margin-bottom: 45px;
+}
+
+.ad-carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 원본 74px. 제목 글자(33px)보다 훨씬 큰데, 위아래 여백이 이 높이 안에 들어있는 구조 */
+  height: 74px;
+}
+
+.ad-carousel-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* 제목 안 특정 단어만 강조색 (판매자 특가 / 로켓직구 글로벌특가) */
+.ad-carousel-header h2 em {
+  font-style: normal;
+  color: #f43142;
+}
+
+.ad-carousel--global .ad-carousel-header h2 em {
+  color: #8b5cf6;
+}
+
+/* "광고" 표시 — 첫 두 캐러셀에만 있음(개인화 추천 광고) */
+.ad-carousel-header .ad-label {
+  font-size: 12px;
+  color: #999;
+  font-weight: 400;
+}
+
+/* 페이지 "1/3" — 판매자특가 / 로켓직구 두 캐러셀에만 있음 */
+.ad-carousel-header .ad-page {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+}
+
+.ad-carousel-header .ad-page span {
+  font-weight: 400;
+  color: #999;
+}
+
+.ad-carousel-body {
+  position: relative;
+  /* 상품줄 아래 여백. 캐러셀 전체 높이를 원본 425 에 맞추는 값
+     (제목줄 74 + 상품줄 315 + 이 36 = 425) */
+  padding-bottom: 36px;
+}
+
+/* 상품목록과 같은 원리: 전부 숨겨두고 한 페이지(5개)만 .is-on 으로 켬 */
+.ad-list {
+  display: flex;
+}
+
+/* ★ 카드 사이 간격을 gap 이 아니라 카드 자신의 좌우 padding 으로 만듦 (원본 방식).
+     gap:16px 을 쓰면 그 16px 을 뺀 나머지를 5로 나누게 돼서
+     카드가 (1020 - 64) / 5 = 191px 이 됨 — 원본은 1020 / 5 = 204px.
+     padding 으로 하면 칸은 204 그대로고 안쪽 내용만 188 로 좁아져서 원본과 같아짐 */
+.ad-list > li {
+  display: none;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 8px;
+}
+
+.ad-list > li.is-on {
+  display: block;
+}
+
+/* 화살표 — HOT!TREND 상품목록과 같은 스프라이트 재사용.
+   .category-best-unit 범위 밖이라 선택자를 넓혀서 같이 씀 */
+.ad-carousel .move,
+.ad-carousel .dot-navi > li {
+  background-image: url(../images/icons/pc_bestcategory_v2_setting.png);
+  background-repeat: no-repeat;
+}
+
+.ad-carousel .move {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: none;
+  width: 30px;
+  height: 50px;
+  background-position: 0 -13px;
+  cursor: pointer;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.ad-carousel .preview { left: -15px; }
+.ad-carousel .next    { right: -15px; background-position: -50px -13px; }
+
+.ad-carousel-body:hover .move { display: block; }
+.ad-carousel .move.is-off { display: none !important; }
+
+
+/* --- 카드 하나 --- */
+.ad-card a {
+  display: block;
+  font-size: 12px;
+  color: #111;
+}
+
+.ad-card .ad-thumb {
+  display: block;
+  width: 100%;
+  padding-top: 100%;   /* 정사각형 */
+  background: #e8e8ea;
+}
+
+/* 상품명 2줄. 원본 실측: 높이 38px, 줄간격 19px, 썸네일과의 간격 8px */
+.ad-card .ad-name {
+  display: -webkit-box;
+  height: 38px;
+  margin: 8px 0 0;
+  overflow: hidden;
+  line-height: 19px;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.ad-card:hover .ad-name {
+  color: #0073e9;
+  text-decoration: underline;
+}
+
+/* ★ 카드 안 세로 간격은 원본 실측을 그대로 옮긴 것 (2026-08-10)
+     원본 카드(204x315) = 썸네일188 → 8 → 이름38 → 8 → 배지20 → 8 → 가격18 → 8 → 별점14 → 아래4
+     처음엔 눈대중으로 만들어서 카드가 11px 짧았음 */
+
+/* 태그(배지) 한 줄 — 무료배송 / 특가진행중 / 로켓직구, 캐러셀마다 하나만 씀
+
+   ⚠⚠ 이 줄은 **한 캐러셀 안에서 모든 카드에 있거나 모두 없거나** 둘 중 하나여야 함.
+     일부 카드에만 있으면 그 카드들만 가격·별점이 20px 아래로 밀려서 들쭉날쭉해 보임.
+     실제로 "이 상품 놓치지 마세요"가 15장 중 8장에만 배지가 있어서 그렇게 됐었고,
+     사용자가 "가격 나오는 곳이 들쑥날쑥해" 라고 잡아냄 → 나머지 7장에도 넣어서 해결.
+     원본도 마찬가지로 첫 캐러셀 카드 전부에 이 줄이 있음
+     (첫 장만 "무료배송", 나머지는 아이콘 + "지금 N% 할인 중").
+   → 나중에 JSP/DB 로 상품을 받아올 때, 배지가 없는 상품이 섞이면 같은 증상이 다시 남.
+     그때는 배지가 없어도 빈 줄을 그대로 출력하도록 만들 것 */
+.ad-tag {
+  display: inline-block;
+  height: 20px;
+  margin-top: 8px;
+  padding: 0 6px;
+  font-size: 11px;
+  line-height: 20px;
+  border-radius: 2px;
+}
+
+.ad-tag--free   { background: #eef2ff; color: #346aff; }
+.ad-tag--sale   { border: 1px solid #f43142; color: #f43142; }
+.ad-tag--rocket { background: #f3eeff; color: #8b5cf6; }
+
+/* "지금 N% 할인 중" — 로켓직구 캐러셀 전용, 태그가 아니라 빨간 글자 한 줄 */
+.ad-discount-line {
+  height: 20px;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #f43142;
+}
+
+/* 가격 줄 — 원가 취소선(있으면) + 할인율 + 실제 가격 */
+.ad-price {
+  height: 18px;
+  margin-top: 8px;
+  line-height: 18px;
+}
+
+.ad-price del {
+  margin-right: 4px;
+  color: #999;
+  font-size: 11px;
+  text-decoration: line-through;
+}
+
+.ad-price .discount {
+  margin-right: 4px;
+  font-weight: 700;
+  color: #f43142;
+}
+
+.ad-price strong {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: Tahoma, sans-serif;
+}
+
+.ad-unit-price {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #999;
+}
+
+/* 별점 — 진짜 별 이미지가 없어서 유니코드 문자로. 색만 원본 주황(#ff9800)에 맞춤 */
+.ad-rating {
+  height: 14px;
+  margin: 8px 0 4px;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.ad-rating .stars {
+  letter-spacing: -1px;
+  color: #ff9800;
+}
+
+.ad-rating .count {
+  margin-left: 4px;
+  color: #999;
+}
+
+
+/* --- 띠배너 (.gw-line-banners) ---
+   원본은 Swiper 로 1020px 짜리 배너 여러 장을 자동으로 넘김.
+   우리는 히어로 배너와 같은 "여러 장 겹쳐두고 .is-on 만 표시" 방식으로 같은 결과를 냄 */
+.gw-line-banners {
+  position: relative;
+  max-width: var(--content-width);
+  margin: 0 auto 40px;
+  /* ★ 원본 실측 1020 x 146 — 단, tools/original.html 로 재면 60px 이 나옴.
+       배너가 <img> 한 장뿐인데 그 도구가 이미지를 막아놔서 안 잡히는 것.
+       최상단 띠광고 때와 똑같은 함정이라, ref/coupang_main_full.jpeg 에서
+       픽셀을 직접 스캔해 확인함 (x 288~1307 = 폭 1020, y 3639~3784 = 높이 146) */
+  height: 146px;
+  overflow: hidden;
+}
+
+.line-banner {
+  display: none;
+  align-items: center;
+  height: 100%;
+  padding: 0 40px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.line-banner.is-on {
+  display: flex;
+}
+
+.line-banner .desc {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: .85;
+}
+
+/* 화살표는 위 .ad-carousel 것과 같은 스프라이트를 재사용 */
+.gw-line-banners .move,
+.gw-line-banners .move {
+  background-image: url(../images/icons/pc_bestcategory_v2_setting.png);
+  background-repeat: no-repeat;
+}
+
+.gw-line-banners .move {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: none;
+  width: 30px;
+  height: 50px;
+  background-position: 0 -13px;
+  cursor: pointer;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.gw-line-banners .preview { left: 10px; }
+.gw-line-banners .next    { right: 10px; background-position: -50px -13px; }
+.gw-line-banners:hover .move { display: block; }
+.gw-line-banners .move.is-off { display: none !important; }
+
+
+/* --- 맨 아래 CTA 배너 (여행 카테고리 다음 "쿠팡트래블 메가위크" 자리) ---
+   HOT!TREND 카테고리를 18개 다 만들면 그 맨 끝(여행)에 붙는 배너.
+   지금은 카테고리가 5개뿐이라 HOT!TREND 섹션 바로 뒤, 푸터 앞에 임시로 둠 */
+.bottom-cta-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--content-width);
+  height: 90px;
+  margin: 0 auto 40px;
+  padding: 0 32px;
+  background: linear-gradient(90deg, #2b3a67, #4a5aa8);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.bottom-cta-banner .desc {
+  font-size: 13px;
+  font-weight: 400;
+  opacity: .8;
+}
+
+.bottom-cta-banner .arrow {
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   3+4. 상품 카드 (.product-unit) + HOT! TREND (.category-best)
+   원본: e6f22e02aac0aa0b.css 1507~1636줄 (.best-product-list)
+   ★ 제일 많이 재사용되는 조각 — 카드 하나 틀리면 수백 개가 틀림
+   ========================================================= */
+/* ★ 이 섹션은 규칙이 두 파일에 흩어져 있었음 —
+     바깥 틀(.category-best, .sub-title)은 e49d18585ff9aeac.css,
+     유닛 안쪽은 e6f22e02aac0aa0b.css.
+     CLAUDE.md가 경고한 그 함정이라 두 파일을 다 봐야 했음 */
+.category-best {
+  position: relative;
+  max-width: 1020px;
+  min-width: 288px;
+  margin: 0 auto 20px;
+  padding-top: 40px;
+  background-color: #fff;
+}
+
+.category-best > .title {
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 27px;
+  margin-bottom: 2px;
+}
+
+.category-best .sub-title {
+  display: flex;
+  flex-direction: row;
+  color: #000;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  margin-bottom: 20px;
+}
+
+/* 부제목 뒤쪽 h3만 파란색 */
+.category-best .sub-title h3:last-child {
+  color: #3b7dff;
+  margin-left: 5px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   세로 아이콘 레일 (.category-menu)
+   원본: e6f22e02aac0aa0b.css 663~1076줄 / e49d18585ff9aeac.css 121~125줄
+
+   섹션 왼쪽 바깥에 붙어서 스크롤을 따라다니는 36px 세로 줄이야.
+   지금 보고 있는 카테고리 아이콘에 색이 들어오고, 마우스를 올리면
+   가로로 늘어나면서 이름이 나와.
+
+   ★ 원본은 position:absolute 로 놓고 JS가 스크롤할 때마다 top 을 다시 계산해.
+     우리는 CSS 의 position:sticky 로 대신함 — 결과는 같은데 JS 가 필요 없음.
+
+     그런데 sticky 는 "부모 상자 안에서만" 움직일 수 있어서,
+     레일을 그냥 sticky 로 만들면 부모(= 레일 자기 높이)가 짧아서 안 따라다녀.
+     그래서 바깥에 .category-menu-holder 를 하나 두고
+       - holder : position:absolute + top:0 + bottom:0
+                  → 섹션 전체 높이만큼 길쭉하고, 흐름에서 빠져서 자리는 안 차지함
+       - 레일   : 그 안에서 position:sticky
+     이렇게 두 겹으로 만들었어. (흔히 쓰는 "sticky 사이드바" 방법)
+   ───────────────────────────────────────────────────────────── */
+
+.category-menu-holder {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* 원본은 레일에 margin-left:-48px 를 줘서 섹션 왼쪽 바깥으로 빼냄.
+     우리는 holder 를 absolute 로 놓으므로 left 로 같은 자리를 잡음.
+     1500px 미만에서는 .category-best 에 padding-left:48px 가 생겨서
+     그만큼 안쪽으로 들어와야 하므로 아래 5장(반응형)에서 left 를 0 으로 바꿈 */
+  left: -48px;
+  width: 36px;
+  /* holder 는 섹션 전체를 덮는 길쭉한 투명 상자라서, 그대로 두면
+     본문 왼쪽 클릭을 가로챔. 클릭은 안쪽 레일만 받도록 꺼둠 */
+  pointer-events: none;
+}
+
+.category-menu {
+  position: sticky;
+  /* 화면 위에서 이만큼 떨어진 곳에 멈춤 */
+  top: 100px;
+  z-index: 10;
+  width: 36px;
+  border: 1px solid #ddd;
+  /* 위쪽 선만 지금 카테고리 색. 아직 못 정했을 때를 대비해 기본값 #ddd */
+  border-top: 2px solid var(--cat-color, #ddd);
+  background: #fff;
+  pointer-events: auto;
+}
+
+/* 아이콘 한 칸. 글자는 text-indent 로 화면 밖에 밀어두고 아이콘만 보임 */
+.category-menu .category-anchor {
+  display: block;
+  width: 34px;
+  height: 34px;
+  text-indent: -999em;
+  overflow: hidden;
+  /* 스프라이트 한 장(100 x 1036)에 아이콘 21개가 50px 간격으로 들어있음.
+     왼쪽 절반(x 0)이 검정, 오른쪽 절반(x -50px)이 흰색 버전 */
+  background-image: url(../images/icons/pc_bestcategory_v5.svg);
+  background-repeat: no-repeat;
+}
+
+/* ★ 폭이 늘어나면서 이름이 나오는 건 **마우스를 올렸을 때만**.
+     지금 보고 있는 카테고리(.on)는 색만 바뀌고 34px 그대로야.
+     (원본도 똑같음 — 669줄 규칙에 :hover 만 있고 .on 은 없음.
+      .on 까지 늘리면 활성 아이콘이 계속 본문을 덮어버림) */
+.category-menu .category-anchor:hover {
+  width: 154px;
+  line-height: 34px;
+  text-indent: 42px;      /* 아이콘 옆에 글자가 오도록 */
+  text-align: left;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* 색 입히기는 둘 다 (원본 `.category-anchor.<이름>.on, …:hover` 와 같음) */
+.category-menu .category-anchor:hover,
+.category-menu .category-anchor.on {
+  background-color: var(--cat-color);
+}
+
+/* 아이콘별 위치. y값은 원본 CSS 값 그대로 (스프라이트 칸 = 50px 간격) */
+.category-menu .category-anchor.womanclothe        { background-position: 0 0; }
+.category-menu .category-anchor.womanclothe:hover,
+.category-menu .category-anchor.womanclothe.on     { background-position: -50px 0; }
+
+.category-menu .category-anchor.manclothe          { background-position: 0 -50px; }
+.category-menu .category-anchor.manclothe:hover,
+.category-menu .category-anchor.manclothe.on       { background-position: -50px -50px; }
+
+.category-menu .category-anchor.beauty             { background-position: 0 -100px; }
+.category-menu .category-anchor.beauty:hover,
+.category-menu .category-anchor.beauty.on          { background-position: -50px -100px; }
+
+.category-menu .category-anchor.food               { background-position: 0 -200px; }
+.category-menu .category-anchor.food:hover,
+.category-menu .category-anchor.food.on            { background-position: -50px -200px; }
+
+.category-menu .category-anchor.digital            { background-position: 0 -400px; }
+.category-menu .category-anchor.digital:hover,
+.category-menu .category-anchor.digital.on         { background-position: -50px -400px; }
+
+/* 카테고리를 더 추가할 때 쓸 나머지 좌표 (원본 값):
+     baby -150px / kitchen -250px / living -300px / home_decoration -350px
+     sports -450px / office -500px / pets -550px / book -600px / travel -650px
+     hobby -700px / car -750px / babyfashion -800px / health -850px
+     personal_care -900px / mobile -950px / computer -1000px            */
+
+
+/* --- 카테고리 유닛 (뷰티/여성패션/식품 …) ---
+
+   원본은 카테고리마다 규칙 4개(테두리·글자색·hover·캡션배경)를 따로 씀.
+   18개면 규칙이 72개가 됨. 색만 다르니 CSS 변수 하나로 묶었음.
+   클래스명(.beauty 등)은 원본 그대로라 ref/ 대조에는 지장 없음 */
+/* 색은 전부 원본 값 (e6f22e02aac0aa0b.css 의 `.category-menu.<이름> { border-top: 2px solid … }`).
+   원본 순서: beauty → womanclothe → manclothe → food → home_decoration → digital → … (총 18개) */
+/* 세로 레일(.category-menu)과 그 안 아이콘(.category-anchor)도 같은 색을 쓰므로
+   선택자를 같이 묶었음 */
+.category-best-unit.beauty,
+.category-menu.beauty,
+.category-anchor.beauty         { --cat-color: #7e57c2; }   /* 뷰티 */
+.category-best-unit.womanclothe,
+.category-menu.womanclothe,
+.category-anchor.womanclothe    { --cat-color: #f6699e; }   /* 여성패션 */
+.category-best-unit.manclothe,
+.category-menu.manclothe,
+.category-anchor.manclothe      { --cat-color: #1992df; }   /* 남성패션 */
+.category-best-unit.food,
+.category-menu.food,
+.category-anchor.food           { --cat-color: #ee9200; }   /* 식품 */
+.category-best-unit.digital,
+.category-menu.digital,
+.category-anchor.digital        { --cat-color: #5868be; }   /* 가전디지털 */
+/* 나머지 카테고리를 추가할 땐 이 목록에 한 줄만 더 쓰면 됨. 원본 값 몇 개:
+   .home_decoration / .office / .living / .sports / .health
+   .baby #00aad4 / .mobile #00508e / .computer #92d943 */
+
+.category-best-unit {
+  margin-bottom: 20px;
+  border-top: 2px solid var(--cat-color);
+}
+
+.category-best-unit .category-title,
+.category-best-unit .keyword {
+  color: var(--cat-color);
+}
+
+.category-best-unit .keyword:hover {
+  border-color: var(--cat-color);
+  background-color: var(--cat-color);
+  color: #fff;
+}
+
+.category-best-unit .caption {
+  background-color: var(--cat-color);
+}
+
+/* 가로 3단 배치 */
+.category-best-content {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  border-bottom: 1px solid #ddd;
+}
+
+
+/* --- 왼쪽 칸: 카테고리명 + HOT키워드 --- */
+.category-best-unit .left {
+  display: flex;
+  flex-direction: column;
+  min-width: 148px;
+  height: 601px;
+  padding: 40px 0 20px 20px;
+}
+
+/* ※ 원본은 <dt>/<dd>를 <dl> 없이 써서 .left 자신이 flex 컨테이너였음.
+     우리는 문법을 지키려고 <dl>로 감쌌더니 .left 의 자식이 1개가 돼서
+     space-between 이 걸릴 데가 없어짐.
+     → .left 는 원본대로 flex 로 두고(대조 도구에서 display 가 어긋나지 않게),
+       실제 위아래 벌리기는 안쪽 <dl> 이 맡음. flex:1 로 .left 높이를 다 채움 */
+.category-best-unit .left dl {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+  width: 100%;
+}
+
+.category-best-unit .category-title {
+  margin-bottom: 10px;
+}
+
+.category-best-unit .category-title > .title {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.category-best-unit .category-title .go-category {
+  display: block;
+  font-size: 11px;
+  color: #888;
+}
+
+.category-best-unit .hot-keyword {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.category-best-unit .hot-keyword-title {
+  display: inline-block;
+  padding-bottom: 4px;
+  font-size: 16px;
+  color: #111;   /* 제목은 카테고리 색이 아니라 검정 */
+}
+
+/* 알약 모양 키워드 버튼 */
+.category-best-unit .keyword {
+  display: inline-block;
+  padding: 0 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  line-height: 28px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+
+/* --- 가운데 칸: 세로 광고배너 --- */
+.promotion {
+  position: relative;
+  width: 326px;
+
+  /* ★ `height: 100%` 가 꼭 있어야 함 (원본에도 있음. 2026-08-06 추가)
+     이게 없으면 height 가 auto 라서 **flex 가 이 상자를 세로로 늘림**(align-items 기본값 stretch).
+     그러면 배너가 상품칸 높이(800px 넘음)만큼 길어지고,
+     캡션이 `bottom:58px` 이라 배너 한참 아래에 붙어버림.
+
+     height 를 "auto 가 아닌 값"으로 지정하면 stretch 가 안 걸림.
+     100% 는 부모 높이가 안 정해져 있어서 결국 내용물 높이(=배너 600px)로 계산됨 */
+  height: 100%;
+
+  /* ★ flex 아이템은 자리가 모자라면 기본적으로 "같이 줄어듦"(flex-shrink:1).
+     .left(148) + .promotion(326) + .best-product-list(100%=1020) = 1494px 인데
+     실제 자리는 1020px 이라, 이게 없으면 배너가 326 → 173px 로 찌그러지고
+     캡션 글자가 잘림. 0 을 주면 배너는 안 줄고 오른쪽 상품칸만 줄어들어서
+     1020 - 148 - 326 = 546px → 원본 실측값과 정확히 일치함 */
+  flex-shrink: 0;
+
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  background: #fafafa;
+  text-align: center;
+}
+
+/* ★ 캡션(.caption)의 "기준 상자" 역할 (2026-08-06)
+
+   원본은 이 배너가 Swiper 캐러셀이라 캡션이 **325px 짜리 슬라이드**를 기준으로 잡힘
+   → 캡션 폭이 항상 325 - 20 - 20 = 285px.
+
+   우리는 Swiper 를 안 써서 기준이 `.promotion`(412px 등)이 돼버렸고,
+   그래서 캡션이 배너보다 넓게 퍼졌었음(371~494px).
+   → 링크를 배너 이미지와 같은 325px 로 고정하고 position:relative 를 줘서 기준을 옮김 */
+/* ★ 배너를 여러 장 겹쳐두고 .is-on 한 장만 보여줌 (히어로 배너와 같은 방식).
+   원본은 Swiper 로 가로 슬라이드하지만, 우리는 라이브러리 없이 "한 장만 켜기" 로 함 —
+   화면에 보이는 결과는 같고 코드가 훨씬 단순함 */
+.promotion-link {
+  display: none;
+}
+
+.promotion-link.is-on {
+  display: block;
+}
+
+.promotion-link {
+  position: relative;
+  width: 325px;
+  margin: 0 auto;   /* 배너 칸이 325px 보다 넓어져도 가운데 (원본과 동일) */
+  height: 100%;
+}
+
+/* ★ 임시 ★ 배너 이미지(325x600)가 없어서 회색으로 자리만 잡음.
+   이미지가 생기면 <span class="promo-placeholder"> 를
+   <img width="325" height="600"> 로 바꾸고 이 규칙은 지우면 됨
+
+   ⚠ 예전엔 `height: 100%` 만 줬는데 그게 버그의 원인이었음 (2026-08-06).
+     부모 높이가 안 정해져 있으면 100% 는 auto 가 되고, 안이 빈 <span> 이라 **높이가 0** 이 됨.
+     가로배치일 땐 flex 가 늘려줘서 티가 안 났지만,
+     768px 이하에서 세로로 쌓이면 늘려주는 게 없어서 배너가 **1px** 로 찌그러졌음
+     → 그 위에 `bottom:58px` 캡션이 얹히니 배너 위로 135px 튀어나감.
+
+   → 원본 이미지와 같은 실제 크기(325x600)를 직접 줌.
+     원본도 배너 이미지를 항상 325x600 으로 두고 가운데 정렬함 */
+.promo-placeholder {
+  display: block;
+  width: 100%;      /* 부모(.promotion-link)가 이미 325px 라 그 폭을 그대로 */
+  height: 600px;    /* ← 이 값이 배너 높이를 만듦. 원본 이미지 세로 크기 */
+  background: #e8e8ea;
+}
+
+/* 배너 아래쪽 색깔 캡션 상자. 색은 카테고리마다 다름(--cat-color) */
+.promotion .caption {
+  position: absolute;
+  bottom: 58px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+  display: block;
+  height: 77px;
+  padding: 12px;
+  text-align: center;
+  color: #fff;
+  opacity: .9;
+}
+
+.promotion .caption .promotion-title {
+  display: block;
+  margin-bottom: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 16px;
+}
+
+.promotion .caption .promotion-description {
+  display: block;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+
+/* --- 오른쪽 칸: 상품 3열 ---
+   width:100% 로 크게 잡아두면 flex 가 남는 공간(1020-148-326=546px)까지
+   알아서 줄여줌. 그 안에서 3열이니 한 칸이 약 182px → .product-unit 의
+   max-width:182px 와 정확히 맞물림 */
+.best-product-list {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  padding-bottom: 18px;
+  overflow: hidden;
+  border-left: 1px solid #ddd;
+}
+
+.category-best .prod-list {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+/* ★ 기본은 전부 숨김 — JS 가 현재 페이지 6개만 켬 (원본과 같은 방식).
+   원본도 `.prod-list li { display: none }` 이고, 켤 때 인라인으로 display 를 넣음.
+   "밀어서 스크롤" 이 아니라 "보여줄 것만 켜기" 라서 GNB 화살표보다 훨씬 단순함 */
+.category-best .prod-list li {
+  display: none;
+  flex: 1 1 33.333%;
+  border-bottom: 1px solid #ddd;
+}
+
+/* JS 가 붙이는 클래스 — 이 페이지에 해당하는 상품만 보임 */
+.category-best .prod-list li.is-on {
+  display: block;
+}
+
+
+/* ---------------------------------------------------------
+   상품목록 캐러셀 — 좌우 화살표 + 아래 동그라미 (2026-08-06)
+
+   원본 구조 그대로:
+     .best-product-list
+       ├─ a.move.preview      ← 왼쪽 화살표
+       ├─ a.move.next         ← 오른쪽 화살표
+       ├─ ul.prod-list        ← 상품 (6개씩 한 페이지)
+       └─ ol.dot-navi         ← 페이지 동그라미
+
+   화살표·동그라미는 images/icons/pc_bestcategory_v2_setting.png (100x363) 한 장을
+   잘라서 씀. 좌표는 전부 원본 CSS 값 그대로
+   --------------------------------------------------------- */
+.category-best-unit .move,
+.category-best-unit .dot-navi > li {
+  background-image: url(../images/icons/pc_bestcategory_v2_setting.png);
+  background-repeat: no-repeat;
+}
+
+/* 화살표 — 평소엔 숨어 있다가 목록에 마우스를 올리면 나타남 (원본과 동일) */
+.category-best-unit .move {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: none;
+  width: 30px;
+  height: 50px;
+  background-position: 0 -13px;
+  cursor: pointer;
+
+  /* 글자를 화면 밖으로 밀어서 숨김. 화면낭독기는 읽을 수 있어서 <a> 안 글자를 지우지 않음
+     (원본이 쓰는 방식 그대로) */
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.category-best-unit .preview { left: 0; }
+.category-best-unit .next    { right: 0; background-position: -50px -13px; }
+
+/* ★ 마우스를 올렸을 때만 화살표가 보임 (상품목록 / 세로배너 둘 다) */
+.best-product-list:hover .move,
+.promotion:hover .move { display: block; }
+
+/* 맨 처음/맨 끝이라 더 갈 데가 없으면 아예 감춤 (JS 가 이 클래스를 붙임) */
+.category-best-unit .move.is-off { display: none !important; }
+
+/* 화살표는 상품칸 세로 한가운데. 아래 동그라미 줄(18px)만큼 위로 올림 */
+.best-product-list .move { top: calc(50% - 23px); }
+
+/* --- 페이지 동그라미 --- */
+.category-best-unit .dot-navi {
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  height: 10px;
+  z-index: 1;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0;   /* inline-block 사이 공백 제거 */
+}
+
+.best-product-list .dot-navi { background: #fff; }
+
+.category-best-unit .dot-navi > li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  background-position: 0 -113px;
+  cursor: pointer;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+/* 지금 보고 있는 페이지 */
+.category-best-unit .dot-navi > li.selected {
+  background-position: -50px -113px;
+}
+
+.category-best-unit .dot-navi > li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.product-unit {
+  display: block;
+  max-width: 182px;
+  padding: 22px 0 0 16px;
+  margin: 0 auto;
+  font-size: 12px;
+  color: #111;
+}
+
+/* ★ 임시 ★ 진짜 상품 이미지가 없어서 회색 정사각형으로 자리만 잡음.
+   원본 썸네일은 160x160. 이미지가 생기면
+   <span class="thumb-placeholder"> 를 <img width="160" height="160"> 로 바꾸고
+   이 규칙은 지우면 됨 (아래 .product-unit > img 규칙이 그 자리를 대신 맡음) */
+.product-unit .thumb-placeholder {
+  display: block;
+  width: 100%;
+  padding-top: 100%;   /* 정사각형 */
+  background: #e8e8ea;
+}
+
+.product-unit > img {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.product-unit .name {
+  display: -webkit-box;
+  max-height: 28px;
+  margin: 6px 0 1px;
+  overflow: hidden;
+  line-height: 14px;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+/* ↑ 이 4줄(display~text-overflow) 묶음이 "상품명 2줄 넘으면 … 으로 자르기" 하는 공식.
+     통째로 외워두면 어디서든 씀 */
+
+.product-unit:hover .name {
+  color: #0073e9;
+  text-decoration: underline;
+}
+
+.product-unit .price {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 3px;
+  line-height: 16px;
+  font-size: 11px;
+}
+
+/* 원본에는 vertical-align:-1px 도 있지만 우리는 일부러 뺐음.
+   원본은 <div>로 한 번 감싸서 strong 이 inline 이라 그 값이 먹지만,
+   우리는 strong 이 .price(flex)의 직계자식이라 자동으로 block 이 됨
+   → vertical-align 은 inline 요소 전용이라 아무 일도 안 하는 죽은 코드가 됨.
+   세로 정렬은 .price 의 align-items:center 가 이미 하고 있어서 화면은 동일.
+   (맞추려면 div 를 18개 늘려야 하는데, 원본 구조는 React+Tailwind 사정이라
+    바닐라에서 따라갈 이유가 없다고 판단) */
+.product-unit .price strong {
+  margin-right: 4px;
+  font-size: 14px;
+  font-family: Tahoma;
+}
+/* ↑ 가격 숫자에만 Tahoma 폰트를 따로 준 게 쿠팡 디테일.
+     숫자가 더 또렷하고 넓어 보임 */
+
+/* 로켓배송 / 내일도착 배지.
+   원본은 CDN 스프라이트 이미지 1장을 잘라 씀. 우리는 이미지가 없어서
+   글자 배지로 대체 (색만 원본 로켓 파란색 계열을 따라감) */
+.product-unit .badge-rocket,
+.product-unit .badge-tomorrow {
+  display: inline-block;
+  margin-right: 4px;
+  padding: 1px 4px;
+  font-size: 10px;
+  line-height: 14px;
+  border-radius: 2px;
+}
+
+.product-unit .badge-rocket {
+  color: #fff;
+  background: #346aff;
+}
+
+.product-unit .badge-tomorrow {
+  color: #346aff;
+  background: #eef2ff;
+}
+
+/* ★ 할인율 + 별점 (2026-08-07 추가)
+   나중에 JS/JSP 로 진짜 DB 데이터를 연결할 자리라는 "표시"로 지금은 더미 값을 넣어둠.
+   `.discount` / `.ad-rating` 은 개인화 광고 캐러셀(.ad-card)에서 이미 쓰던 클래스를
+   그대로 재사용 — 새 클래스를 안 늘려도 됨 */
+.product-unit .price .discount {
+  margin-right: 4px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #f43142;
+}
+
+.product-unit .ad-rating {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   5. 반응형
+   ========================================================= */
+
+/* 데스크톱 퍼스트로 전환 (common.css 5장과 같은 방향).
+
+   ⚠ 원본(e6f22e02aac0aa0b.css 1636~1705줄)에 상품카드 반응형 값이 실제로 있음.
+   근데 그대로 못 베낌 — 원본은 .best-product-list 가 부모 폭의 %(50%, 28.57% …)로
+   줄어드는 구조인데, 우리는 .left(148px 고정) + .promotion(326px 고정, flex-shrink:0)
+   + .best-product-list(나머지) 로 짠 3칸 flex 라서 좁아지면 세 칸이 다 못 들어감.
+   → "화면이 좁아지면 세로로 쌓는다"는 원본과 다른 방식을 우리가 판단해서 추가함.
+   상품카드 grid 비율(28.57%, 40%)만 원본 값 그대로 가져옴 */
+
+/* --- 날개배너 자리표시 폭 (원본 값 그대로, 큰 화면 → 작은 화면 순서) ---
+   원본 실측: 1316→0 / 1296→12 / 1196→112 / 1026→122 / 1016→107 / 606→107 / 586→없음
+
+   1186~1307 구간은 고정값이 아니라 계산식 — 화면이 넓어질수록 자리를 조금씩 줄여서
+   1308px 에서 0 이 되게 부드럽게 이어짐 (ba9b45ac60ee2e99.css 353~357줄) */
+@media (max-width: 1307px) {
+  .right-bar-placeholder {
+    min-width: calc(142px - (100vw - 1166px));
+  }
+}
+
+@media (max-width: 1185px) {
+  .right-bar-placeholder {
+    min-width: 122px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .right-bar-placeholder {
+    min-width: 107px;
+  }
+
+  /* 1024px 미만은 좌우 여백이 둘 다 20px (원본 s600:mr-[20px]) */
+  .content-col {
+    margin: 0 20px;
+  }
+}
+
+/* 600px 미만은 날개배너 자체가 사라지므로 자리도 없앰 */
+@media (max-width: 599px) {
+  .right-bar-placeholder {
+    min-width: 0;
+  }
+
+  /* 원본 기본값 `ml-[16px]` — 오른쪽 여백은 없음 */
+  .content-col {
+    margin: 0 0 0 16px;
+  }
+}
+
+
+/* ★★ 1025~1499px — HOT!TREND 가 데스크톱에서도 한 번 더 바뀜 (2026-08-06 추가) ★★
+
+   우리는 모든 데스크톱 폭에서 `left148 + promotion326 + 상품칸546, 3열` 고정이었는데
+   원본은 **1500px 을 기준으로 두 가지 배치**를 씀. 노트북(1366px)은 아래쪽에 해당됨.
+
+   원본 실측:
+     1607px(≥1500) : padding-left 0  / content 1020 / promotion 326 / 상품칸 546 / **3열**(카드 182)
+     1411px(1025~1499): padding-left **48** / content 972 / promotion **412** / 상품칸 412 / **2열**(카드 206)
+
+   ⚠ 이 규칙들은 grep 으로 `.promotion` 을 찾을 때 안 걸렸음 — 미디어쿼리 안에 들어있어서.
+     CSSOM 으로 "이 요소에 실제로 매칭되는 규칙"을 뽑아서 찾아냄 */
+@media (min-width: 1025px) and (max-width: 1499px) {
+  /* 왼쪽 48px 은 세로 아이콘 레일(.category-menu, width:36px) 자리.
+     그 레일은 자리를 차지하지 않으므로 패딩으로 공간을 비워두는 구조 */
+  .category-best {
+    padding-left: 48px;
+  }
+
+  /* 위에서 비워둔 48px 안으로 레일을 들여놓음.
+     absolute 요소의 left:0 은 padding 영역의 시작(= 글자보다 48px 왼쪽)이라
+     이 구간에서는 left 를 0 으로 두면 딱 그 자리에 들어감.
+     (1500px 이상에서는 padding 이 없어서 left:-48px 로 섹션 바깥에 놓임) */
+  .category-menu-holder {
+    left: 0;
+  }
+
+  /* 972 × 50% - 74 = 412 */
+  .promotion {
+    width: calc(50% - 74px);
+  }
+
+  /* (972 - 148) / 2 = 412 */
+  .best-product-list {
+    width: calc((100% - 148px) / 2);
+    height: auto;
+  }
+
+  /* 상품 2열 */
+  .category-best .prod-list li {
+    flex: 1 1 50%;
+  }
+
+  .product-unit {
+    width: 100%;
+    max-width: 100%;
+    min-width: 152.5px;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* 세로 아이콘 레일 숨김.
+     원본에도 같은 규칙이 있음 (e49d18585ff9aeac.css 122~125줄
+     `@media (max-width:1024px) { .category-best .category-menu { display:none!important } }`).
+     이 폭부터는 왼쪽 .left(카테고리명) 도 같이 숨겨지는 구간이라,
+     레일만 남으면 본문 왼쪽에 아이콘 줄이 붕 뜨게 됨 */
+  .category-menu-holder {
+    display: none;
+  }
+
+  /* ★★ 히어로 배너의 `width: 1020px` 는 버그가 아님 (2026-08-06 두 번째 정정) ★★
+
+     처음에 이걸 "가로 스크롤바를 만드는 버그"로 보고 `width:100%` 로 덮어썼는데 **틀렸음.**
+     사용자가 잡아냄: "쿠팡은 브라우저 창을 줄이면 일정 크기 이상 더 줄어들지 않는다."
+
+     원본을 실제로 재보니(tools/original.html, 896px 화면):
+       docScrollWidth 1020  ← 화면이 아무리 좁아져도 1020 에서 멈춤
+       body               881  (화면 폭)
+       .main-today__selected-product  **1020 고정**  ← 이것 때문에 문서가 1020 이 됨
+       .today-discovery / .category-best  734  (화면에 맞춰 줄어듦)
+
+     즉 **가로 스크롤바가 생기는 게 원본의 정상 동작.** 쿠팡 PC 페이지는 1020px 아래로는
+     안 줄어들고 그냥 가로로 스크롤됨. 그래서 여기서 폭을 건드리면 안 됨.
+     (`width:100%` 로 두면 우리 페이지만 360px 까지 줄줄이 줄어들어서 원본과 달라짐) */
+
+  /* ★★ 오늘의 발견 — 칸 수를 바꾸면 안 됨 (2026-08-06 사고) ★★
+     처음에 내가 임의로 4칸 → 2칸으로 바꿨다가 화면이 터졌음.
+
+     왜 터지냐: half-width(468×298)와 quarter-width(228×298)는 **높이가 298로 같음.**
+     그래서 1행(큰 배너 2개)과 2행(작은 배너 4개)의 높이가 딱 맞음.
+     그런데 2칸으로 만들면 quarter 의 폭이 2배가 되고, 비율 유지용 padding-top:130.7% 때문에
+     높이도 2배가 됨 → **418 × 546px 짜리 거대한 세로 상자 4개**가 되어버림.
+
+     원본(ba9b45ac60ee2e99.css 518~546줄)은 **칸 수를 그대로 4칸으로 두고**
+     padding 과 gap 만 16px → 8px 로 줄임. 칸이 좁아지면 배너도 비례해서 같이 작아져서
+     1행·2행 높이가 계속 맞음 */
+  .today-discovery .discovery-list {
+    padding: 8px;
+  }
+
+  .today-discovery .banner-list {
+    gap: 8px;
+  }
+
+  /* ★★ HOT!TREND — "세로로 쌓기"도 내가 지어낸 것이었음 (2026-08-06 정정) ★★
+
+     원본은 1024px 이하에서 세로로 안 쌓음. **왼쪽 칸(.left)을 숨기고 가로배치를 유지함.**
+       e6f22e02aac0aa0b.css 1490줄 → @media(769~1024) { .left { display:none } }
+       e6f22e02aac0aa0b.css 1494줄 → @media(max-768) { .category-best-content{flex-direction:column} .left{display:none} }
+
+     원본 실측(896px 화면): .left 숨김 / .promotion 326 / .best-product-list 408 → 가로 배치 유지 */
+  .category-best-unit .left {
+    display: none;
+  }
+
+  .best-product-list {
+    height: auto;
+    border-left: none;   /* 원본도 이 구간에서 border 제거 */
+  }
+
+  /* 상품 2열 (원본 e6f22e02aac0aa0b.css 1655줄 `flex: 0 0 50%`) */
+  .category-best .prod-list li {
+    flex: 0 0 50%;
+  }
+
+  /* 카드가 칸을 채우게 함 (원본 e6f22e02aac0aa0b.css 1657줄
+     `.product-unit { min-width:148px; max-width:100%; height:auto }`) */
+  .product-unit {
+    min-width: 148px;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* 915~1024px — 이 구간만 promotion/상품칸이 반반 (원본 값)
+   ⚠ 위 max-width:1024 블록보다 "뒤"에 와야 덮어씀 */
+@media (min-width: 915px) and (max-width: 1024px) {
+  .promotion {
+    width: 50%;
+  }
+
+  .best-product-list {
+    width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 세로로 쌓이므로 배너도 화면 전체 폭 (원본 `@media(max-768) .promotion{height:auto; width:100%}`)
+     height:auto — 세로 배치에선 flex 가 늘릴 일이 없으니 내용물(배너 600px) 높이 그대로 */
+  .promotion {
+    width: 100%;
+    height: auto;
+  }
+
+  /* 캡션이 배너 아래쪽에 더 가까이 붙음 (원본 `.promotion-link .caption { bottom:20px }`) */
+  .promotion .caption {
+    bottom: 20px;
+  }
+
+  /* 오늘의 발견 — 제목·여백 줄이기 (원본 ba9b45ac60ee2e99.css 524~542줄 그대로) */
+  .today-discovery {
+    padding-top: 20px;
+  }
+
+  .today-discovery .title {
+    margin-bottom: 10px;
+  }
+
+  .today-discovery h2 { font-size: 18px; }   /* 24px → 18px */
+  .today-discovery h3 { font-size: 14px; }   /* 20px → 14px */
+  .today-discovery h3::before { height: 14px; }   /* 앞의 세로막대도 같이 줄임 */
+
+  /* 배너 위에 얹히는 "구매하기" 버튼도 여백 16px → 8px */
+  .today-discovery .banner-list li .go-btn {
+    left: 8px;
+    bottom: 8px;
+  }
+
+  /* HOT!TREND — 768px 이하에서만 세로로 쌓임
+     (원본 e6f22e02aac0aa0b.css 1497줄 `.category-best-content{flex-direction:column; border:none}`) */
+  .category-best-content {
+    flex-direction: column;
+    border: none;
+  }
+
+  /* .promotion 은 세로로 쌓이면 왼쪽 세로선이 허공에 뜸 */
+  .promotion {
+    border-left: none;
+  }
+
+  /* ★ 768px 이하는 "페이지 넘기기"가 아니라 "손가락으로 밀어 보기" 로 바뀜.
+     그래서 상품을 전부 보여주고, 화살표·동그라미는 숨김
+     (원본 e6f22e02aac0aa0b.css 1668·1689줄에 같은 규칙이 있음) */
+  .category-best .prod-list li {
+    display: block;
+  }
+
+  .best-product-list .move,
+  .best-product-list .dot-navi {
+    display: none !important;
+  }
+
+  /* 상품 → 가로 스크롤 목록으로 (원본과 같은 방식).
+     28.57% ≈ 카드 3.5개가 화면에 걸쳐 보여서 "더 있다"는 게 느껴지는 원본 값 */
+  .category-best .prod-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 18px;   /* 스크롤바가 카드를 가리지 않게 */
+  }
+
+  .category-best .prod-list li {
+    flex: 0 0 28.57%;
+    border-bottom: none;
+  }
+
+  .product-unit {
+    max-width: 100%;
+    min-width: 138px;
+  }
+
+  /* 가격 줄이 좁아서 두 줄로 접히면 보기 안 좋아서 세로로 쌓음 (원본과 동일) */
+  .product-unit .price {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* 600px 미만 — 오늘의 발견 섹션 통째로 숨김 (CLAUDE.md 5장 표) */
+@media (max-width: 600px) {
+  .today-discovery {
+    display: none;
+  }
+
+  /* 화면이 더 좁아지면 카드 하나를 더 크게 (원본 40% 값) */
+  .category-best .prod-list li {
+    flex: 0 0 40%;
+  }
+
+  .product-unit {
+    min-width: 100%;
+  }
+}
+
+
+/* =========================================================
+   5-2. 개인화 광고 캐러셀 반응형 (2026-08-07 추가)
+
+   ★ 어제 이 섹션들을 만들 때 반응형을 아예 안 넣어서, 화면이 좁아지면
+     카드 5개가 계속 한 줄에 욱여넣어져 78px 까지 찌그러졌었음.
+
+   원본은 화면 폭에 따라 **한 줄에 보이는 카드 수**가 달라짐
+   (2c654b8dcffb86bf.css 241~416줄, `.carousel-item` 의 width):
+     ≥1500      20%     → 5개
+     769~1499   25%     → 4개
+     601~768    33.33%  → 3개
+     ≤600       40%     → 2.5개 (반쯤 걸쳐 보여서 "더 있다"는 걸 알려주는 방식)
+
+   ⚠ 우리는 "한 페이지만 켜고 나머지는 끄는" 방식이라 CSS 만으로는 부족함.
+     JS 의 PER_PAGE 도 같이 바뀌어야 해서 js/main.js 의 setupAdCarousel() 이
+     화면 폭을 보고 개수를 정하고, resize 되면 다시 계산하도록 고쳤음
+   ========================================================= */
+
+/* 제목 크기 — 데스크톱은 원본 실측 22px, 768px 이하는 18px
+   (768px 이하 값은 원본 확인이 안 됨. 그 폭에서 22px 이면 두 줄로 넘쳐서 우리가 정한 값) */
+@media (max-width: 768px) {
+  .ad-carousel-header h2 {
+    font-size: 18px;
+  }
+
+  .ad-carousel-header {
+    height: auto;
+    margin-bottom: 12px;
+  }
+
+  /* 띠배너도 같이 낮춤 (배너 이미지가 1020px 기준이라 좁으면 과하게 큼) */
+  .gw-line-banners {
+    height: 90px;
+  }
+
+  .line-banner {
+    padding: 0 20px;
+    font-size: 17px;
+  }
+
+  /* 화면이 좁으면 배너 설명글이 제목을 밀어냄 → 숨김 */
+  .line-banner .desc {
+    display: none;
+  }
+
+  /* 맨 아래 CTA 배너도 같은 이유로 낮추고 글자 줄임 */
+  .bottom-cta-banner {
+    height: 70px;
+    padding: 0 20px;
+    font-size: 17px;
+  }
+
+  .bottom-cta-banner .desc {
+    display: none;
+  }
+}
+
+
+/* ==========================================
+   GoodPang 메인 로고 (31px 유지 & g 잘림 완벽 해결)
+   ========================================== */
+/* 로고 관련 CSS 수정 */
+.logo {
+    display: inline-block;
+    white-space: nowrap; /* 핵심: 글자가 아래로 줄바꿈되지 않도록 강제 방지 */
+}
+.logo a {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline !important; /* 글자 기준선 맞춤 */
+    white-space: nowrap !important;
+    width: max-content !important; /* 콘텐츠 크기만큼 너비 자동 확보 */
+}
+
+.logo span {
+    display: inline-block !important;
+    float: none !important; /* 혹시 float가 걸려있다면 해제 */
+
+    
+    /* 기존 translateY(-4px) 제거 - 부자연스러움 방지 */
+    transform: translateY(-5px);
+    line-height: 1.2 !important; /* 위아래 숨통 확보 */
+
+    /* 💡 g 글자 잘림 방지 핵심: 우측 패딩을 충분히 주어 그라데이션 영역 확장 */
+    padding-right: 15px !important; 
+    padding-left: 2px !important;
+
+    /* 🍊 오렌지 트로피컬 그라데이션 (영역 확장 버전) */
+    background: linear-gradient(135deg, #ff9f43 0%, #ff6b6b 30%, #ff9f43 60%, #ffca5e 100%) !important;
+    background-size: 200% auto !important;
+    
+    /* 💡 핵심 속성: 배경을 패딩 영역까지 꽉 채워서 그라데이션 박스를 글자보다 넓게 만듦 */
+    background-origin: padding-box !important;
+    
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    
+    /* 그림자 효과 - 너무 밝지 않게 조절 */
+    filter: drop-shadow(0px 1px 1px rgba(255, 107, 107, 0.3));
+    
+    /* 햇살 애니메이션 */
+    animation: summerShine 3s linear infinite;
+}
+
+/* span 태그 속성 초기화 및 방해 요소 제거 */
+.logo a span {
+    background: transparent !important;
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+    display: inline !important; /* flex에서 발생할 수 있는 클리핑 문제 방지 */
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 햇살 애니메이션 키프레임 */
+@keyframes summerShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   상품 이미지 (2026-08-20 추가)
+   HTML 은 안 고침. .thumb-placeholder / .ad-thumb 의 회색 배경 위에
+   background-image 만 얹는 방식.
+   교체하려면 images/products/pNNN.jpg 를 같은 이름으로 덮어쓰면 됨
+   ========================================== */
+.product-unit .thumb-placeholder,
+.ad-card .ad-thumb {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.category-best-unit.beauty .prod-list > li:nth-child(1) .thumb-placeholder { background-image: url(../images/products/p001.jpg); }  /* 글로스앤글로우 국내생산 핫컬링 뿌리볼륨 롤브러쉬 1호 16파이 */
+.category-best-unit.beauty .prod-list > li:nth-child(2) .thumb-placeholder { background-image: url(../images/products/p002.jpg); }  /* 코멧 3겹 데코 크린 롤화장지, 30m, 30롤 */
+.category-best-unit.beauty .prod-list > li:nth-child(3) .thumb-placeholder { background-image: url(../images/products/p003.jpg); }  /* 탐사수 무라벨 生수, 500ml, 40개 */
+.category-best-unit.beauty .prod-list > li:nth-child(4) .thumb-placeholder { background-image: url(../images/products/p004.jpg); }  /* 삼다수 무라벨 生수 2L, 12개 */
+.category-best-unit.beauty .prod-list > li:nth-child(5) .thumb-placeholder { background-image: url(../images/products/p005.jpg); }  /* 곰곰 국내산 백미, 10kg, 1개 */
+.category-best-unit.beauty .prod-list > li:nth-child(6) .thumb-placeholder { background-image: url(../images/products/p006.jpg); }  /* 애플 2024 맥북 에어 13 M3, 스페이스 그레이, 256 */
+.category-best-unit.beauty .prod-list > li:nth-child(7) .thumb-placeholder { background-image: url(../images/products/p007.jpg); }  /* 메디힐 티트리 진정 마스크팩 10매 */
+.category-best-unit.beauty .prod-list > li:nth-child(8) .thumb-placeholder { background-image: url(../images/products/p008.jpg); }  /* 보습 히알루론산 수분크림 50ml, 2개 */
+.category-best-unit.beauty .prod-list > li:nth-child(9) .thumb-placeholder { background-image: url(../images/products/p009.jpg); }  /* 데일리 클렌징 폼 150ml, 3개입 */
+.category-best-unit.beauty .prod-list > li:nth-child(10) .thumb-placeholder { background-image: url(../images/products/p010.jpg); }  /* 무향 저자극 선크림 SPF50+ 50ml */
+.category-best-unit.beauty .prod-list > li:nth-child(11) .thumb-placeholder { background-image: url(../images/products/p011.jpg); }  /* 픽싱 파우더 팩트 12g, 21호 */
+.category-best-unit.beauty .prod-list > li:nth-child(12) .thumb-placeholder { background-image: url(../images/products/p012.jpg); }  /* 손상모발 케어 헤어 에센스 100ml */
+.category-best-unit.womanclothe .prod-list > li:nth-child(1) .thumb-placeholder { background-image: url(../images/products/p002.jpg); }  /* 코멧 3겹 데코 크린 롤화장지, 30m, 30롤 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(2) .thumb-placeholder { background-image: url(../images/products/p001.jpg); }  /* 글로스앤글로우 국내생산 핫컬링 뿌리볼륨 롤브러쉬 1호 16파이 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(3) .thumb-placeholder { background-image: url(../images/products/p006.jpg); }  /* 애플 2024 맥북 에어 13 M3, 스페이스 그레이, 256 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(4) .thumb-placeholder { background-image: url(../images/products/p004.jpg); }  /* 삼다수 무라벨 生수 2L, 12개 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(5) .thumb-placeholder { background-image: url(../images/products/p003.jpg); }  /* 탐사수 무라벨 生수, 500ml, 40개 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(6) .thumb-placeholder { background-image: url(../images/products/p005.jpg); }  /* 곰곰 국내산 백미, 10kg, 1개 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(7) .thumb-placeholder { background-image: url(../images/products/p013.jpg); }  /* 여름 냉감 카라 반팔 니트, 아이보리 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(8) .thumb-placeholder { background-image: url(../images/products/p014.jpg); }  /* 하이웨스트 와이드 슬랙스, 블랙 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(9) .thumb-placeholder { background-image: url(../images/products/p015.jpg); }  /* 플리츠 롱스커트, 베이지, 1개 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(10) .thumb-placeholder { background-image: url(../images/products/p016.jpg); }  /* 린넨 셔츠 원피스, 스카이블루 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(11) .thumb-placeholder { background-image: url(../images/products/p017.jpg); }  /* 쿠션 스니커즈 데일리 운동화, 화이트, 235 */
+.category-best-unit.womanclothe .prod-list > li:nth-child(12) .thumb-placeholder { background-image: url(../images/products/p018.jpg); }  /* 여성 크로스백 미니 숄더백, 브라운 */
+.category-best-unit.manclothe .prod-list > li:nth-child(1) .thumb-placeholder { background-image: url(../images/products/p019.jpg); }  /* 무형광 남성 반팔 라운드 티셔츠 3종 세트, 화이트/그레이/블 */
+.category-best-unit.manclothe .prod-list > li:nth-child(2) .thumb-placeholder { background-image: url(../images/products/p020.jpg); }  /* 쿨링 스판 남성 밴딩 슬랙스, 블랙, 1개 */
+.category-best-unit.manclothe .prod-list > li:nth-child(3) .thumb-placeholder { background-image: url(../images/products/p021.jpg); }  /* 데일리 남성 옥스포드 긴팔 셔츠, 라이트블루 */
+.category-best-unit.manclothe .prod-list > li:nth-child(4) .thumb-placeholder { background-image: url(../images/products/p022.jpg); }  /* 경량 남성 러닝화 운동화, 다크그레이, 265 */
+.category-best-unit.manclothe .prod-list > li:nth-child(5) .thumb-placeholder { background-image: url(../images/products/p023.jpg); }  /* 남성 여름 린넨 반바지, 베이지, 1개 */
+.category-best-unit.manclothe .prod-list > li:nth-child(6) .thumb-placeholder { background-image: url(../images/products/p024.jpg); }  /* 대용량 남성 노트북 백팩 15.6인치, 블랙 */
+.category-best-unit.manclothe .prod-list > li:nth-child(7) .thumb-placeholder { background-image: url(../images/products/p025.jpg); }  /* 남성 무지 맨투맨 기모, 차콜, 1개 */
+.category-best-unit.manclothe .prod-list > li:nth-child(8) .thumb-placeholder { background-image: url(../images/products/p026.jpg); }  /* 스판 치노 팬츠 여름용, 베이지 */
+.category-best-unit.manclothe .prod-list > li:nth-child(9) .thumb-placeholder { background-image: url(../images/products/p027.jpg); }  /* 남성 카라 피케 티셔츠 2종, 네이비/화이트 */
+.category-best-unit.manclothe .prod-list > li:nth-child(10) .thumb-placeholder { background-image: url(../images/products/p028.jpg); }  /* 가벼운 남성 여름 자켓, 라이트그레이 */
+.category-best-unit.manclothe .prod-list > li:nth-child(11) .thumb-placeholder { background-image: url(../images/products/p029.jpg); }  /* 남성 5족 세트 발목 양말, 블랙 */
+.category-best-unit.manclothe .prod-list > li:nth-child(12) .thumb-placeholder { background-image: url(../images/products/p030.jpg); }  /* 가죽 벨트 자동버클, 브라운 */
+.category-best-unit.digital .prod-list > li:nth-child(1) .thumb-placeholder { background-image: url(../images/products/p031.jpg); }  /* 노이즈캔슬링 블루투스 무선 이어폰, 화이트 */
+.category-best-unit.digital .prod-list > li:nth-child(2) .thumb-placeholder { background-image: url(../images/products/p032.jpg); }  /* 27인치 QHD 75Hz 컴퓨터 모니터, 블랙 */
+.category-best-unit.digital .prod-list > li:nth-child(3) .thumb-placeholder { background-image: url(../images/products/p033.jpg); }  /* 저소음 BLDC 에어서큘레이터 선풍기, 아이보리 */
+.category-best-unit.digital .prod-list > li:nth-child(4) .thumb-placeholder { background-image: url(../images/products/p034.jpg); }  /* 10000mAh 고속충전 보조배터리 C타입, 그레이 */
+.category-best-unit.digital .prod-list > li:nth-child(5) .thumb-placeholder { background-image: url(../images/products/p035.jpg); }  /* 물걸레 겸용 로봇청소기, 화이트, 1개 */
+.category-best-unit.digital .prod-list > li:nth-child(6) .thumb-placeholder { background-image: url(../images/products/p036.jpg); }  /* 전자동 캡슐 커피머신, 블랙 */
+.category-best-unit.digital .prod-list > li:nth-child(7) .thumb-placeholder { background-image: url(../images/products/p037.jpg); }  /* 가정용 미니 제습기 2L, 화이트 */
+.category-best-unit.digital .prod-list > li:nth-child(8) .thumb-placeholder { background-image: url(../images/products/p038.jpg); }  /* USB C타입 65W 고속 충전기 */
+.category-best-unit.digital .prod-list > li:nth-child(9) .thumb-placeholder { background-image: url(../images/products/p039.jpg); }  /* 게이밍 기계식 키보드 적축, 블랙 */
+.category-best-unit.digital .prod-list > li:nth-child(10) .thumb-placeholder { background-image: url(../images/products/p040.jpg); }  /* 무선 마우스 저소음 블루투스, 그레이 */
+.category-best-unit.digital .prod-list > li:nth-child(11) .thumb-placeholder { background-image: url(../images/products/p041.jpg); }  /* 휴대용 블루투스 스피커 방수, 네이비 */
+.category-best-unit.digital .prod-list > li:nth-child(12) .thumb-placeholder { background-image: url(../images/products/p042.jpg); }  /* 스마트폰 거치대 겸용 무선충전 패드 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(1) .ad-thumb { background-image: url(../images/products/p043.jpg); }  /* 저자극 약산성 폼클렌저 300ml, 1개 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(2) .ad-thumb { background-image: url(../images/products/p044.jpg); }  /* 보습 크림 앰플 세럼 50ml, 2개 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(3) .ad-thumb { background-image: url(../images/products/p045.jpg); }  /* 진정 판테놀 수딩젤 300ml, 1개 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(4) .ad-thumb { background-image: url(../images/products/p046.jpg); }  /* 콜라겐 리프팅 마스크팩 10매, 1box */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(5) .ad-thumb { background-image: url(../images/products/p010.jpg); }  /* 무향 저자극 선크림 SPF50+ 50ml */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(6) .ad-thumb { background-image: url(../images/products/p047.jpg); }  /* 브라이트닝 앰플 세트 3종 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(7) .ad-thumb { background-image: url(../images/products/p048.jpg); }  /* 수분 진정 토너패드 70매 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(8) .ad-thumb { background-image: url(../images/products/p049.jpg); }  /* 탄력 넥크림 목주름 케어 50ml */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(9) .ad-thumb { background-image: url(../images/products/p050.jpg); }  /* 저자극 클렌징 오일 200ml */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(10) .ad-thumb { background-image: url(../images/products/p051.jpg); }  /* 비타민C 브라이트닝 세럼 30ml */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(11) .ad-thumb { background-image: url(../images/products/p052.jpg); }  /* 모공 케어 클레이 마스크 100ml */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(12) .ad-thumb { background-image: url(../images/products/p053.jpg); }  /* 약산성 바디워시 500ml, 2개 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(13) .ad-thumb { background-image: url(../images/products/p054.jpg); }  /* 데일리 립밤 3종 세트 */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(14) .ad-thumb { background-image: url(../images/products/p055.jpg); }  /* 각질 제거 필링 젤 150ml */
+.personalized-gw > div:nth-of-type(1) .ad-list > li:nth-child(15) .ad-thumb { background-image: url(../images/products/p056.jpg); }  /* 수분 아이크림 30ml, 1개 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(1) .ad-thumb { background-image: url(../images/products/p057.jpg); }  /* 휴대용 미니 가습기 350ml, 화이트 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(2) .ad-thumb { background-image: url(../images/products/p058.jpg); }  /* 저소음 탁상용 선풍기, 그레이 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(3) .ad-thumb { background-image: url(../images/products/p059.jpg); }  /* 무선 충전 마우스패드 세트 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(4) .ad-thumb { background-image: url(../images/products/p060.jpg); }  /* 스탠드형 전신 거울 40x150cm */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(5) .ad-thumb { background-image: url(../images/products/p061.jpg); }  /* 접이식 캠핑 테이블 미니, 카키 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(6) .ad-thumb { background-image: url(../images/products/p062.jpg); }  /* 실리콘 다회용 지퍼백 5종 세트 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(7) .ad-thumb { background-image: url(../images/products/p063.jpg); }  /* USB 미니 청소기 무선 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(8) .ad-thumb { background-image: url(../images/products/p064.jpg); }  /* 휴대용 보조배터리 10000mAh */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(9) .ad-thumb { background-image: url(../images/products/p065.jpg); }  /* 원목 트레이 수납함 대형 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(10) .ad-thumb { background-image: url(../images/products/p066.jpg); }  /* 전기 요거트 메이커 1L */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(11) .ad-thumb { background-image: url(../images/products/p067.jpg); }  /* 접이식 빨래 건조대 대형 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(12) .ad-thumb { background-image: url(../images/products/p068.jpg); }  /* LED 스탠드 조명 3단계 밝기 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(13) .ad-thumb { background-image: url(../images/products/p069.jpg); }  /* 욕실 코너 선반 2단 흡착식 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(14) .ad-thumb { background-image: url(../images/products/p070.jpg); }  /* 차량용 컵홀더 확장 트레이 */
+.personalized-gw > div:nth-of-type(2) .ad-list > li:nth-child(15) .ad-thumb { background-image: url(../images/products/p071.jpg); }  /* 발수 코팅 현관 매트 60x40 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(1) .ad-thumb { background-image: url(../images/products/p072.jpg); }  /* 상덕 반려동물 높이조절 2구 식기 스테인리스 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(2) .ad-thumb { background-image: url(../images/products/p073.jpg); }  /* 냉동 오징어링 4kg 소사이즈 튀김 짬뽕 절단 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(3) .ad-thumb { background-image: url(../images/products/p074.jpg); }  /* 라프레슈 카이막 200g 천상의 맛 수제 디저트 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(4) .ad-thumb { background-image: url(../images/products/p075.jpg); }  /* 갈치 튀김용 10마리 1kg 국내산 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(5) .ad-thumb { background-image: url(../images/products/p076.jpg); }  /* 한입 콩가루 크레페 인절미 과자 개별포장 100개 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(6) .ad-thumb { background-image: url(../images/products/p077.jpg); }  /* 국내산 손질 오징어 1kg 냉동 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(7) .ad-thumb { background-image: url(../images/products/p078.jpg); }  /* 제주 감귤 5kg 가정용 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(8) .ad-thumb { background-image: url(../images/products/p079.jpg); }  /* 수제 떡갈비 800g 냉동 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(9) .ad-thumb { background-image: url(../images/products/p080.jpg); }  /* 건조 미역 300g 국내산 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(10) .ad-thumb { background-image: url(../images/products/p081.jpg); }  /* 냉동 만두 왕교자 1.4kg 2봉 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(11) .ad-thumb { background-image: url(../images/products/p082.jpg); }  /* 무항생제 계란 30구 특란 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(12) .ad-thumb { background-image: url(../images/products/p083.jpg); }  /* 수제 유과 선물세트 1kg */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(13) .ad-thumb { background-image: url(../images/products/p084.jpg); }  /* 훈제오리 슬라이스 500g 2팩 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(14) .ad-thumb { background-image: url(../images/products/p085.jpg); }  /* 국산 콩 두부 5모 세트 */
+.personalized-gw > div:nth-of-type(3) .ad-list > li:nth-child(15) .ad-thumb { background-image: url(../images/products/p086.jpg); }  /* 생연어 슬라이스 500g 냉동 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(1) .ad-thumb { background-image: url(../images/products/p087.jpg); }  /* 로지텍 마우스 장패드, 2개, 블랙 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(2) .ad-thumb { background-image: url(../images/products/p088.jpg); }  /* Siemzon 반영구 스텐 수세미 주방 청소 걸레 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(3) .ad-thumb { background-image: url(../images/products/p089.jpg); }  /* SMABAT 무선 블루투스 이어폰 타입C 노이즈캔슬링 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(4) .ad-thumb { background-image: url(../images/products/p090.jpg); }  /* ROUJUN 남여공용 접이식 편광선글라스 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(5) .ad-thumb { background-image: url(../images/products/p091.jpg); }  /* Tiger Pavilion 3단4단5단원터치 접이식 철제 스탠 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(6) .ad-thumb { background-image: url(../images/products/p092.jpg); }  /* 무선 게이밍 키보드 마우스 세트 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(7) .ad-thumb { background-image: url(../images/products/p093.jpg); }  /* 접이식 우산 자동 3단 방풍 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(8) .ad-thumb { background-image: url(../images/products/p094.jpg); }  /* 스마트워치 방수 심박측정 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(9) .ad-thumb { background-image: url(../images/products/p095.jpg); }  /* 차량용 무선충전 거치대 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(10) .ad-thumb { background-image: url(../images/products/p096.jpg); }  /* 휴대용 미니 프린터 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(11) .ad-thumb { background-image: url(../images/products/p097.jpg); }  /* USB C타입 멀티허브 7in1 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(12) .ad-thumb { background-image: url(../images/products/p098.jpg); }  /* 블루투스 스피커 방수 IPX7 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(13) .ad-thumb { background-image: url(../images/products/p099.jpg); }  /* 노트북 파우치 15.6인치 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(14) .ad-thumb { background-image: url(../images/products/p100.jpg); }  /* 무선 이어폰 케이스 실리콘 */
+.personalized-gw > div:nth-of-type(4) .ad-list > li:nth-child(15) .ad-thumb { background-image: url(../images/products/p101.jpg); }  /* 접이식 캠핑 의자 초경량 */
+
+
+/* ==========================================
+   배너 이미지 (2026-08-20)
+   HTML 은 안 고침. 회색/색상자 자리표시 위에 background-image 만 얹음.
+   !important 가 붙은 곳 = HTML 에 인라인 style 이 있어서 그걸 이겨야 하는 자리
+   ========================================== */
+.today-discovery .tti-placeholder,
+.promotion .promo-placeholder,
+.side-banner .wing-placeholder,
+.coupang-top-banner .top-banner-placeholder,
+.gw-line-banners .line-banner,
+.bottom-cta-banner {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 자리표시용 글자·테두리 숨김 — 진짜 배너에는 글자가 이미 그려져 있음 */
+.side-banner .wing-placeholder { color: transparent; border: 0; }
+.coupang-top-banner .top-banner-placeholder { color: transparent !important; }
+.coupang-top-banner .top-banner-placeholder .arrow { display: none; }
+.gw-line-banners .line-banner > strong,
+.gw-line-banners .line-banner > .desc,
+.bottom-cta-banner > span { display: none; }
+
+/* --- 최상단 띠광고 2 (인라인 style 을 이겨야 해서 !important) --- */
+.coupang-top-banner .banner-middle > a:nth-of-type(1) .top-banner-placeholder { background-image: url(../images/banners/top-1.jpg) !important; }
+.coupang-top-banner .banner-middle > a:nth-of-type(2) .top-banner-placeholder { background-image: url(../images/banners/top-2.jpg) !important; }
+
+/* --- 오늘의 발견 9 (큰 3 + 작은 6) --- */
+.today-discovery .banner-list > li:nth-child(1) .tti-placeholder { background-image: url(../images/banners/disc-h1.jpg); }
+.today-discovery .banner-list > li:nth-child(2) .tti-placeholder { background-image: url(../images/banners/disc-h2.jpg); }
+.today-discovery .banner-list > li:nth-child(3) .tti-placeholder { background-image: url(../images/banners/disc-q1.jpg); }
+.today-discovery .banner-list > li:nth-child(4) .tti-placeholder { background-image: url(../images/banners/disc-q2.jpg); }
+.today-discovery .banner-list > li:nth-child(5) .tti-placeholder { background-image: url(../images/banners/disc-q3.jpg); }
+.today-discovery .banner-list > li:nth-child(6) .tti-placeholder { background-image: url(../images/banners/disc-q4.jpg); }
+.today-discovery .banner-list > li:nth-child(7) .tti-placeholder { background-image: url(../images/banners/disc-h3.jpg); }
+.today-discovery .banner-list > li:nth-child(8) .tti-placeholder { background-image: url(../images/banners/disc-q5.jpg); }
+.today-discovery .banner-list > li:nth-child(9) .tti-placeholder { background-image: url(../images/banners/disc-q6.jpg); }
+
+/* --- HOT!TREND 세로배너 11 --- */
+.category-best-unit.beauty .promotion > a.promotion-link:nth-of-type(1) .promo-placeholder { background-image: url(../images/banners/promo-beauty-1.jpg); }
+.category-best-unit.beauty .promotion > a.promotion-link:nth-of-type(2) .promo-placeholder { background-image: url(../images/banners/promo-beauty-2.jpg); }
+.category-best-unit.beauty .promotion > a.promotion-link:nth-of-type(3) .promo-placeholder { background-image: url(../images/banners/promo-beauty-3.jpg); }
+.category-best-unit.womanclothe .promotion > a.promotion-link:nth-of-type(1) .promo-placeholder { background-image: url(../images/banners/promo-womanclothe-1.jpg); }
+.category-best-unit.womanclothe .promotion > a.promotion-link:nth-of-type(2) .promo-placeholder { background-image: url(../images/banners/promo-womanclothe-2.jpg); }
+.category-best-unit.manclothe .promotion > a.promotion-link:nth-of-type(1) .promo-placeholder { background-image: url(../images/banners/promo-manclothe-1.jpg); }
+.category-best-unit.manclothe .promotion > a.promotion-link:nth-of-type(2) .promo-placeholder { background-image: url(../images/banners/promo-manclothe-2.jpg); }
+.category-best-unit.manclothe .promotion > a.promotion-link:nth-of-type(3) .promo-placeholder { background-image: url(../images/banners/promo-manclothe-3.jpg); }
+.category-best-unit.digital .promotion > a.promotion-link:nth-of-type(1) .promo-placeholder { background-image: url(../images/banners/promo-digital-1.jpg); }
+.category-best-unit.digital .promotion > a.promotion-link:nth-of-type(2) .promo-placeholder { background-image: url(../images/banners/promo-digital-2.jpg); }
+.category-best-unit.digital .promotion > a.promotion-link:nth-of-type(3) .promo-placeholder { background-image: url(../images/banners/promo-digital-3.jpg); }
+
+/* --- 띠배너 3 (앞의 a 2개는 화살표라 nth-of-type 은 3부터) --- */
+.gw-line-banners > a.line-banner:nth-of-type(3) { background-image: url(../images/banners/line-1.jpg) !important; }
+.gw-line-banners > a.line-banner:nth-of-type(4) { background-image: url(../images/banners/line-2.jpg) !important; }
+.gw-line-banners > a.line-banner:nth-of-type(5) { background-image: url(../images/banners/line-3.jpg) !important; }
+
+/* --- 맨 아래 CTA 배너 1 --- */
+.bottom-cta-banner { background-image: url(../images/banners/cta-1.jpg); }
+
+/* --- 날개배너 7 (전부 다른 그림) --- */
+.side-banner .promotion-banner > li:nth-child(1) .wing-placeholder { background-image: url(../images/banners/wing-1.jpg); }
+.side-banner .promotion-banner > li:nth-child(2) .wing-placeholder { background-image: url(../images/banners/wing-2.jpg); }
+.side-banner .promotion-banner > li:nth-child(3) .wing-placeholder { background-image: url(../images/banners/wing-3.jpg); }
+.side-banner .promotion-banner > li:nth-child(4) .wing-placeholder { background-image: url(../images/banners/wing-4.jpg); }
+.side-banner .promotion-banner > li:nth-child(5) .wing-placeholder { background-image: url(../images/banners/wing-5.jpg); }
+.side-banner .promotion-banner > li:nth-child(6) .wing-placeholder { background-image: url(../images/banners/wing-6.jpg); }
+.side-banner .promotion-banner > li:nth-child(7) .wing-placeholder { background-image: url(../images/banners/wing-7.jpg); }
+
+
+/* ==========================================
+   푸터 인증마크 (2026-08-20)
+   HTML 은 안 고침. 점선 자리표시 위에 진짜 마크를 얹음
+   ========================================== */
+.footer-awards .award-placeholder {
+  border: 0;                                    /* 점선 테두리 제거 */
+  color: transparent;                           /* "위해상품 차단시스템" 글자 제거 */
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+}
+.footer-awards .award-placeholder:nth-of-type(1) { background-image: url(../images/icons/award-safe.png); }
+.footer-awards .award-placeholder:nth-of-type(2) { background-image: url(../images/icons/award-pcr.png); }
+
+/* ------------------------------------------------------------------
+   ⏸ 보류 — 2026-08-20 사용자 판단으로 뺌 (이미지는 남겨둠, 나중에 다시)
+
+   카테고리 패널 오른쪽 배너 → 그냥 "배너 영역" 회색 상자로 둠
+   images/banners/gnb-banner.jpg (590x413) 는 그대로 있음
+
+   다시 켜려면 아래 주석을 풀면 됨:
+
+.category-layer .depth::after {
+  content: "";
+  background: #fff url(../images/banners/gnb-banner.jpg) no-repeat center / cover;
+  border-left: 0;
+}
+   ------------------------------------------------------------------ */
+
+/* 푸터 SNS 3개는 2026-09-03 에 적용 완료 — 여기가 아니라 common.css 1955줄 근처에 넣었음.
+   (footer.jsp 는 20개 페이지가 쓰는데 main.css 는 4개 페이지에서만 읽어서) */
+
+
+/* --- 카테고리 패널 왼쪽 아이콘 18개 (원본 스프라이트 icons.03b3790b.png) --- */
+.category-layer .menu > li > a::before {
+  background: url(../images/icons/category-icons.png) no-repeat;
+  border-radius: 0;
+}
+.category-layer .menu > li:nth-child(1) > a::before { background-position: -28px -179px; }  /* 뷰티 */
+.category-layer .menu > li:nth-child(2) > a::before { background-position: -28px -95px; }  /* 여성패션 */
+.category-layer .menu > li:nth-child(3) > a::before { background-position: -28px -137px; }  /* 남성패션 */
+.category-layer .menu > li:nth-child(4) > a::before { background-position: -28px -263px; }  /* 식품 */
+.category-layer .menu > li:nth-child(5) > a::before { background-position: -28px -432px; }  /* 가구/홈인테리어 */
+.category-layer .menu > li:nth-child(6) > a::before { background-position: -28px -474px; }  /* 가전/디지털 */
+.category-layer .menu > li:nth-child(7) > a::before { background-position: -28px -559px; }  /* 문구/오피스 */
+.category-layer .menu > li:nth-child(8) > a::before { background-position: -28px -390px; }  /* 생활용품 */
+.category-layer .menu > li:nth-child(9) > a::before { background-position: -28px -516px; }  /* 스포츠/레저 */
+.category-layer .menu > li:nth-child(10) > a::before { background-position: -28px -937px; }  /* 헬스/건강식품 */
+.category-layer .menu > li:nth-child(11) > a::before { background-position: -28px -221px; }  /* 출산/유아동 */
+.category-layer .menu > li:nth-child(12) > a::before { background-position: -28px -1104px; }  /* 유아동패션 */
+.category-layer .menu > li:nth-child(13) > a::before { background-position: -28px -348px; }  /* 주방용품 */
+.category-layer .menu > li:nth-child(14) > a::before { background-position: -28px -600px; }  /* 반려동물용품 */
+.category-layer .menu > li:nth-child(15) > a::before { background-position: -28px -768px; }  /* 완구/취미 */
+.category-layer .menu > li:nth-child(16) > a::before { background-position: -28px -852px; }  /* 자동차용품 */
+.category-layer .menu > li:nth-child(17) > a::before { background-position: -28px -642px; }  /* 도서/CD/DVD */
+.category-layer .menu > li:nth-child(18) > a::before { background-position: -28px -684px; }  /* 여행 */
+
+/* 마우스 올리면 파란 아이콘으로 (스프라이트 오른쪽 열, +192px) */
+.category-layer .menu > li:nth-child(1):hover > a::before { background-position: -220px -179px; }
+.category-layer .menu > li:nth-child(2):hover > a::before { background-position: -220px -95px; }
+.category-layer .menu > li:nth-child(3):hover > a::before { background-position: -220px -137px; }
+.category-layer .menu > li:nth-child(4):hover > a::before { background-position: -220px -263px; }
+.category-layer .menu > li:nth-child(5):hover > a::before { background-position: -220px -432px; }
+.category-layer .menu > li:nth-child(6):hover > a::before { background-position: -220px -474px; }
+.category-layer .menu > li:nth-child(7):hover > a::before { background-position: -220px -559px; }
+.category-layer .menu > li:nth-child(8):hover > a::before { background-position: -220px -390px; }
+.category-layer .menu > li:nth-child(9):hover > a::before { background-position: -220px -516px; }
+.category-layer .menu > li:nth-child(10):hover > a::before { background-position: -220px -937px; }
+.category-layer .menu > li:nth-child(11):hover > a::before { background-position: -220px -221px; }
+.category-layer .menu > li:nth-child(12):hover > a::before { background-position: -220px -1104px; }
+.category-layer .menu > li:nth-child(13):hover > a::before { background-position: -220px -348px; }
+.category-layer .menu > li:nth-child(14):hover > a::before { background-position: -220px -600px; }
+.category-layer .menu > li:nth-child(15):hover > a::before { background-position: -220px -768px; }
+.category-layer .menu > li:nth-child(16):hover > a::before { background-position: -220px -852px; }
+.category-layer .menu > li:nth-child(17):hover > a::before { background-position: -220px -642px; }
+.category-layer .menu > li:nth-child(18):hover > a::before { background-position: -220px -684px; }
+

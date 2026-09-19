@@ -1,0 +1,295 @@
+@charset "UTF-8";
+
+/* ===============================
+   전체
+================================ */
+* {
+    box-sizing: border-box;
+}
+
+.review-page {
+    width: 900px;
+    margin: 25px auto 60px;
+    color: #111;
+    font-size: 14px;
+}
+
+
+/* ===============================
+   제목
+================================ */
+.review-title {
+    margin: 0;
+    padding: 0 0 15px;
+    border-bottom: 2px solid #333;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* ===============================
+   상품 평가 영역
+================================ */
+.product-review {
+    padding: 24px 0 0;
+}
+
+.product-review > h2 {
+    margin: 0 0 18px;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+/* ===============================
+   상품 정보
+================================ */
+.product-box {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.product-name {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.product-option {
+    margin: 0;
+    color: #777;
+    font-size: 12px;
+}
+
+
+/* ===============================
+   공통 행
+================================ */
+.review-row {
+    display: grid;
+    grid-template-columns: 145px 1fr;
+
+    align-items: start;
+
+    padding: 18px 5px;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.review-row-title {
+    padding-top: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* ===============================
+   별점
+================================ */
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.star {
+    width: 34px;
+    height: 38px;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+
+    color: #ddd;
+
+    font-size: 31px;
+    line-height: 38px;
+
+    cursor: pointer;
+}
+
+.star.active {
+    color: #ff9800;
+}
+
+.star:hover {
+    color: #ff9800;
+}
+
+
+/* ===============================
+   배송 / 서비스 평가
+================================ */
+.service-rating-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.service-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 110px;
+    height: 38px;
+
+    padding: 0 15px;
+
+    border: 1px solid #ccc;
+    border-radius: 20px;
+
+    background: #fff;
+    color: #555;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+}
+
+.service-btn:hover {
+    border-color: #346aff;
+    color: #346aff;
+}
+
+.service-btn.active {
+    border-color: #346aff;
+    background: #f5f8ff;
+
+    color: #346aff;
+    font-weight: 700;
+}
+
+
+/* ===============================
+   한줄 요약
+================================ */
+.review-summary-input {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #ccc;
+
+    font-size: 13px;
+    outline: none;
+}
+
+.review-summary-input:focus {
+    border-color: #346aff;
+}
+
+
+/* ===============================
+   상세 리뷰
+================================ */
+.review-textarea {
+    display: block;
+
+    width: 100%;
+    height: 150px;
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.6;
+
+    resize: vertical;
+    outline: none;
+}
+
+.review-textarea:focus {
+    border-color: #346aff;
+}
+
+
+/* ===============================
+   글자수
+================================ */
+.text-count {
+    grid-column: 2;
+
+    margin-top: 5px;
+
+    color: #999;
+
+    font-size: 11px;
+    text-align: right;
+}
+
+
+/* ===============================
+   하단 버튼
+================================ */
+.review-submit-area {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    padding-top: 25px;
+}
+
+.btn-cancel,
+.btn-submit {
+    width: 130px;
+    height: 42px;
+
+    border-radius: 3px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.btn-cancel {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+}
+
+.btn-cancel:hover {
+    background: #f7f7f7;
+}
+
+.btn-submit {
+    border: 1px solid #346aff;
+    background: #346aff;
+    color: #fff;
+}
+
+.btn-submit:hover {
+    background: #2458d3;
+}
+
+
+/* ===============================
+   반응형
+================================ */
+@media (max-width: 950px) {
+
+    .review-page {
+        width: calc(100% - 30px);
+    }
+
+    .review-row {
+        grid-template-columns: 120px 1fr;
+    }
+}

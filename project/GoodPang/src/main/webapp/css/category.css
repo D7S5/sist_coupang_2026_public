@@ -1,0 +1,1362 @@
+/*
+ * 카테고리 목록 페이지(category_list.jsp) 전용 CSS.
+ * 값 출처: ref/category/원본_실측값.json (실제 coupang.com 을 Playwright MCP 로 1440px/1536px 두 폭에서 측정).
+ * 전부 .category-page 안에서만 적용되게 스코프함 — 다른 페이지 클래스와 안 부딪히게(CLAUDE.md 8장 규칙).
+ */
+
+/* ---------- 헤더 폭 — 카테고리 페이지만 넓게 (2026-09-03) ----------
+   CLAUDE.md 0번 항목에 "보류 중"으로 남아있던 것. product.jsp 가 이미 쓰던 방법(product.css 34~70번줄)을
+   그대로 재사용함 — common.css 가 헤더 안쪽 폭을 CSS 변수(--header-width)로 잡아두고 있어서
+   <body class="page-category"> 에서 그 변수만 덮어쓰면 header.jsp/common.css 는 안 건드리고
+   헤더까지 같이 넓어짐(변수는 자식에게 상속되므로). 원본 재실측(browser_evaluate, coupang.com
+   카테고리 페이지 헤더): max-width 1300px — 본문 폭(.category-page)과 정확히 같음 */
+.page-category {
+	--header-width: 1300px;
+}
+
+.category-page {
+	max-width: 1300px;
+	margin: 0 auto;
+	/* ★ 2026-09-05 재실측: 원본은 필터 사이드바 맨 위가 브레드크럼 회색 띠 바로 아래에 딱 붙어 있음
+	   (1440px 실측: 띠 bottom 259px = 필터 top 259px, 간격 0). 오른쪽 열만 20px 내려가 있음
+	   (제목 h1 top 279px). 여기서 위쪽 padding 20px 을 주고 있어서 필터까지 같이 내려가 있었음 —
+	   위 여백을 0으로 하고, 20px 은 아래 .category-list 쪽에만 따로 줌 */
+	padding: 0 0 60px;
+}
+
+/* 브레드크럼 회색 띠 — 원본 재실측(2026-09-01): 화면 끝까지 퍼지는 배경(#F9FAFB) +
+   아래 테두리(#DFE3E8), 높이 37px. .category-page 바깥에 있어서 풀폭으로 퍼질 수 있음.
+   글자(nav.breadcrumb)만 안에서 .category-page 와 같은 1300px 폭으로 다시 맞춤 */
+.breadcrumb-bar {
+	background: #F9FAFB;
+	border-top: 1px solid #DFE3E8;
+	border-bottom: 1px solid #DFE3E8;
+}
+
+.breadcrumb-bar .breadcrumb {
+	max-width: 1300px;
+	height: 37px;
+	margin: 0 auto;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+	font-size: 12px;
+	color: #212B36;
+	box-sizing: border-box;
+}
+
+/* 2026-09-01 재실측(coupang.com, 1440px): 브레드크럼 링크는 현재 페이지 포함 전부
+   같은 색 rgb(33,43,54)=#212B36, font-weight:400 — "현재 페이지만 검게"가 아니었음.
+   전에 있던 var(--text-black)(#111)/.current #000000 구분은 실측과 달라서 통일함 */
+.breadcrumb-bar .breadcrumb a {
+	color: #212B36;
+	font-weight: 400;
+	text-decoration: none;
+}
+
+.breadcrumb-bar .breadcrumb a:hover {
+	text-decoration: underline;
+}
+
+.breadcrumb-bar .breadcrumb .sep {
+	margin: 0 6px;
+	color: var(--text-gray);
+}
+
+.breadcrumb-bar .breadcrumb .current {
+	color: #212B36;
+}
+
+/* ---------- 2단 레이아웃 ---------- */
+
+.category-body {
+	display: flex;
+	gap: 20px;
+	align-items: flex-start;
+}
+
+/* ---------- 왼쪽 필터 사이드바 ---------- */
+
+/* ★ 2026-09-05 필터 영역 전면 재실측(coupang.com 티셔츠 카테고리, 1440px, browser_evaluate).
+   그동안 필터는 폭 200px 하나만 실측돼 있었고(ref/category/원본_실측값.json "필터 사이드바")
+   나머지 여백·줄높이·글자·체크박스 간격은 전부 눈대중이었음 — 사용자 지적으로 원본을 다시 재서
+   아래 값들로 통째로 교체함. 실측 원문은 원본_실측값.json "2026-09-05_필터영역_재실측" 참고,
+   생김새 확인용 스크린샷은 ref/category/필터사이드바_원본_20260905.png.
+
+   원본 구조: div.filter-function-bar(폭 200, padding 0 10px, 좌우에 1px 회색 그림자로 세로선)
+              > div.filter-function-bar-header(높이 42) + 그룹 div 21개(각각 padding 10px 10px 8px,
+                아래 1px #EFEFEF 선) > h5 + div.filter-function-bar-list(margin-left 10px) > ul > li */
+.category-filter {
+	width: 200px;
+	flex: none;
+	box-sizing: border-box;
+	padding: 0 10px;
+	/* 원본 실측: boxShadow "1px 0 1px 0 #EEEEEE, -1px 0 1px 0 #EEEEEE" —
+	   테두리가 아니라 그림자라서 좌우에만 아주 옅은 세로선처럼 보임 */
+	box-shadow: 1px 0 1px 0 #EEEEEE, -1px 0 1px 0 #EEEEEE;
+}
+
+/* 원본 실측: 높이 42px(padding-top 10 + h4 line-height 32), padding 10px 0 0 10px.
+   전에 쓰던 margin-bottom:16px 은 실측값이 아니라 눈대중이었음 — 원본은 아래 여백이 0이고
+   바로 다음 그룹의 padding-top 10px 이 그 자리를 대신함 */
+.category-filter .filter-title-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 42px;
+	padding: 10px 0 0 10px;
+	box-sizing: border-box;
+	margin-bottom: 0;
+}
+
+/* 원본 실측(h4): 16px / 700 / #000000 / line-height 32px */
+.category-filter .filter-title {
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 32px;
+	color: #000000;
+}
+
+/* 필터 하나라도 선택돼 있을 때만 뜸(JSP 에서 조건부 렌더) — 원본 실측: 빨간 글씨 */
+.category-filter .filter-clear-all {
+	font-size: 12px;
+	color: #CB1400;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.category-filter .filter-clear-all:hover {
+	text-decoration: underline;
+}
+
+/* 2026-09-03 버그 수정: 위 ".category-filter a" 규칙이 display:inline-flex 를 강제해서,
+   #filterClearAll 에 hidden 속성이 붙어도 항상 보이던 버그가 있었음(원본은 필터 0개 선택 시
+   전체해제 자체가 안 뜸 — coupang.com 실측 확인함). author CSS는 origin 우선순위상 브라우저
+   기본 스타일([hidden]{display:none})을 항상 이겨서, hidden 만으론 안 숨겨졌던 것.
+   그래서 hidden 상태일 때만 명시적으로 display:none 을 다시 걸어줌 */
+.category-filter .filter-clear-all[hidden] {
+	display: none;
+}
+
+/* 체크박스형 필터 공통 — 진짜 <input type="checkbox"> 를 눈에는 안 보이게 숨기고
+   .filter-function-bar-asset(CSS로 그린 네모)를 대신 보여줌. 클릭은 label 전체가 받아서 그대로 토글됨.
+   색상(name="color", 서버로 감)이든 브랜드/핏 등 장식용(name 없음, 서버로 안 감)이든 규칙은 동일 —
+   "체크박스가 있으면 눌렀을 때 체크 표시는 난다"를 이 셀렉터 하나로 통일함(2026-09-01) */
+.category-filter label input[type="checkbox"] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	margin: 0;
+}
+
+.category-filter label input[type="checkbox"]:checked + .filter-function-bar-asset {
+	background: var(--link-blue);
+	border-color: var(--link-blue);
+}
+
+.category-filter label input[type="checkbox"]:checked + .filter-function-bar-asset::after {
+	content: "";
+	position: absolute;
+	left: 3px;
+	top: 0px;
+	width: 4px;
+	height: 8px;
+	border: solid #fff;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+
+/* 원본 실측: 그룹 하나 = padding 10px 10px 8px + border-bottom 1px solid #EFEFEF, margin 0.
+   (전에는 padding-bottom 20 + margin-bottom 20 이라 그룹 사이가 실제보다 32px씩 벌어져 있었음 —
+   원본 필터가 훨씬 촘촘해 보이는 이유가 이것) */
+.category-filter .filter-group {
+	padding: 10px 10px 8px;
+	margin: 0;
+	border-bottom: 1px solid #EFEFEF;
+}
+
+/* 원본 실측(h5): 16px / 700 / #000000 / line-height 32px / padding 10px 0 0 / margin 0 */
+.category-filter h3 {
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 32px;
+	color: #000000;
+	padding: 10px 0 0;
+	margin: 0;
+}
+
+/* 원본 실측: 목록을 감싼 div(.filter-function-bar-list)에 margin-left:10px 이 있어서
+   항목들이 그룹 제목보다 10px 안쪽으로 들어가 있음 — 우리는 그 div 가 없으므로 ul 에 직접 줌 */
+.category-filter ul {
+	list-style: none;
+	margin-left: 10px;
+}
+
+/* 원본 실측: li 높이 24px / line-height 24px / margin 0 (전엔 margin-bottom:8px 이라 더 성겼음).
+   height 대신 min-height 를 쓴 건, 우리 카테고리 이름이 길어서 두 줄로 넘칠 때 글자가 잘리지 않게
+   하려는 것(원본 카테고리 li 만 28px = padding 3px 0 1px 로 조금 더 높았음) */
+.category-filter li {
+	min-height: 24px;
+	line-height: 24px;
+	margin: 0;
+}
+
+/* 원본 실측: 항목 글자 12px / 400 / #111111, label 은 display:block + line-height 24px.
+   전에 쓰던 inline-flex + gap:6px 은 우리가 만든 방식이었는데, 원본은 체크박스(i)를 그냥
+   inline-block 으로 두고 margin 으로 8px 을 띄움 — 아래 .filter-function-bar-asset 참고 */
+.category-filter a,
+.category-filter label {
+	display: block;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 24px;
+	color: #111111;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* 선택된 상태 — 쿠팡 원본 실측: 글자색 #0073E9 + font-weight:700 로 통일(정렬/페이지네이션/카테고리 전부 동일 규칙) */
+.category-filter a.selected,
+.category-filter a:hover {
+	color: var(--link-blue);
+	font-weight: 700;
+}
+
+/* 체크박스형 필터(색상/브랜드 등) — 원본은 스프라이트 이미지인데 그 도메인이 승인 안 돼서
+   CSS로 직접 그린 체크박스로 대체(2026-08-31). label 에 selected 클래스가 붙으면 체크된 모양 */
+/* 원본 실측: 14×14, display:inline-block, margin:-2px 8px 0 0, vertical-align:middle.
+   (원본은 이 자리에 스프라이트 이미지를 깔지만 그 CDN 이 승인 안 된 도메인이라 우리는 계속
+   CSS 로 그린 네모를 씀 — 크기와 간격만 실측값으로 맞춤) */
+.filter-function-bar-asset {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin: -2px 8px 0 0;
+	vertical-align: middle;
+	border: 1px solid #C4C4C4;
+	border-radius: 2px;
+	position: relative;
+}
+
+label.selected .filter-function-bar-asset,
+.category-filter a.selected .filter-function-bar-asset,
+.filter-function-bar-asset.checked {
+	background: var(--link-blue);
+	border-color: var(--link-blue);
+}
+
+label.selected .filter-function-bar-asset::after,
+.category-filter a.selected .filter-function-bar-asset::after,
+.filter-function-bar-asset.checked::after {
+	content: "";
+	position: absolute;
+	left: 3px;
+	top: 0px;
+	width: 4px;
+	height: 8px;
+	border: solid #fff;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+
+/* "필터" 제목 바로 아래, 소제목 없이 오는 배송/무료배송 체크박스 줄.
+   2026-09-05: 원본은 이 줄도 "제목만 없는 그룹"이라 다른 그룹과 똑같은 상자(padding/아래선)를 씀 —
+   그래서 JSP 에서 이 ul 을 section.filter-group 으로 감쌌고, 여기서 따로 주던 여백/테두리/글자
+   규칙은 전부 지움(위 공통 규칙이 그대로 적용됨) */
+.filter-top-row {
+	list-style: none;
+}
+
+/* ★ 2026-09-05 재실측 — "R.LUX부터 로켓직구만 보기까지 색상이 다르고 배치도 조금 다르다"는 지적 확인.
+   원본은 이 세 줄이 그냥 나열된 게 아니라, 맨 위 "로켓 전체" 항목의 **하위 목록**으로 들어가 있고
+   그 덩어리에만 연한 회색 배경(#FAFAFA)이 깔려 있음. 게다가 좌우로 음수 마진을 줘서 사이드바
+   폭(200px)을 꽉 채우게 밖으로 삐져나옴 — 그래서 필터 안에 회색 띠가 하나 들어간 것처럼 보임.
+   실측: background #FAFAFA / margin 6px -20px 6px -30px / padding 13px 20px 13px 40px / 폭 200px.
+   우리 사이드바는 좌우 padding 10px + 그룹 padding 10px + 목록 들여쓰기 10px = 왼쪽 30px,
+   오른쪽은 10+10=20px 안쪽이라 원본과 똑같은 음수 마진 값이 그대로 맞음 */
+/* ★ 선택자 앞에 .category-filter 를 붙인 이유: 위쪽 ".category-filter ul { margin-left:10px }" 이
+   이것보다 좁은 선택자라, 그냥 .filter-service-sub 로 쓰면 여기 margin 을 그 규칙이 이겨버림 */
+.category-filter .filter-service-sub {
+	list-style: none;
+	background: #FAFAFA;
+	margin: 6px -20px 6px -30px;
+	padding: 13px 20px 13px 40px;
+}
+
+/* R.LUX 줄 — 원본은 "지금 고를 수 없는" 상태(label.disabled)라 흐림(opacity 0.4) + 클릭 불가.
+   2026-09-05: 흐린 모습은 원본대로 두되 클릭은 되게 바꿈(pointer-events:none 제거) —
+   "체크박스가 있으면 눌렀을 때 체크 표시는 난다"는 이 프로젝트 규칙이 우선(사용자 버그 리포트) */
+.category-filter .filter-service-sub .is-dimmed {
+	opacity: 0.4;
+}
+
+/* 브랜드 이름 글자색 — 2026-09-03: 실제 로고 이미지(badge_*.png/svg)를 받아와서 이 색상 글자
+   방식은 더 안 씀. 지우지 않고 주석으로 남겨둠(왜 색을 이렇게 뽑았는지는 자료로 남는 게 나아서).
+   대신 쓰는 이미지 크기·정렬 규칙은 아래 .service-badge.sub 참고.
+
+.filter-top-row .brand-rlux,
+.filter-top-row .brand-rocket,
+.filter-top-row .brand-jikgu,
+.filter-top-row .brand-cavenue {
+	font-weight: 700;
+}
+
+.filter-top-row .brand-rocket {
+	color: #459DBF;
+}
+
+.filter-top-row .brand-jikgu {
+	color: #9C27B0;
+}
+
+.filter-top-row .brand-cavenue {
+	color: #41297F;
+}
+*/
+
+/* 2026-09-03 추가 — R.LUX/로켓배송/로켓직구/C.에비뉴 로고 이미지.
+   구조는 바로 위 .service-badge(로켓 전체 배지)와 같음: 감싼 span 이 inline-block, 안의 img 는 block.
+   ★ 원본 실측(Playwright, 1440px) — 배지마다 크기가 다름:
+       R.LUX    45×10 (margin-top 2px)
+       로켓배송  48×12 (margin-top 2px)
+       로켓직구  48×12 (margin-top 2px)
+       C.에비뉴  46×16 (margin 0)
+     우리가 받아온 이미지가 원본과 같은 파일(2배 크기)이라 높이만 맞추면 폭은 저절로 같아짐.
+   ★ 로고와 "만 보기" 사이 간격은 원본이 0px — 실제로 "로켓배송만 보기" 처럼 붙어서 나옴(화면 확인함).
+     그래서 JSP 에서도 </span> 과 "만 보기" 사이에 공백을 두지 않았음 */
+.filter-top-row .service-badge.sub {
+	margin: 2px 0 0;
+}
+
+.filter-top-row .service-badge.sub img {
+	height: 12px;
+}
+
+.filter-top-row .service-badge.sub.is-rlux img {
+	height: 10px;
+}
+
+.filter-top-row .service-badge.sub.is-cavenue {
+	margin: 0;
+}
+
+.filter-top-row .service-badge.sub.is-cavenue img {
+	height: 16px;
+}
+
+/* R.LUX 는 로고가 검정 워드마크라 색은 기본값(#111111) 그대로 두고 굵기만 줌.
+   실제 캡처 색은 #9E9E9F 였는데, 그건 위 opacity 0.4 가 이미 먹은 상태로 찍힌 것 —
+   되돌려 계산하면 거의 검정(#0D0D0E)이라 우리 기본 글자색과 사실상 같음 */
+
+/* 맨 위 줄의 배지 이미지 — 원본 실측: 로켓 전체 배지 40×16, 세로 가운데 정렬(vertical-align:middle),
+   감싼 span 에 margin-top:-2px. 우리 로켓 이미지(164×64)는 높이를 16px 로 맞추면 폭이 41px 이 돼서
+   원본(40px)과 거의 같아짐 */
+.filter-top-row .service-badge {
+	display: inline-block;
+	margin: -2px 0 0;
+	vertical-align: middle;
+}
+
+.filter-top-row .service-badge img {
+	display: block;
+	height: 16px;
+	width: auto;
+}
+
+/* .is-inert = 실제 DB에 속성 컬럼이 없어서 "필터링 자체"는 동작 안 하는 그룹이라는 표시(클래스명은 유지).
+   2026-09-01: 예전엔 여기서 글자를 회색으로 죽여놨는데, 이제 체크박스는 진짜로 눌러지고 "선택한 필터"에도
+   잡히게 바꿨더니 회색이 안 맞게 됨(버그 리포트 4번) — 다른 필터랑 똑같이 검은 글자로 통일 */
+
+/* 더보기/접기 — 2026-09-03 추가. coupang.com 실측(Playwright): 체크박스 필터 그룹은 5개까지만
+   보이고 "+ 더보기" 클릭 시 "- 접기"로 바뀌며 나머지가 펼쳐짐. URL 안 바뀌는 순수 클라이언트 토글
+   (category.js 가 li.hidden 을 토글). 카테고리/평점/가격처럼 <a> 링크만 있는 목록은 원본도 안 접으므로
+   여기 대상 아님(category.js 에서 체크박스가 있는 ul만 골라서 처리) */
+/* 원본 실측: "+ 더보기"는 div 하나 — 12px / 400 / #0073E9 / 높이 24px / line-height 24px,
+   위아래 여백 없음(전에 주던 margin-top:4px 은 눈대중이라 지움) */
+.filter-fold-toggle {
+	margin-top: 0;
+}
+
+.filter-fold-toggle a {
+	display: block;
+	color: #0073E9;
+	font-size: 12px;
+	line-height: 24px;
+}
+
+/* 가격 직접입력 — 원본 실측:
+     줄 전체 height 28px, margin-top 7px, 입력칸과 검색버튼 사이 6px
+     입력칸 44×26, border 1px #EEEEEE, radius 2px, padding 0 5px, 12px, 서로 2px 간격
+     검색버튼 38×28, 테두리 없음, 배경 #0073E9, 흰 글자 12px, radius 2px, 가운데 정렬
+   (전에 쓰던 70px 폭 / 흰 버튼은 눈대중이라 원본과 많이 달랐음) */
+.filter-price-direct {
+	display: flex;
+	align-items: center;
+	height: 28px;
+	margin-top: 7px;
+	margin-left: 10px;
+}
+
+/* 2026-09-05: type=number 의 위아래 화살표(스피너) 버튼을 빼달라는 요청 — 원본도 type="text" 라
+   JSP 쪽에서 아예 text 로 바꿨음. 그래서 선택자에서 [type="number"] 조건을 뗌 */
+.filter-price-direct input {
+	width: 44px;
+	height: 26px;
+	box-sizing: border-box;
+	margin-right: 2px;
+	padding: 0 5px;
+	border: 1px solid #EEEEEE;
+	border-radius: 2px;
+	font-size: 12px;
+	color: #000000;
+}
+
+.filter-price-direct span {
+	margin-right: 2px;
+	font-size: 12px;
+	color: #000000;
+}
+
+.filter-price-direct button {
+	width: 38px;
+	height: 28px;
+	margin-left: 6px;
+	padding: 0;
+	border: 0;
+	border-radius: 2px;
+	background: #0073E9;
+	color: #FFFFFF;
+	font-size: 12px;
+	line-height: 28px;
+	text-align: center;
+	cursor: pointer;
+}
+
+/* 별점 필터의 별 이미지 — 2026-09-05 추가(사용자 요청 5번 "별점 부분에 이미지 들어가야함").
+   원본 실측: 항목마다 69×12 별 스프라이트가 글자 앞에 붙고(margin 0 8px 0 0, inline-block),
+   4점 이상/3점 이상/… 마다 background-position 이 달라서 채워진 별 개수가 바뀜.
+   우리는 원본 스프라이트를 못 받으므로, 이미 상품카드에서 쓰고 있는 우리 별 이미지
+   (star_rating_improve_design.png, 60×12)를 그대로 재사용하고 채운 개수는 em 폭(%)으로 표현함.
+   ★ 아래 ".category-page .star-rating { display:block }" 규칙에 지지 않도록
+   .category-page 를 앞에 붙여 선택자를 한 단계 더 좁게 만듦 */
+.category-page .category-filter .star-rating {
+	display: inline-block;
+	margin: -2px 8px 0 0;
+	vertical-align: middle;
+}
+
+/* ---------- 오른쪽 상품 목록 ---------- */
+
+.category-list {
+	width: 1080px;
+	flex: none;
+	/* 원본 실측: 브레드크럼 띠 바로 아래에서 20px 내려간 자리에서 제목이 시작(위 .category-page 주석 참고) */
+	padding-top: 20px;
+}
+
+/* 카테고리 제목("티셔츠"/"바지" 등) — 2026-09-03 추가. 원본 실측(browser_evaluate): 24px/700/#000000,
+   정렬줄과 12px 간격. 브레드크럼 소분류 이름이랑 같은 글자라 헷갈려서 그동안 빠뜨렸던 요소 */
+.category-title {
+	font-size: 24px;
+	font-weight: 700;
+	color: #000000;
+	margin-bottom: 12px;
+}
+
+/* 2026-09-03 2차 재실측: 정렬줄이 연한 회색 박스(#FAFAFA)로 감싸져 있는 걸 처음에 놓쳤음(h1 기준으로만
+   위쪽을 확인해서 h1 이 아니라 이 줄 자체를 감싸는 별도 wrapper라는 걸 못 봤던 것 — 사용자 지적으로 재확인해서 찾음).
+   박스 전체 높이 40px — list-size-dropdown(32px)이 정렬옵션(26px)보다 커서 그 기준으로 위아래 4px씩 */
+.sort-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #FAFAFA;
+	padding: 4px 10px;
+	margin-bottom: 15px;
+}
+
+.sort-bar ul {
+	display: flex;
+	list-style: none;
+	gap: 16px;
+}
+
+.sort-bar li {
+      position: relative;
+}
+
+.sort-bar li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -8px;                 /* gap(16px)의 정중앙 */
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 11px;
+      background: #B6B6B6;
+}
+
+.sort-bar a {
+	font-size: 12px;
+	color: #555555;
+	font-weight: 400;
+	text-decoration: none;
+}
+
+.sort-bar li.Sort_selected a {
+	color: var(--link-blue);
+	font-weight: 700;
+}
+
+.sort-bar li.Sort_selected a::before {
+      content: "\2713";  /* 체크마크(✓) — 텍스트 문자라 이미지 파일 없이 처리 가능 */
+      margin-right: 4px;
+}
+
+
+/* 60/120개씩 보기 — 2026-09-03 2차: 나란히 두 개 보여주는 방식이 원본과 달라서(원본은 호버 드롭다운)
+   다시 실측(browser_evaluate + hover)해서 순수 CSS 드롭다운으로 재구현.
+   평소엔 li.selected 만 보이고, .list-size-dropdown 에 마우스를 올리면 ul 높이가 32→64px로 늘어나며
+   숨겨져있던 li 도 같이 보임(원본과 동일한 collapse/expand 방식, JS 없이 :hover 로만 처리) */
+.list-size-dropdown {
+	position: relative;
+	width: 118px;
+	height: 32px;
+}
+
+/* ★ 2026-09-03 3차 버그 수정: 위에 있는 ".sort-bar ul { display:flex }" 규칙이 자손 선택자라서
+   여기 이 <ul> 에도 그대로 걸려 60/120이 옆으로 나란히 나오는 버그가 있었음(사용자 지적으로 발견).
+   여기서 display:block 을 다시 명시해서 li들이 원래대로 세로로 쌓이게 함 */
+.list-size-dropdown ul {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 118px;
+	overflow: hidden;
+	height: 32px;
+	background: #fff;
+	list-style: none;
+	z-index: 2;
+}
+
+.list-size-dropdown:hover ul {
+	height: 64px;
+}
+
+.list-size-dropdown li {
+	display: none;
+	align-items: center;
+	justify-content: flex-end;
+	height: 32px;
+	padding: 0 4px;
+	box-sizing: border-box;
+}
+
+.list-size-dropdown li.selected,
+.list-size-dropdown:hover li {
+	display: flex;
+}
+
+.list-size-dropdown a {
+	font-size: 12px;
+	color: #555555;
+	font-weight: 400;
+	text-decoration: none;
+}
+
+/* 선택된 값 — 실측(browser_evaluate): 굵기 bold 뿐 아니라 배경도 연한 회색(#FAFAFA)으로 깔림
+   (사용자 지적으로 재확인 — 처음엔 굵기만 반영하고 배경을 놓쳤었음) */
+.list-size-dropdown li.selected {
+	background: #FAFAFA;
+}
+
+.list-size-dropdown li.selected a {
+	font-weight: 700;
+}
+
+/* 평소 보이는 한 줄에만 화살표 표시 — 원본은 아이콘인데 승인된 이미지가 없어서 문자로 대체 */
+.list-size-dropdown li.selected a::after {
+	content: "▾";
+	margin-left: 4px;
+}
+
+/* 선택한 필터 칩 줄 — 정렬줄 바로 아래, 상품목록 위(2026-09-01 원본 재확인 위치 그대로).
+   ★ 2026-09-05 재실측(원본에서 가격 필터를 실제로 눌러 칩이 뜬 상태로 측정, div.selected-filters):
+     줄 전체 padding 0 0 15px / 높이 42px, 라벨 "선택한 필터:" 12px/400/#000000 + 오른쪽 여백 10px,
+     칩끼리 간격은 칩의 margin-right 5px 로 벌림(그래서 여기 gap 은 0) */
+.filter-selected-bar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0;
+	padding-bottom: 15px;
+	margin-bottom: 0;
+}
+
+/* 위 .filter-clear-all[hidden] 과 같은 이유(author CSS가 UA 기본 [hidden] 을 이김) — 여기도 같이 고침 */
+.filter-selected-bar[hidden] {
+	display: none;
+}
+
+/* 원본 실측: 12px / 400 / #000000 / line-height 18px / 오른쪽 여백 10px (13px·회색은 눈대중이었음) */
+.filter-selected-label {
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 18px;
+	color: #000000;
+	padding-right: 10px;
+}
+
+.filter-selected-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	list-style: none;
+}
+
+/* ★ 2026-09-05 재실측으로 모양 정정(사용자 지적: "둥그런 타원형이 아니고 연한 회색 네모 상자").
+   원본 실측: display inline-block / background #FAFAFA / **테두리 없음(border 0)** /
+             **border-radius 0 = 각진 네모** / padding 5px 10px 4px / margin-right 5px /
+             12px / 400 / color #333333 / line-height 18px / 전체 높이 27px
+   전에 쓰던 "1px 테두리 + radius 15px 알약 모양"은 눈대중이었고 원본과 전혀 달랐음 */
+.filter-selected-chips a {
+	display: inline-flex;
+	align-items: center;
+	height: 27px;
+	box-sizing: border-box;
+	padding: 5px 10px 4px;
+	margin-right: 5px;
+	border: 0;
+	border-radius: 0;
+	background: #FAFAFA;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 18px;
+	color: #333333;
+	text-decoration: none;
+}
+
+/* ★ "삭제" 글자가 아니라 X 아이콘 (사용자 지적 — 원본 실측으로 확인).
+   원본은 글자를 지우지 않고 남겨둔 채(화면낭독기용) font-size:0 + overflow:hidden 으로 안 보이게 하고,
+   그 자리에 10×10 스프라이트 이미지를 배경으로 깔아 X 를 그림.
+   우리는 그 스프라이트가 없으므로 체크박스처럼 CSS 로 직접 그림 — 1px 선 두 개를 45도/-45도로 돌려서 X.
+   크기·여백은 원본 실측 그대로: 10×10, margin -2px 0 0 5px, vertical-align middle */
+.filter-selected-chips .remove {
+	position: relative;
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin: -2px 0 0 5px;
+	vertical-align: middle;
+	overflow: hidden;
+	font-size: 0;
+	line-height: 0;
+}
+
+.filter-selected-chips .remove::before,
+.filter-selected-chips .remove::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background: #333333;
+}
+
+.filter-selected-chips .remove::before {
+	transform: rotate(45deg);
+}
+
+.filter-selected-chips .remove::after {
+	transform: rotate(-45deg);
+}
+
+.empty-message {
+	padding: 60px 0;
+	text-align: center;
+	color: var(--text-gray);
+}
+
+/* 카드 270×439, 이미지 218×218, 4열 — 카드 폭 자체가 딱 270이라 gap 없이 4개면 1080 정확히 맞음 */
+.product-grid {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+}
+
+/* 2026-09-03 2차 추가 — 실측(browser_evaluate) 결과 두 가지 놓친 게 있었음:
+   1. 카드마다 border-bottom(#DDDDDD)이 있어서, 같은 줄 4장이 나란히 붙어있으면 결과적으로
+      "상품 4개 - 회색 줄 - 상품 4개 - 회색 줄" 처럼 보임(카드 하나하나에 선이 있는 것일 뿐, 줄 구분선을
+      따로 그린 게 아님 — gap:0 이라 자연스럽게 이어짐). 마지막 줄이 4개를 못 채우면 원본도 그 줄만큼만
+      선이 그려지는 구조라 원본과 같음 — 다만 우리는 테스트 상품이 적어 이 상황이 항상 나서 어색해 보이므로
+      빈 채움 카드(product-card--filler, category_list.jsp 에서 추가)로 선을 끝까지 채움(3장 참고)
+   2. 카드 링크(a)에 호버 시 box-shadow 가 붙음(가만있을 땐 none, transition 으로 부드럽게 나타남) */
+/* 2026-09-05 버그 수정 — "마우스 올렸을 때 나오는 효과(그림자)가 카드마다 크기가 다르다".
+   원인: 그림자는 아래 .product-card a 에 걸려 있는데, 그 <a> 높이는 카드 안 내용
+   (상품명이 1줄이냐 3줄이냐, 리뷰가 없어서 별점 줄이 통째로 빠지느냐)에 따라 제각각이었음.
+   고친 방법 두 가지를 같이 씀:
+   1) min-height:439px — 원본 실측 카드 크기가 270×439 로 전부 똑같음(ref/category/원본_실측값.json
+      "상품카드 하나"). 내용이 짧아도 카드 자체는 이 높이를 유지해서 줄과 줄 사이도 안 어긋남
+   2) 카드를 세로 flex 로 만들고 <a> 에 flex:1 — <a> 가 카드 높이를 항상 꽉 채우게 됨.
+      (.product-grid 가 flex+wrap 이라 같은 줄의 카드들은 원래도 같은 높이로 늘어나는데,
+       그 늘어난 높이를 안쪽 <a> 는 못 받고 있었던 게 크기가 달라 보이던 진짜 이유) */
+.product-card {
+	width: 270px;
+	min-height: 439px;
+	padding: 10px 0 20px;
+	border-bottom: 1px solid #DDDDDD;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 2026-09-03 3차 재실측 — 상품명이 "꽉 차 보인다"던 지적의 원인을 찾음: 카드(270px) 안에서
+   그동안 이미지만 margin:0 auto 로 가운데 맞추고 텍스트는 여백 없이 270px 꽉 채우고 있었음.
+   원본은 <a> 자체가 좌우 10px 마진 + 좌우 16px 패딩(border-box)이라 실제 내용 폭이 218px 로
+   고정되고, 그 안의 모든 자식(이미지·상품명·가격·배송문구·별점·적립)이 똑같이 이 폭을 따름.
+   그래서 특정 자식마다 따로 폭/마진을 주는 대신 <a> 하나에서 한 번에 해결 — 자식들은 그냥 100% */
+.product-card a {
+	display: block;
+	flex: 1;              /* 카드 높이를 꽉 채워서 호버 그림자 박스가 항상 같은 크기가 되게(2026-09-05) */
+	margin: 0 10px;
+	padding: 0 16px;
+	box-sizing: border-box;
+	text-decoration: none;
+	color: inherit;
+	transition: box-shadow 0.2s;
+}
+
+.product-card a:hover {
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.product-card figure {
+	width: 100%;
+	height: 218px;
+	margin: 0 0 10px;
+	background: var(--bg-gray);
+}
+
+.product-card figure img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* 무료배송 뱃지 — 2026-09-02 추가. 원본 실측(browser_evaluate): 12px/400/#555555.
+   상품명과의 간격도 재확인(2026-09-02 2차): 뱃지 아래쪽 여백이 10px이었음(2px는 눈대중, 틀렸던 값).
+   ★ 2026-09-05: 19,800원 미만 상품은 글자가 비게 됨(JSP 참고). 빈 <p> 는 높이가 0 이 돼서
+   그 카드만 아래 내용이 위로 올라가 버리므로, 글자 한 줄 높이(12px × 1.5 = 18px)를 min-height 로
+   미리 잡아둠 — 이러면 무료배송이든 아니든 같은 줄 카드들의 상품명·가격 위치가 그대로 맞음 */
+.product-card .free-shipping-badge {
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 18px;
+	min-height: 18px;
+	color: #555555;
+	margin-bottom: 10px;
+}
+
+/* 무료배송이 아닌 상품(=글자가 비는 카드) — 사진과 상품명 사이가 너무 벌어져 보인다는 지적(2026-09-05).
+   자리를 0 으로 없애버리면 그 카드만 상품명·가격이 통째로 위로 올라가서 같은 줄 카드끼리 어긋나므로
+   (=1번 항목에서 고쳤던 "카드마다 크기가 제각각" 버그가 되살아남) 없애지 않고 절반만 줄였음.
+   28px(18+10) → 14px(10+4). 줄어드는 14px 만큼은 카드 아래쪽 빈 공간이 대신 흡수함
+   (.product-card 에 min-height 439px + flex 가 걸려 있어서 카드 자체 높이는 그대로 유지됨) */
+.product-card .free-shipping-badge.is-empty {
+	min-height: 10px;
+	line-height: 10px;
+	margin-bottom: 4px;
+}
+
+/* 2026-09-03 2차: 상품명 줄이 안 맞아 보인다는 지적 — 원본 실측(browser_evaluate)해보니 이름을
+   최대 3줄까지만 자르고 그 뒤는 잘라버리는 line-clamp 가 있었음(우리는 그게 없어서 이름이 길면
+   무한정 늘어나 같은 줄 카드끼리 가격 위치가 크게 어긋났던 것) */
+.product-card .product-name {
+	font-size: 14px;
+	font-weight: 400;
+	color: #212B36;
+	line-height: 18.2px;
+	margin-bottom: 4px;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.product-card a:hover .product-name {
+	text-decoration: underline;
+	color: var(--link-blue);
+}
+
+/* 원본 실측(2026-08-31, browser_evaluate): 할인정보 줄과 최종가 줄이 한 줄이 아니라 줄바꿈됨
+   (할인정보 span 들은 display:inline, 최종가 strong 만 display:block이라 자동으로 다음 줄로 감).
+   배송문구와의 간격도 재실측(2026-09-02 2차): 5px였음(4px는 이전 눈대중, 근사값이라 정정) */
+.product-card .product-price {
+	margin-bottom: 5px;
+}
+
+.product-card .discount-rate {
+	font-size: 12px;
+	font-weight: 400;
+	color: #111111;
+	margin-right: 4px;
+}
+
+.product-card .normal-price {
+	font-size: 12px;
+	color: #888888;
+	text-decoration: line-through;
+}
+
+.product-card .sale-price {
+	font-size: 16px;
+	font-weight: 700;
+	color: #CB1400;
+	/* 원본 실측: 판매가 오른쪽에 배지가 붙으므로 margin-right 5px. 위쪽 2px 은 할인율 줄과의 간격 */
+	margin: 2px 5px 0 0;
+}
+
+/* 판매가 + 배지 한 줄 — 2026-09-05 재실측. 원본은 판매가(strong)와 배지 이미지들이 같은 flex 줄에 있고,
+   폭(우리 카드 기준 218px)이 모자라면 그 줄 안에서 접힘(flex-wrap:wrap, row-gap:2px).
+   실측: strong margin-right 5px, 로켓 배지 margin-right 2px, 배지 높이 16px */
+.product-card .price-badge-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	row-gap: 2px;
+}
+
+.product-card .price-badge-row img {
+	display: block;
+	height: 16px;
+	width: auto;
+	flex: none;
+}
+
+.product-card .price-badge-row .badge-rocket {
+	margin-right: 2px;
+}
+
+/* 품절 — 2026-09-03 원본 실측(Playwright). 이미지·상품명은 그대로, 가격·배지만 흐리게 처리하고
+   가격 밑에 "일시품절" 문구를 붙임(오버레이 아님). CategoryProductDAO 의 SOLD_OUT
+   (PRODUCT.SALE_STATUS='품절' = 모든 옵션 재고 0) 기준 그대로 사용 */
+.product-card .price-badge-row.is-soldout .sale-price {
+	color: #CCCCCC;
+}
+
+.product-card .price-badge-row.is-soldout img {
+	opacity: 0.4;
+}
+
+.product-card .sold-out-text {
+	margin-top: 5px;
+	font-size: 14px;
+	font-weight: 700;
+	color: #333333;
+}
+
+/* 배송문구 — 2026-09-05 재실측으로 색상 정정(사용자 지적 "초록색이던데?" — 맞음).
+   원본은 상품에 따라 두 가지로 갈림:
+     · 로켓(내일 도착) 상품 → "내일(목) 도착 보장", 색 #008C00 (초록)
+     · 일반 상품          → "9/5(토) 도착 예정",  색 #212B36
+   우리는 배송정보 컬럼을 아직 안 쓰고 모든 카드에 로켓 배지를 달고 있으므로 초록 + "도착 보장" 으로 통일함.
+   나머지 실측값: 14px / 400 / line-height 21px / 위쪽 padding 5px */
+.product-card .delivery-date {
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 21px;
+	color: #008C00;
+	padding-top: 5px;
+	margin-bottom: 0;
+}
+
+/* 적립 — 실제 적립 정책 없어서 판매가 5%로 임의 계산(원본 실측이 5%).
+   ★ 2026-09-05 3차 정정: 원본은 아이콘+글자가 **타원형 테두리 안에** 들어 있음.
+   처음 잴 때 이걸 놓쳤던 이유 — 아이콘/글자를 직접 감싼 <div>(테두리 0) 까지만 보고 끝냈는데,
+   테두리는 그 한 단계 **위** 요소(div.BenefitBadge_cash-benefit)에 있었음. 조상까지 안 올라가 본 실수.
+   (CLAUDE.md 5장 1번 "class 에 안 적힌 값은 다른 데서 덮어썼을 수도 있는 값"과 같은 종류의 함정)
+
+   원본 실측: border 1px solid #CCCCCC / border-radius 10px / background #FFFFFF /
+             padding 0 8px 0 6px / display inline-block / 전체 크기 115×20
+             (안쪽: 아이콘 14×14, 글자 12px/400/#333333/line-height 18px, 둘 사이 3px)
+   ★ inline-flex 를 쓴 이유: <p> 는 원래 가로 100% 를 다 차지해서 테두리가 카드 폭만큼 늘어나버림.
+     타원이 글자 길이만큼만 감싸려면 내용 크기에 맞춰지는 inline 계열이어야 함 */
+.product-card .cash-reward {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+	height: 20px;
+	box-sizing: border-box;
+	padding: 0 8px 0 6px;
+	border: 1px solid #CCCCCC;
+	border-radius: 10px;
+	background: #FFFFFF;
+	font-size: 12px;
+	line-height: 18px;
+	color: #333333;
+	margin-bottom: 4px;
+}
+
+.product-card .cash-reward img {
+	width: 14px;
+	height: 14px;
+	flex: none;
+}
+
+/* 적립 타원 위쪽 여백 — 원본은 타원을 감싼 바깥 div 의 padding-top 10px 이 이 역할을 함(2026-09-05 실측).
+   별점이 있든 없든 같은 값이라 두 경우를 한 규칙으로 합침(전엔 12px 로 잡아뒀었음) */
+.product-card .cash-reward {
+	margin-top: 10px;
+}
+
+.product-card .product-rating {
+	font-size: 12px;
+	color: var(--text-gray);
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	/* 아래 여백은 적립 타원 쪽 margin-top:10px 이 담당함(2026-09-05) */
+	margin-bottom: 0;
+}
+
+/* product.css 의 .product-page .star-rating 과 완전히 같은 스프라이트 재사용(2026-08-27 원본 실측 그대로).
+   거기는 .product-page 스코프라 여기선 안 먹어서 .category-page 로 다시 씀 — 이미지 파일은 그대로 재사용 */
+.category-page .star-rating {
+	display: block;
+	width: 60px;
+	height: 12px;
+	background-image: url(../images/icons/star_rating_improve_design.png);
+	background-repeat: no-repeat;
+	background-size: 60px 24px;
+	background-position: 0 -12px;
+}
+
+.category-page .star-rating em {
+	display: block;
+	height: 12px;
+	background-image: url(../images/icons/star_rating_improve_design.png);
+	background-repeat: no-repeat;
+	background-size: 60px 24px;
+	background-position: 0 0;
+}
+
+/* ---------- 페이지네이션 ---------- */
+
+.pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	height: 52px;
+}
+
+.pagination a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 29px;
+	height: 29px;
+	font-size: 12px;
+	color: #555555;
+	font-weight: 700;
+	border: 0;
+	text-decoration: none;
+}
+
+.pagination a.current {
+	color: var(--link-blue);
+	font-weight: 700;
+	border: 1px solid var(--link-blue);
+}
+
+/* ---------- 함께 본 카테고리 ---------- */
+/* 2026-09-02 추가. 원본 실측(coupang.com, browser_evaluate): 제목 16px/700/#212B36,
+   링크 12px/400/#346AFF, 항목 사이 1×15px 구분선(#EEEEEE).
+   페이지네이션과의 간격도 재확인(2026-09-02 2차): 20px였음(30px는 눈대중, 틀렸던 값) */
+.also-viewed {
+	margin-top: 20px;
+}
+
+.also-viewed h2 {
+	font-size: 16px;
+	font-weight: 700;
+	color: #212B36;
+	margin-bottom: 12px;
+}
+
+.also-viewed-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style: none;
+}
+
+.also-viewed-list li {
+	display: flex;
+	align-items: center;
+}
+
+.also-viewed-list li:not(:last-child)::after {
+	content: "";
+	display: inline-block;
+	width: 1px;
+	height: 15px;
+	background: #EEEEEE;
+	margin: 0 10px;
+}
+
+.also-viewed-list a {
+	font-size: 12px;
+	font-weight: 400;
+	color: #346AFF;
+	text-decoration: none;
+}
+
+.also-viewed-list a:hover {
+	text-decoration: underline;
+}
+
+/* ==================================================
+   중분류(레벨2) 페이지 전용 — 제목 아래 카테고리 타일 + 배너 (2026-09-03 추가)
+
+   ★ 아래 숫자는 전부 원본 쿠팡에서 실제로 잰 값.
+     원본은 이 영역이 통짜 이미지(1080x623)라서 CSS 로 잴 수가 없어서,
+     이미지를 받아 픽셀을 직접 훑어서 원/글자의 경계 좌표를 뽑았음:
+       - 원 지름 110px, 원 배경 #F5F5F5
+       - 가로 중심 간격 132px  → 원 사이 여백 132-110 = 22px
+       - 세로 중심 간격 178px  → 아래 계산으로 행 간격 31px
+       - 글자 색 #0F0F0F, 원 아래 16px 떨어진 곳에서 글자가 시작
+       - 5칸이 본문(1080px) 한가운데 정렬 (좌우 여백 각 221px)
+
+   ★ 이 CSS 로 그린 결과를 브라우저에 띄워서 원본과 대조함 —
+     타일 영역 전체 높이가 우리 621px / 원본 623px 로 2px 차이.
+     글자 크기만 원본과 다른데 그 이유는 아래 .tile-name 주석 참고.
+   ================================================== */
+
+.mid-extra {
+	margin-bottom: 40px;
+}
+
+/* 타일 그리드 — 5칸 고정, 가운데 정렬.
+   위/아래 여백 60px / 58px 도 원본 이미지의 빈 공간을 잰 값 */
+.category-tiles {
+	display: grid;
+	grid-template-columns: repeat(5, 110px);
+	column-gap: 22px;
+	row-gap: 31px;
+	justify-content: center;
+	padding: 60px 0 58px;
+}
+
+.category-tiles li {
+	list-style: none;
+}
+
+.category-tiles a {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+}
+
+/* 원형 사진 칸. 사진이 원 밖으로 안 삐져나오게 overflow:hidden 을 같이 줌 */
+.tile-thumb {
+	display: block;
+	width: 110px;
+	height: 110px;
+	border-radius: 50%;
+	background: #F5F5F5;
+	overflow: hidden;
+}
+
+.tile-thumb img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* 카테고리 이름.
+   원본은 글자 윗변이 원 아래에서 16px 떨어져 있는데, 글자 위아래로 생기는 빈틈(line-height 로
+   생기는 여백)이 약 7px 이라 margin-top 은 9px 로 줘야 실제로 16px 이 됨.
+
+   ★ font-size 만 원본(20px)과 다름 — 이유:
+     원본 배너는 이름을 줄여서("맨투맨/후디", "니트/조끼", "커플/패밀리룩") 넣어서 20px 여도 넉넉했는데,
+     우리는 DB 의 정식 이름("맨투맨/후드티", "니트류/조끼", "커플룩/패밀리룩")을 그대로 씀.
+     20px 로 그려보니 "후드집업/집업류" 가 타일 폭(110px)을 좌우 19px 씩 넘쳐서, 옆의 "니트류/조끼" 와
+     사이가 3px 밖에 안 남아 두 이름이 한 덩어리로 붙어 읽혔음(실제로 브라우저에 띄워서 확인).
+     16px 로 줄이면 넘침이 4px 로 줄어 사이가 18px 벌어짐.
+     원 크기(110px)·간격(132px)·가운데 정렬은 원본 실측값 그대로 두고 글자 크기만 조정한 것.
+
+   white-space:nowrap 은 이름이 두 줄로 접히는 걸 막음. 접히면 "맨투맨/후드 티" 처럼
+   엉뚱한 데서 끊기고, 그 타일만 키가 커져서 줄 간격이 원본과 어긋남 */
+.tile-name {
+	display: block;
+	white-space: nowrap;
+	margin-top: 9px;
+	font-size: 16px;
+	line-height: 1.4;
+	color: #0F0F0F;
+}
+
+/* 배너 4장 — 원본은 배너끼리 딱 붙어 있고, 첫 배너(링크 모음) 뒤에만 10px 이 뜸.
+   원본에선 그 10px 자리에 높이 10px 짜리 빈 이미지가 한 장 더 들어가 있었는데,
+   이미지를 한 장 더 받을 이유가 없어서 margin 으로 대신함 */
+.mid-banners a {
+	display: block;
+}
+
+.mid-banners img {
+	display: block;
+	width: 100%;
+}
+
+.mid-banners .banner-quicklinks {
+	margin-bottom: 10px;
+}
+
+/* ==================================================
+   대분류(레벨1) 전용 배너 영역 — 2026-09-03 추가.
+
+   ★ 원본 실측(Playwright, coupang.com/np/categories/564653, 1440px). 본문폭 1080px 기준
+     제목(h1, 높이 36px) 바로 아래부터 이렇게 붙어 있음 — 배너끼리 세로 간격은 전부 0:
+
+       제목 끝 ─ 간격 0 ─ 히어로 768×324 (칸은 1030px 폭, 캐러셀로 한 장씩)
+              ─ 간격 30px ─
+       1080×446  원형 카테고리 타일 (원본은 투명 <a> 10개 얹은 이미지맵)
+       1080×375  프로모 카드 6칸 (이것도 이미지맵)
+       1080×237  띠배너 × 9장
+       1080×124  "브랜드관" 제목
+       1080×412  브랜드관 배너 × 4장
+              ─ 20px 빈 이미지 + 40px 여백 = 60px ─ 정렬바
+
+     맨 아래 20px 는 원본이 "높이 20px 짜리 빈 이미지" 를 한 장 더 넣어서 만든 여백인데,
+     이미지를 한 장 더 받을 이유가 없어서 아래 margin-bottom 60px 에 합쳐 넣음
+     (.mid-banners 의 10px 여백을 margin 으로 대신한 것과 같은 방식).
+   ================================================== */
+/* margin-top:-12px 인 이유 —
+   .category-title 에는 "제목과 정렬바 사이 12px"(원본 실측) margin-bottom 이 이미 붙어 있는데,
+   대분류에선 제목 바로 아래가 정렬바가 아니라 배너라서 원본 간격이 0 임(실측: 제목 끝 315 = 배너 시작 315).
+   그 12px 을 여기서 되돌려 0 으로 맞춘다. 소분류·중분류에는 .top-extra 자체가 없어서 영향 없음 */
+.top-extra {
+	margin-top: -12px;
+	margin-bottom: 60px;
+}
+
+/* 히어로 영역 — 원본 실측 1030×324. 왼쪽 큰 배너(768) + 오른쪽 작은 배너 띠(261)가 나란히.
+   768 + 1 + 261 = 1030 이라 오른쪽 띠의 시작 위치가 769px */
+.top-hero {
+	position: relative;
+	width: 1030px;
+	height: 324px;
+	margin-bottom: 30px;
+}
+
+/* ── 왼쪽 큰 배너(캐러셀) ── 원본은 Swiper 의 fade 모드라 슬라이드가 겹쳐 있고 투명도만 바뀜.
+   우리도 10장을 같은 자리에 겹쳐두고 .is-active 인 것만 보이게 함(넘기는 건 category.js) */
+.top-hero-main {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 768px;
+	height: 324px;
+}
+
+.top-hero-main .hero-slide {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: block;
+	opacity: 0;
+	transition: opacity 0.4s;
+}
+
+.top-hero-main .hero-slide.is-active {
+	opacity: 1;
+}
+
+.top-hero-main img {
+	display: block;
+	width: 768px;
+	height: 324px;
+}
+
+/* ── 오른쪽 작은 배너 띠 ── 261×324 칸에 261×59 짜리가 10장. overflow:hidden 이라 5칸 반만 보이고
+   나머지는 잘림 — 위아래로 밀어서 넘김(category.js 가 .hero-side-track 을 translateY 로 움직임) */
+.top-hero-side {
+	position: absolute;
+	left: 769px;
+	top: 0;
+	width: 261px;
+	height: 324px;
+	overflow: hidden;
+}
+
+.hero-side-track {
+	transition: transform 0.4s;
+}
+
+/* 이미지가 522px(2컷)이라 칸을 261px 로 잘라서 왼쪽 컷만 보이게 함 */
+.hero-side-item {
+	display: block;
+	width: 261px;
+	height: 59px;
+	overflow: hidden;
+}
+
+/* ★ max-width:none 이 꼭 있어야 함 — reset.css 78줄의 전역 `img { max-width: 100% }` 때문에
+   522px 가 부모 폭(261px)으로 줄어들어 두 컷이 다 찌그러져 보였음(실제로 당함) */
+.hero-side-item img {
+	display: block;
+	width: 522px;
+	max-width: none;
+	height: 59px;
+}
+
+/* ★ 오른쪽 띠는 큰 배너의 "목차" 임 — 원본 확인 결과 파랗게 강조된 칸이 지금 보이는 큰 배너와
+   같은 내용이었음(큰배너 활성 index 5 == 띠 활성 index 5 로 실제 확인).
+   그래서 지금 배너에 해당하는 칸만 이미지를 왼쪽으로 261px 밀어 오른쪽 컷(파란 배경)을 보여준다. */
+.hero-side-item.is-active img {
+	margin-left: -261px;
+}
+
+/* 띠 맨 아래 화살표 바 — 원본 실측 260×29, 옅은 바 위에 ∧ ∨ 꺾쇠가 가운데.
+   원본은 스프라이트 이미지(img1a.coupangcdn.com)를 쓰는데 승인 안 된 도메인이라
+   .filter-function-bar-asset 처럼 CSS 로 그림 */
+.hero-side-nav {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 260px;
+	height: 29px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	background: rgba(250, 250, 250, 0.95);
+	border-top: 1px solid #EEEEEE;
+}
+
+.hero-side-nav button {
+	width: 29px;
+	height: 29px;
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+	position: relative;
+}
+
+/* 꺾쇠는 정사각형의 두 변만 남기고 45도 돌려서 그림 */
+.hero-side-nav button::before {
+	content: "";
+	position: absolute;
+	left: 10px;
+	width: 8px;
+	height: 8px;
+	border-left: 1px solid #AAAAAA;
+	border-top: 1px solid #AAAAAA;
+}
+
+.hero-side-nav .hero-side-prev::before {
+	top: 12px;
+	transform: rotate(45deg);      /* ∧ */
+}
+
+.hero-side-nav .hero-side-next::before {
+	top: 8px;
+	transform: rotate(225deg);     /* ∨ */
+}
+
+/* 1080px 배너들 — 원본처럼 세로로 간격 없이 붙임 */
+.top-banners a,
+.top-banners img {
+	display: block;
+}
+
+.top-banners img {
+	width: 100%;
+}
+
+/* ── 원형 타일 이미지맵 ──
+   이미지(1080×446) 위에 투명한 <a> 10개를 얹는다. 원본도 같은 방식.
+
+   ★ 칸 위치는 지어낸 값이 아니라 l1_tiles.png 를 캔버스에 그려 원(회색 동그라미)이 있는
+     구간을 직접 검출해서 잰 값이다:
+       원 지름 110px / 가로 간격 132px / 첫 원 왼쪽 x=221 / 윗줄 y=59, 아랫줄 y=237
+       (중분류 타일 실측값과 같은 규격 — 쿠팡이 두 페이지에 같은 격자를 씀)
+     누르는 칸은 원본처럼 원보다 조금 넓게(124×171) 잡아서 원 + 글자까지 덮게 했다.
+   ★ % 로 적은 이유: 창을 줄이면 이미지가 같이 줄어드는데, px 로 적으면 칸만 제자리에 남아
+     어긋나기 때문. (1080px 기준 → 124/1080=11.481%, 171/446=38.341% …) */
+.top-tiles {
+	position: relative;
+}
+
+.tile-hit {
+	position: absolute;
+	width: 11.481%;
+	height: 38.341%;
+}
+
+/* 가로 5칸 — 시작 214/1080, 간격 132/1080 */
+.tile-hit:nth-child(5n + 1) { left: 19.815%; }
+.tile-hit:nth-child(5n + 2) { left: 32.037%; }
+.tile-hit:nth-child(5n + 3) { left: 44.259%; }
+.tile-hit:nth-child(5n + 4) { left: 56.481%; }
+.tile-hit:nth-child(5n + 5) { left: 68.704%; }
+
+/* 세로 2줄 — 1~5번이 윗줄, 6~10번이 아랫줄 */
+.tile-hit:nth-child(-n + 5) { top: 11.435%; }
+.tile-hit:nth-child(n + 6)  { top: 51.345%; }
+
+/* 우리 DB 에 없는 칸 — href 가 없어서 이미 안 눌리지만, 손 모양 커서도 안 뜨게 함 */
+.tile-hit.is-empty {
+	cursor: default;
+}
+
+
+/* ==========================================================
+   반응형 (2026-09-03 추가)
+
+   그동안 이 파일엔 @media 가 하나도 없어서, 헤더(common.css)만 창 크기를 따라가고
+   본문은 1300px 에 고정돼 있었음 → 창을 줄이면 본문이 헤더 밖으로 삐져나가고
+   가로 스크롤이 생김(1000px 에서 315px 초과 확인).
+
+   ★ 원본을 Playwright 로 폭을 바꿔가며 직접 재서 규칙을 뽑음
+     (www.coupang.com/np/categories/502994, 1440 / 1330 / 1280 / 1200 / 1000px):
+
+       문서폭 1300 이상 : 바깥상자 1300 고정 / 필터 200 / 목록 1080 / 카드 270px / 4열
+       문서폭 1300 미만 : 바깥상자 100%(좌우 20) / 필터 200 그대로 / 목록 나머지 /
+                          카드 = 목록의 33% / 3열
+
+   즉 원본은 **필터 폭은 안 건드리고 오른쪽 목록만 줄이며, 카드를 픽셀이 아니라 %로 잡음.**
+   우리는 .category-filter 와 .category-list 둘 다 flex:none 이라 flex 가 줄여주지도
+   못하는 상태였음 → 목록 쪽 flex:none 만 풀어줌.
+
+   1000px 에서 원본과 대조한 결과(수정 후): 필터 200 / 목록 725 / 카드 239 / 3열 —
+   네 값 모두 원본과 픽셀 단위로 일치. 1440px 에서는 적용 전후 값이 완전히 동일(회귀 없음).
+   ========================================================== */
+@media (max-width: 1300px) {
+	/* 원본은 이 구간에서 좌우 20px 여백이 생김(1300 이상에선 가운데 정렬이라 0) */
+	.category-page {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	/* width:1080px + flex:none 이라 절대 안 줄어들던 것을 "남는 만큼 차지"로 바꿈.
+	   min-width:0 이 꼭 있어야 함 — flex 자식은 기본이 min-width:auto 라
+	   안쪽 내용(카드 4장)보다 작아지지 못해서 이게 없으면 그대로 삐져나감 */
+	.category-list {
+		width: auto;
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	/* 270px 고정 → 목록의 33%. 원본과 같은 방식이라 목록이 줄면 카드도 같이 줄고
+	   자연스럽게 4열이 3열이 됨(.product-grid 가 이미 flex-wrap 이라 줄바꿈은 자동) */
+	.product-card {
+		width: 33%;
+	}
+}

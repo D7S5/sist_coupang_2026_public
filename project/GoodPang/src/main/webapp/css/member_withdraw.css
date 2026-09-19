@@ -1,0 +1,295 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    background: #f5f5f5;
+    color: #333;
+    font-family: Arial, "Noto Sans KR", sans-serif;
+}
+
+/* =========================
+   전체 레이아웃
+========================= */
+
+.withdraw-page {
+    width: 100%;
+    min-width: 1080px;
+    padding: 25px 0 70px;
+    background: #f5f5f5;
+}
+
+.withdraw-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    width: 1022px;
+    margin: 0 auto;
+    transform: translateX(55px);
+}
+/* =========================
+   회원탈퇴 본문
+========================= */
+
+.withdraw-container {
+    width: 1015px;
+    min-height: 1012px;
+    flex: 0 0 1015px;
+    margin: 0;
+    padding: 48px 46px 70px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+/* =========================
+   오른쪽 광고
+========================= */
+
+.withdraw-right-banner {
+    width: 102px;
+    min-width: 102px;
+    flex: 0 0 102px;
+    margin: 0;
+    padding: 0;
+    align-self: flex-start;
+}
+
+.withdraw-right-banner .order-side-banner {
+    display: block !important;
+    position: static !important;
+    width: 102px !important;
+    min-width: 102px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+}
+
+/* =========================
+   상단 제목 / 단계
+========================= */
+
+.withdraw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.withdraw-header h1 {
+    margin: 0;
+    font-size: 29px;
+    font-weight: 700;
+    color: #222;
+}
+
+.withdraw-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #999;
+    white-space: nowrap;
+}
+
+.withdraw-step strong {
+    color: #1687f8;
+}
+
+.withdraw-step span:nth-child(2),
+.withdraw-step span:nth-child(4) {
+    font-size: 22px;
+    color: #bbb;
+}
+
+/* =========================
+   공통 섹션
+========================= */
+
+.withdraw-section {
+    margin-top: 42px;
+}
+
+.withdraw-section h2 {
+    margin: 0 0 13px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #222;
+}
+
+.withdraw-section p {
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #555;
+}
+
+/* =========================
+   탈퇴 유의사항
+========================= */
+
+.notice-box {
+    padding: 20px 24px;
+    border: 1px solid #cfd8e3;
+    border-bottom: 0;
+    background: #fff;
+}
+
+.notice-box ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.notice-box li {
+    margin-bottom: 7px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #333;
+}
+
+.notice-box li:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================
+   동의 체크박스
+========================= */
+
+.agree-box {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 15px 18px;
+    border: 1px solid #cfd8e3;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.agree-box input {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* =========================
+   회원정보 / 비밀번호
+========================= */
+
+.password-box {
+    padding: 22px 22px 25px;
+    border: 1px solid #cfd8e3;
+}
+
+.member-info {
+    margin-bottom: 18px;
+}
+
+.member-info > div {
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.member-info > div:last-child {
+    margin-bottom: 0;
+}
+
+.member-info .label {
+    display: inline-block;
+    width: 65px;
+    font-weight: 600;
+}
+
+.password-input {
+    width: 320px;
+    height: 40px;
+    padding: 0 13px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.password-input:focus {
+    border-color: #1687f8;
+}
+
+.password-input::placeholder {
+    color: #aaa;
+}
+
+/* =========================
+   에러 메시지
+========================= */
+
+.error-message {
+    margin-top: 8px !important;
+    color: #e52528 !important;
+    font-size: 12px !important;
+}
+
+/* =========================
+   비밀번호 도움말
+========================= */
+
+.password-help {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #777;
+}
+
+.password-help a {
+    margin-left: 4px;
+    color: #333;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* =========================
+   하단 버튼
+========================= */
+
+.withdraw-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 45px;
+}
+
+.withdraw-buttons a,
+.withdraw-buttons button {
+    width: 130px;
+    height: 44px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #aaa;
+    background: #fff;
+    color: #555;
+    text-decoration: none;
+}
+
+.btn-next {
+    border: 1px solid #1687f8;
+    background: #1687f8;
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background: #f7f7f7;
+}
+
+.btn-next:hover {
+    background: #0879df;
+}
